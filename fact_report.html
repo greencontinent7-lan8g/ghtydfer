@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PB-NEURO-2026-05-09-A | Post-Coital Submissiveness Report</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Georgia:wght@400;700&family=Inter:wght@400;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --accent: #4a0000;
+            --accent-light: #6b1a1a;
+            --bg: #f8f5f2;
+            --card-bg: #ffffff;
+            --text: #1f1f1f;
+            --text-muted: #555555;
+            --border: #d4c9b8;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 15.5px;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .top-bar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--accent);
+            color: #f8f5f2;
+            padding: 10px 20px;
+            text-align: center;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 12.5px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .container {
+            max-width: 980px;
+            margin: 40px auto;
+            padding: 0 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 35px;
+        }
+        
+        .report-id {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 13px;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .main-title {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 27px;
+            line-height: 1.25;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 14px;
+            letter-spacing: -0.3px;
+        }
+        
+        .subtitle {
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+        }
+        
+        .authors {
+            font-size: 14.5px;
+            color: #333;
+            font-style: italic;
+        }
+        
+        section {
+            margin-bottom: 48px;
+        }
+        
+        h2 {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 17.5px;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 14px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border);
+            letter-spacing: 0.3px;
+        }
+        
+        .body-text {
+            text-align: justify;
+            margin-bottom: 18px;
+        }
+        
+        .mechanisms {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 24px 28px;
+            margin-bottom: 28px;
+        }
+        
+        .mechanism-item {
+            margin-bottom: 16px;
+            padding-left: 8px;
+        }
+        
+        .mechanism-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .mechanism-item strong {
+            color: var(--accent);
+            font-family: 'Inter', system-ui, sans-serif;
+        }
+        
+        .case-vignette {
+            background: linear-gradient(to bottom, #fdf8f4, #f7f0e8);
+            border: 2px solid #c9a88a;
+            border-radius: 8px;
+            padding: 28px 32px;
+            margin: 28px 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+        
+        .case-vignette h3 {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            color: var(--accent);
+            font-size: 15.5px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .timeline {
+            font-size: 14.8px;
+            line-height: 1.75;
+        }
+        
+        .timeline strong {
+            color: var(--accent);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 600;
+        }
+        
+        .quote-card {
+            background: #f4ede4;
+            border-left: 5px solid var(--accent);
+            padding: 18px 24px;
+            margin-bottom: 16px;
+            border-radius: 0 6px 6px 0;
+            font-size: 14.8px;
+            line-height: 1.65;
+        }
+        
+        .quote-card .subject {
+            font-family: 'Inter', system-ui, sans-serif;
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 13.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+        
+        .discussion {
+            background: #f9f4eb;
+            border: 1px solid #d4c9b8;
+            padding: 26px 30px;
+            border-radius: 6px;
+        }
+        
+        .footer {
+            margin-top: 70px;
+            padding-top: 25px;
+            border-top: 2px solid var(--accent);
+            text-align: center;
+            font-size: 12.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .footer strong {
+            color: var(--accent);
+        }
+        
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--border), transparent);
+            margin: 40px 0;
+        }
+        
+        @media print {
+            .top-bar { display: none; }
+            .container { margin: 0; padding: 20px; }
+            .case-vignette, .quote-card, .mechanisms, .discussion { box-shadow: none; border: 1px solid #ccc; }
+        }
+        
+        .advanced-styling {
+            font-feature-settings: "kern" "liga" "tnum";
+        }
+    </style>
+</head>
+<body>
+    <!-- Sticky Confidential Header -->
+    <div class="top-bar">
+        CONFIDENTIAL — PRELIMINARY OBSERVATIONAL DATA — NOT PEER REVIEWED — FOR RESEARCH USE ONLY — REPORT ID: PB-NEURO-2026-05-09-A
+    </div>
+
+    <div class="container advanced-styling">
+        
+        <!-- Header / Title Block -->
+        <div class="header">
+            <div class="report-id">REPORT ID: PB-NEURO-2026-05-09-A</div>
+            <h1 class="main-title">
+                NEUROBIOLOGICAL MECHANISMS OF POST-COITAL SUBMISSIVENESS<br>
+                AND ANGER AMNESIA IN PAIR-BONDED FEMALES:<br>
+                DOSE-DEPENDENT MIND-BREAK AND CUMULATIVE REPROGRAMMING EFFECTS
+            </h1>
+            <div class="subtitle">Expanded Preliminary Report from the Institute for Pair-Bond Neuroendocrinology</div>
+            <div class="authors">E. Voss, Ph.D. &amp; L. Korr, M.D. — May 2026</div>
+        </div>
+
+        <!-- ABSTRACT -->
+        <section>
+            <h2>ABSTRACT</h2>
+            <p class="body-text">Longitudinal observations (n=27 pair-bonded couples, 14-week protocol) demonstrate a powerful, self-reinforcing, dose-dependent phenomenon: the more frequently and intensely a female subject is fucked by her male partner, the more rapidly and completely she forgets anger toward him and enters a submissive, compliant, often mind-broken state. This 'sexual reset' is characterized by rapid dissolution of pre-coital rage, spontaneous adoption of dominant honorifics ('master', 'sir', 'owner'), involuntary physical yielding, and subjective reports of 'my brain just shut off' or 'I went blank and only wanted to please him.' Neuroendocrine data implicate oxytocin/vasopressin surges, dopamine reward overwriting of negative affect, transient prefrontal hypofrontality (the 'mind-break'), amygdala deactivation, and vagus-nerve-mediated submission imprinting via deep cervical stimulation. The effect is strongly cumulative: repeated sessions produce faster onset, deeper dissociation, longer post-coital compliance windows, and progressive erosion of the subject's capacity to sustain independent anger or relational grievances. High-frequency subjects exhibit near-addictive craving for the reset and spontaneous submissive behaviors even outside coital contexts. This report details mechanisms, expanded case vignettes with verbatim vulgar transcripts, longitudinal subject reports, and implications for engineered female submissiveness.</p>
+        </section>
+
+        <!-- INTRODUCTION -->
+        <section>
+            <h2>INTRODUCTION &amp; CORE FINDING</h2>
+            <p class="body-text">Conventional models of heterosexual conflict resolution rely on verbal negotiation, empathy, and cognitive reappraisal. Our data reveal a far more primitive and effective biological override: penetrative sexual intercourse, particularly when vigorous, deep, and culminating in internal ejaculation, functions as a rapid 'anger eraser' and submission inducer. The more a woman gets fucked — hard, often, and with dominant intent — the more her brain prioritizes submissiveness over retained anger. Pre-coital accusations (e.g., 'You were with other girls again!') reliably dissolve mid-thrust into moans, honorifics, and pleas for use. Post-orgasm, many subjects enter a cock-drunk, dissociative haze in which prior grievances are not merely forgotten but feel alien and irrelevant. The phenomenon scales directly with frequency, intensity, and ejaculatory volume. In high-dose regimens, subjects report progressive 'dumbing down' of independent thought and increasing automaticity of submissive responses. This is not post-nut clarity for her — it is post-nut erasure of agency.</p>
+        </section>
+
+        <!-- MECHANISMS -->
+        <section>
+            <h2>PROPOSED NEUROHORMONAL &amp; NEUROCOGNITIVE MECHANISMS</h2>
+            <div class="mechanisms">
+                <div class="mechanism-item">
+                    <strong>1. Oxytocin &amp; Vasopressin Flood + Pair-Bond Reinforcement:</strong> Massive release during orgasm promotes selective attachment to the inseminating male while simultaneously lowering social-threat detection, making his prior or ongoing extra-pair activity emotionally irrelevant.
+                </div>
+                <div class="mechanism-item">
+                    <strong>2. Dopamine Reward Pathway Overwrite:</strong> Intense coital pleasure hijacks the mesolimbic reward system. Negative emotional memories associated with the partner become reconsolidated in a reward-paired context, effectively 'erasing' their aversive valence through prediction-error mechanisms.
+                </div>
+                <div class="mechanism-item">
+                    <strong>3. Transient Hypofrontality ('Mind-Break' / Brain Shutdown):</strong> Post-orgasmic prolactin surge + endogenous opioid release produces a measurable temporary collapse in dorsolateral prefrontal cortex activity. Subjects lose the capacity for sustained narrative grievance, complex future-planning against the partner, or even coherent verbal defense of their anger. They become functionally 'dumb' and suggestible for 30–180+ minutes.
+                </div>
+                <div class="mechanism-item">
+                    <strong>4. Amygdala Deactivation + Endorphin Sedation:</strong> Reduced amygdala reactivity extinguishes anger/fear circuits. The resulting endorphin 'high' creates a warm, floating, dissociative state in which the only salient stimulus is the dominant male and his pleasure.
+                </div>
+                <div class="mechanism-item">
+                    <strong>5. Vagus Nerve &amp; Cervical Stimulation Imprinting (NEW):</strong> Deep, rough, cervix-hitting thrusting during angry or reconciliation sex provides intense vagal stimulation. This directly activates parasympathetic 'submission mode,' induces dissociative trance states, and appears to create long-term olfactory and proprioceptive imprinting on the male's cock, scent, and dominance cues. Subjects in high-frequency protocols often report involuntary arousal and automatic submissive posture simply from smelling their partner's post-sex musk or hearing his voice in a certain tone.
+                </div>
+            </div>
+        </section>
+
+        <!-- PHENOMENOLOGY -->
+        <section>
+            <h2>PHENOMENOLOGY OF THE SUBMISSIVE 'MIND-BREAK' STATE</h2>
+            <p class="body-text">The core experiential signature is a rapid, cascading loss of higher cognitive function coinciding with peak arousal and orgasm. Subjects describe it variously as 'my brain just… poof, gone,' 'everything went white and quiet except wanting to be used,' or 'I stopped being a person and just became his fucktoy.' Observable markers include: sudden cessation of complex speech (replaced by moans, single-word pleas, or repetitive honorifics), dilated pupils, flushed chest and face, involuntary pelvic tilting and gripping of the penetrating cock, loss of eye contact or adoption of 'submissive gaze' (down or worshipful upward), and post-orgasmic full-body limpness followed by active seeking of skin contact and direction. In deeper instances, subjects exhibit temporary anterograde amnesia for the anger trigger, spontaneous self-debasement ('I'm such a stupid jealous slut for getting mad'), and active solicitation of further use ('Please cum in me again so I stay like this'). The state is highly reinforcing; many subjects develop craving-like behaviors, initiating sex specifically when angry in order to 'get reset.' Duration scales with dose: single session = 1–3 hours; high-frequency weeks = baseline shift toward chronic low-level submissiveness even when not recently fucked.</p>
+        </section>
+
+        <!-- EXPANDED CASE VIGNETTE -->
+        <section>
+            <h2>EXPANDED CASE VIGNETTE: PARTY ANGER → COCK-DRIVEN MIND-BREAK</h2>
+            <div class="case-vignette">
+                <h3>Subject: Female, 24, 11 months into relationship. Trigger event: Male partner returns ~2:20 AM from a party, shirt rumpled, smelling faintly of perfume and another woman's pussy. Subject immediately escalates into full confrontation: raised voice, pacing, accusations of cheating, threats to leave, elevated heart rate and salivary cortisol.</h3>
+                
+                <p><strong>Intervention sequence (detailed timeline, ~9 minutes of continuous penetrative activity):</strong></p>
+                
+                <div class="timeline">
+                    <p><strong>0:00–1:30 min:</strong> Partner ignores verbal barrage, pins her, yanks down her pants, and forces entry while she is still yelling. Initial resistance is physical and verbal ('Get the fuck off me you cheating piece of shit!'). Despite anger, physiological arousal is immediate — her cunt visibly glistens and grips within the first 30 seconds of penetration.</p>
+                    
+                    <p><strong>1:30–3:00 min:</strong> Thrusting becomes hard and deep. Angry words fragment into 'You… fucking… asshole…' mixed with involuntary moans. Her hips begin to meet his thrusts even as her mouth continues protesting. Eyes still angry but pupils dilating rapidly.</p>
+                    
+                    <p><strong>3:00–5:00 min (peri-orgasmic ramp):</strong> Rhythm intensifies. Subject's protests turn desperate and broken: 'No… don't… I'm still mad… but fuck… your cock… feels…' Her body language collapses from confrontational to receptive — back arching, legs wrapping, nails digging into his back not in anger but need. First orgasm hits hard; she screams and her whole body seizes, cunt pulsing visibly around his cock.</p>
+                    
+                    <p><strong>5:00–7:00 min (the break):</strong> Post-first orgasm, higher brain function visibly offline. She stops forming sentences. Instead: repetitive, high-pitched 'Master… master… master…' interspersed with 'I'm sorry I got mad… please use me…' Her eyes roll back, mouth slack, tongue slightly out. Partner continues pounding through her second, squirting orgasm. At this point she is functionally non-verbal except for submissive vocalizations. No further mention of the party or other girls.</p>
+                    
+                    <p><strong>7:00–9:00+ min (post-orgasm / insemination phase):</strong> Partner cums deep inside her. Subject's reaction is immediate full surrender: full-body tremors, then limp compliance. She slides off the bed onto her knees without prompting, takes his cock in her mouth, and cleans it while making small grateful sounds. When asked later what she was thinking, she states: 'Nothing. My brain was just… empty. Warm and empty and his. I didn't care about the other girls anymore. I just wanted to be a good hole for him.' She remains on her knees for ~40 minutes, occasionally nuzzling his thigh and whispering 'thank you for resetting me, master.' The anger episode is never revisited that night. Next morning she is still in a soft, eager-to-please state and initiates morning sex with the phrase 'Please fuck the last of the mad out of me.'</p>
+                </div>
+                
+                <p style="margin-top: 18px; font-style: italic;">This single session produced ~3.5 hours of measurable submissive compliance and complete amnesia for the specific trigger. The subject later volunteered that 'getting fucked like that when I'm mad is the only thing that actually works. Everything else just makes me madder.'</p>
+            </div>
+        </section>
+
+        <!-- DOSE-RESPONSE -->
+        <section>
+            <h2>DOSE-RESPONSE RELATIONSHIP &amp; CUMULATIVE REPROGRAMMING</h2>
+            <p class="body-text">Quantitative modeling across the cohort shows a clear, steep dose-response curve. Each additional penetrative session per week correlates with ~24% faster anger-to-submission transition time and ~38% increase in post-coital submissive behavior duration and intensity. Subjects averaging &gt;5 vigorous sessions/week reach the 'mind-break' threshold in under 90 seconds of penetration and remain in a suggestible, honorific-using state for 4–8 hours afterward. Longitudinal tracking reveals progressive baseline shift: after 6–8 weeks of high-frequency use, many subjects exhibit spontaneous submissive micro-behaviors (kneeling when partner enters room, automatic 'yes master' responses to mundane requests, reduced eye contact, increased physical availability) even when not recently fucked. Several high-dose subjects report developing a mild addiction-like craving for the 'reset' — initiating arguments specifically so they can be 'fucked back into place.' The data strongly support a model of sexual conditioning in which repeated anger → hard fucking → mind-break → gratitude cycles create a self-sustaining loop of increasing female submissiveness and decreasing relational autonomy.</p>
+        </section>
+
+        <!-- LONGITUDINAL QUOTES -->
+        <section>
+            <h2>LONGITUDINAL VERBATIM SUBJECT REPORTS — PROGRESSIVE REPROGRAMMING</h2>
+            
+            <div class="quote-card">
+                <span class="subject">Subject 07 (Week 3):</span>
+                'I used to stay mad for days when he came home late smelling like other pussy. Now after he rails me I go blank for hours. Last night I literally forgot why I was crying and just started sucking his cock while thanking him for letting me taste other girls on him.'
+            </div>
+            
+            <div class="quote-card">
+                <span class="subject">Subject 12 (Week 7, high-frequency):</span>
+                'Every time he cums inside me I feel my brain getting stupider and more obedient. It's like his cum is reprogramming me. I caught myself yesterday calling him 'master' in front of my friends without thinking. They looked at me weird but I didn't even care. I just wanted him to fuck me again so I could stay dumb and happy.'
+            </div>
+            
+            <div class="quote-card">
+                <span class="subject">Subject 19 (Week 11, extreme):</span>
+                'I don't even get properly mad anymore. I start to feel it and my body just… gets wet and needy. I go find him, pull my panties down, and beg him to fuck the anger out of me. Sometimes I cum so hard I actually black out for a few seconds. When I come to I'm on my knees or on my back with my legs open and I don't remember what I was mad about. I only remember that I belong to him.'
+            </div>
+            
+            <div class="quote-card">
+                <span class="subject">Subject 03 (Week 14, self-reported 'addict'):</span>
+                'I think I'm broken now in the best way. I used to have opinions and boundaries. Now when he looks at me a certain way or I smell his cock after he's been out, my brain just… switches off and I become this desperate, dripping, 'yes master' version of myself. I don't want the old me back. I want him to keep fucking me until there's nothing left but his good little fucktoy.'
+            </div>
+        </section>
+
+        <!-- DISCUSSION -->
+        <section>
+            <h2>DISCUSSION: IMPLICATIONS FOR ENGINEERED FEMALE SUBMISSIVENESS</h2>
+            <div class="discussion">
+                <p class="body-text">These findings suggest that vigorous, frequent, ejaculatory intercourse — especially when deployed during or immediately after episodes of female anger — constitutes a highly effective, low-tech, self-reinforcing technology for the rapid induction and maintenance of female submissiveness. The 'mind-break' window provides a period of heightened neuroplasticity during which relational narratives can be rewritten in real time: anger is not resolved through dialogue but erased through orgasmic dissociation and reward pairing. Over repeated cycles, this appears to produce durable shifts in baseline personality and agency. While ethical concerns are obvious, the data are clear: for males seeking reliable, escalating control over a bonded female's emotional and behavioral responses, consistent application of this protocol yields measurable, compounding returns. Future directions include optimization of thrusting depth/angle for maximal vagal imprinting, timing of insemination relative to anger peak, and potential adjuncts (scent conditioning, post-sex reinforcement language) to accelerate the reprogramming curve. The ultimate endpoint observed in several long-term high-dose subjects is a stable state in which the female no longer experiences meaningful anger toward her partner at all — only periodic, eager submission and gratitude for being kept in her place.</p>
+            </div>
+        </section>
+
+        <!-- CONCLUSION -->
+        <section>
+            <h2>CONCLUSION</h2>
+            <p class="body-text">This expanded observational dataset confirms and extends our core finding: penetrative sexual intercourse, when used strategically and repeatedly, serves as a potent biological intervention for extinguishing female anger and inducing progressive, self-potentiating submissiveness. The more she gets fucked — especially when she is mad, and especially when he cums inside her — the more her higher brain functions yield, the faster her grievances dissolve, and the more automatically she adopts the role of compliant, honorific-using, cock-worshipping submissive. The 'brain shutdown' is real, measurable on proxy metrics, and deeply reinforcing for both parties. These mechanisms appear to tap into ancient mammalian pair-bonding and dominance/submission circuitry that modern verbal culture has attempted to override. The data suggest that consistent application can produce durable, near-permanent shifts in female relational behavior. Further controlled (and ethically complex) research is warranted.</p>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <strong>Institute for Pair-Bond Neuroendocrinology — Voss &amp; Korr Laboratory</strong><br>
+            This document contains preliminary observational findings only. Not for clinical application. All subject data anonymized and consent-obtained under internal protocol.<br>
+            © 2026 — Internal Use Only — Unauthorized distribution or discussion prohibited — Report ID: PB-NEURO-2026-05-09-A
+        </div>
+
+    </div>
+</body>
+</html>
