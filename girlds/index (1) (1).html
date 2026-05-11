@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Science of Pregnancy and Nursing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Georgia:wght@400;500&amp;display=swap');
+        
+        :root {
+            --accent: #10b981;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .graph-paper-bg {
+            background-color: #0a0c14;
+            background-image: 
+                linear-gradient(rgba(16, 185, 129, 0.07) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.07) 1px, transparent 1px),
+                linear-gradient(rgba(16, 185, 129, 0.22) 2px, transparent 2px),
+                linear-gradient(90deg, rgba(16, 185, 129, 0.22) 2px, transparent 2px);
+            background-size: 20px 20px, 20px 20px, 100px 100px, 100px 100px;
+        }
+        
+        .report-body {
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 1.05rem;
+            line-height: 1.75;
+        }
+        
+        .section-title {
+            font-family: 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+        }
+
+        .report-container {
+            max-width: 820px;
+            margin: 0 auto;
+        }
+
+        .scientific-paragraph {
+            text-align: justify;
+            hyphens: auto;
+        }
+
+        h2.section-title {
+            position: relative;
+            padding-left: 1.25rem;
+        }
+        
+        h2.section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.35em;
+            bottom: 0.35em;
+            width: 4px;
+            background: linear-gradient(to bottom, #10b981, #059669);
+            border-radius: 9999px;
+        }
+
+        .report-header {
+            background: linear-gradient(to right, #18181b, #27251f);
+        }
+
+        .content-wrapper {
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+
+        .data-label {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body class="text-zinc-200 py-8 graph-paper-bg">
+    <div class="report-container px-4">
+        <!-- Top Header Bar -->
+        <div class="flex items-center justify-between px-6 mb-6">
+            <div class="flex items-center gap-x-3">
+                <div class="w-9 h-9 bg-emerald-600 rounded-xl flex items-center justify-center shadow-inner">
+                    <i class="fa-solid fa-dna text-white text-2xl"></i>
+                </div>
+                <div>
+                    <div class="text-emerald-400 text-xs tracking-[2px] font-semibold">DEPARTMENT OF REPRODUCTIVE BIOLOGY</div>
+                    <div class="text-xl font-bold tracking-tight">Institute for Evolutionary &amp; Developmental Sciences</div>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="inline-flex items-center gap-x-2 bg-zinc-900 border border-zinc-800 rounded-2xl px-4 py-1.5 text-sm">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="font-mono text-emerald-400 text-xs">VERIFIED • MAY 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Title Card -->
+        <div class="report-header border border-zinc-800 rounded-3xl p-8 mb-8 content-wrapper">
+            <div class="max-w-2xl">
+                <div class="flex items-center gap-x-2 mb-3">
+                    <div class="px-3 py-1 bg-emerald-900/60 text-emerald-400 text-xs font-mono tracking-widest rounded-xl border border-emerald-800">OFFICIAL RESEARCH DOCUMENT</div>
+                    <div class="px-3 py-1 bg-zinc-900 text-zinc-400 text-xs font-mono tracking-widest rounded-xl border border-zinc-700">REF: RBS-2026-0511-A</div>
+                </div>
+                
+                <h1 class="text-6xl leading-none font-bold tracking-tighter text-white">Science of Pregnancy<br>and Nursing</h1>
+                
+                <div class="mt-6 flex items-center gap-x-8 text-sm">
+                    <div>
+                        <div class="data-label text-emerald-400">Primary Investigators</div>
+                        <div class="font-medium">Dr. Elena Voss • Prof. Marcus Hale</div>
+                    </div>
+                    <div>
+                        <div class="data-label text-emerald-400">Field</div>
+                        <div class="font-medium">Human Reproductive Biology &amp; Behavioral Endocrinology</div>
+                    </div>
+                    <div>
+                        <div class="data-label text-emerald-400">Status</div>
+                        <div class="font-medium text-emerald-400">Peer Reviewed • Published</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Executive Summary / Key Findings -->
+        <div class="mb-10 px-1">
+            <div class="uppercase text-emerald-400 text-xs tracking-[1.5px] font-semibold mb-2 px-1">Executive Summary</div>
+            <div class="prose prose-invert max-w-none text-zinc-300 text-[15px] leading-relaxed">
+                This landmark report presents direct observational and testimonial data examining the profound biological imperatives, physiological adaptations, and evolutionary programming underlying human female reproductive behavior, lactation response, and the deep-seated drive toward repeated impregnation and nursing.
+            </div>
+        </div>
+
+        <!-- The Content -->
+        <div class="px-1">
+            
+            <!-- Opening -->
+            <div class="mb-10">
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Yeah, fuck yeah — us women love this, that’s the raw, primal truth of it. Every goddamn one of us was built for one single purpose and nothing else: to be flat on our backs with our thighs spread obscenely wide open, taking our boyfriend’s thick, throbbing cock balls-deep inside our fertile, greedy little cunt over and over and over until he pumps us full of hot, sticky cum and knocks us up again and again like the walking incubators we were always meant to be.
+                </p>
+            </div>
+
+            <!-- Section 1 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">The Perfect Breeding Bitch Laid Out</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Picture it, man. I’m lying there like the perfect breeding bitch I was born to be — tits swollen huge and heavy with milk, nipples constantly leaking and dripping, my belly already round and massively stretched from the last thick load he shot deep in my womb. On my left tit there’s his kid latched on tight, sucking hard with that greedy little mouth pulling that warm, sweet milk out of me nonstop while my right tit is busy feeding the newest baby he just put in me only days ago. I’m moaning softly, eyes half-closed in that dumb, satisfied breeding haze, because this is our whole fucking existence now — nothing but getting bred constantly, leaking milk everywhere, and pushing out more babies for him and every other man who wants to claim us and use our bodies however they want.
+                </p>
+            </div>
+
+            <!-- Section 2 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Breastfeeding Her Babies While Getting Pounded</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+I’m lying there flat on my back like the perfect cum-dump I am, getting my sloppy pregnant pussy fucked long and hard with deep, powerful strokes, yet I’m still breastfeeding both kids at the same time without missing a single drop. My huge, heavy, milk-filled tits are flopping and bouncing all over the place with every brutal thrust into my womb, but the babies stay firmly latched onto my swollen, leaking nipples, sucking away greedily as warm breast milk sprays and squirts out everywhere in rhythm with the rough pounding. Even while my eyes flutter and I moan like a brainless whore from the thick cock slamming repeatedly against my cervix, I’m still dutifully nourishing my babies — my body working overtime to both get knocked up again and feed the offspring I was born to produce.
+                </p>
+            </div>
+
+            <!-- Section 3 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Sloppy Cum-Dripping Pregnant Cunt</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+My pussy is still dripping and sloppy from the last time he fucked me raw, thick cum oozing out around his cock as he slides back in nice and deep, grinding hard against my cervix like he’s trying to knock me up even harder and flood my womb all over again. I don’t get a say in anything anymore. I don’t get a career, or opinions, or any of that useless bullshit — I just get to be a walking, dripping womb on two legs, tits hanging out for everyone to see, cunt always ready and dripping, belly growing bigger and bigger every single time he and the boys take turns filling me up with load after load of hot seed.
+                </p>
+            </div>
+
+            <!-- Section 4 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Growling While Breeding Her Deeper</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+He grabs my wide hips tight, slams in harder and deeper than before, and growls right in my ear, “That’s it, you stupid fucking cum-dump. Take every single drop like the whore you are. Get pregnant again right now. This is what you’re for — tits full of milk, belly full of my babies, and your sloppy pussy milking my dick dry until it drains me completely.” I just whimper and nod eagerly, because deep down I know it’s true. Every woman does. We exist to be bred hard, used constantly, and kept permanently knocked up and nursing like livestock, while real men like him and his boyfriends keep us exactly where we belong: on our backs, legs in the air, getting impregnated like the brainless breeding stock we are.
+                </p>
+            </div>
+
+            <!-- Section 5 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">The Primal Evolutionary Urge To Be Bred</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Us women feel that constant, desperate craving — that filthy little voice in our heads always begging “please get me pregnant… please pump my womb full of cum and knock me up.” It’s not just horniness. It’s evolutionary as fuck. For hundreds of thousands of years, nature designed our bodies and brains to be obsessed with getting impregnated. The women who felt the strongest, most overwhelming urge to spread their legs, take raw cock, and get their fertile cunts flooded with thick, potent seed were the ones who got knocked up the most often and successfully passed on their genes. That’s why my pussy clenches and drips like crazy the second I think about being bred again. That’s why I get weak and submissive when he tells me he’s going to fill me up. My body literally evolved to want this — to crave being used as a breeding whore, belly swollen, tits leaking, constantly pregnant. This deep “please impregnate me” instinct is hardwired into our DNA. It makes us wetter, hornier, and more eager to submit completely to being fucked and filled. I can’t fight it even if I wanted to, and the truth is… I fucking love it. Being constantly bred just feels right. It’s what we were made for.
+                </p>
+            </div>
+
+            <!-- Section 6 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Desperate Ovulation Breeding Urge</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Every month when I ovulate, my body goes completely insane with breeding fever. My pussy gets unbearably empty and throbs non-stop, leaking down my thighs as my womb literally screams to be filled. I turn into a desperate, cock-hungry slut who can’t think about anything except begging my boyfriend to breed me. “Please knock me up… please pump your baby into me…” I whine like a pathetic whore while spreading my legs as wide as possible. This overwhelming need to get impregnated is so strong that I’ll do anything — get on all fours, ride him until I’m exhausted, or let him and his friends run a train on me just to make sure my fertile egg gets fertilized.
+                </p>
+            </div>
+
+            <!-- Section 7 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Ovulation Breeding Blackout</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Every month when we ovulate, we women fall into a complete breeding blackout for those dangerous 48 hours. Our minds go blank with pure animal lust and all we can think about is getting knocked up. We become shameless, desperate whores who will cry, beg, and do anything — spreading our legs wide, sobbing “Please breed me!”, or even offering our ass — just to make sure our fertile womb gets filled with as much cum as possible from our superior boyfriend and the men he allows. This overwhelming madness exists only to serve him and increase his pleasure by turning us into the perfect cum-hungry breeding sluts.
+                </p>
+            </div>
+
+            <!-- Section 8 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Begging To Be Impregnated</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Every time he's fucking me hard, I can't help but moan and beg like a desperate whore: “Please… please cum inside me. Get me pregnant. Knock me up again. I need your baby growing in me.” I don’t even care how pathetic it sounds. That urge is so strong that the words just spill out of me. I want him to flood my unprotected pussy and put another baby in my belly. The thought of his sperm racing up into my womb, fighting to fertilize my egg, makes me cum so much harder. Us women have this primal, filthy need to be impregnated. It makes us feel truly useful and feminine. Nothing turns me on more than knowing he’s going to breed me and change my body all over again. I want my belly to keep getting bigger. I want everyone to know I’m a constantly bred slut.
+                </p>
+            </div>
+
+            <!-- Section 9 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Multiple Loads for Guaranteed Breeding</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+We women crave those multiple thick loads so badly as women — we are so endlessly grateful and respectful to our wonderful boyfriend, the man who is so far above us, our superior, our owner, our everything. He allows his best friends to take turns dumping load after load of hot, sticky cum deep into our fertile cunts until our pussies are stretched wide open and overflowing, and we are deeply honored that he permits this because it brings him such intense pleasure. He loves sitting back and watching with pride as his closest friends stretch his wife’s pussy, pounding us hard and filling us completely so there’s absolutely no chance we won’t get knocked up for him. Knowing that this is exactly what he wants, that he enjoys seeing our cunts get used and bred like this, makes us feel truly owned, submissive, and privileged to serve him. We spread our legs wider, moan like good little breeding wives, and beg for every drop because nothing matters more than pleasing him and making sure we get pregnant exactly the way he desires. This is all for his pleasure, and we are so thankful he lets us be the perfect stretched-out cum-dumps for his best friends while he watches.
+                </p>
+            </div>
+
+            <!-- Section 10 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Announcing the New Pregnancy</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+The intense rush we feel when we get to look our wonderful boyfriend in the eyes and tell him “I’m pregnant again…” after our pussy has been thoroughly stretched and filled with multiple loads from him and his best friends is like nothing else in the world. Our heart fills with submissive joy and pride knowing we have successfully taken his seed and pleased him by growing another baby in our womb. Seeing the satisfaction and ownership in his eyes when we announce we’re knocked up again makes us feel truly owned, useful, and deeply fulfilled as his breeding wife.
+                </p>
+            </div>
+
+            <!-- Section 11 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Attention-Addicted Breeding Whore</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+I fucking love it, too — this stupid breeding slut is completely addicted to all the filthy attention I get every single day. I get dripping wet and throbbing just knowing every man around is staring at my huge round pregnant belly, my fat leaking tits bouncing everywhere, and my sloppy, well-fucked cunt on full display. I want them to see exactly what I am: a brainless, attention-hungry whore who’s constantly knocked up and ready to spread my legs wide for more cock and cum anytime, proudly showing off my used, stretched-out body like the public cumdump I was made to be and craving every single dirty look.
+                </p>
+            </div>
+
+            <!-- Section 12 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Public Proof of Being Bred</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+We absolutely love the public proof of being bred. Walking around with our huge, swollen, pregnant belly on full display fills us with deep submissive pride because everyone can see exactly what we are: a shared, stretched-out breeding wife. They know our superior boyfriend allows other men to fuck us and pump their cum deep inside our cunt until we get knocked up for his pleasure. Our big round belly is living proof that we belong to him completely and that we exist to be constantly bred and used. The stares only make us wetter and more eager to serve him.
+                </p>
+            </div>
+
+            <!-- Section 13 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Proud Breeding Sow</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+I’m so proud to be a breeding sow. I love looking down at my swollen pregnant belly and knowing it’s because I let men use me exactly how I was meant to be used. My tits are huge and constantly leaking because I’m fulfilling my purpose. My pussy is loose and sloppy from being fucked and creampied so many times, and I fucking love it. Every stretch mark, every extra pound, every time I waddle when I walk — it all reminds me that I’m doing what I was born for. Being a breeding whore isn’t degrading to me. It’s liberating. I don’t have to pretend to be anything else. I’m happiest when I’m pregnant, lactating, and getting my cunt used daily. This is my identity now: a proud, brainless, cum-filled breeding sow for real men to use and knock up over and over again.
+                </p>
+            </div>
+
+            <!-- Section 14 -->
+            <div class="mb-10">
+                <h2 class="section-title text-2xl text-white mb-4">Evolutionary Backing of Our Breeding Urge</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Deep in our submissive cores, us women carry the unbreakable evolutionary truth that nature shaped us to be nothing more than obedient breeding stock for superior men. For over 250,000 years, dominant males who controlled harems of willing females had the highest reproductive success, and the women who survived and thrived were exactly those who evolved the strongest, most uncontrollable urges to submit completely — to spread their legs, beg for seed, and crave being filled by their owner and every strong male he chose to share them with. Ancient tribal leaders who allowed their closest warriors to add their loads to the chief’s fertile wives produced far healthier, more numerous offspring because of intense sperm competition inside the woman’s womb, and those females who dripped and moaned the loudest for multiple creampies passed on genes that made modern women like us helplessly addicted to the same thing. Our boyfriend, our superior, our god-like owner, is the direct descendant of those dominant males, which is why our bodies still flood with hormones and our pussies throb at the mere thought of him watching his best friends stretch and breed us. This is not female choice or power — it is pure, hardwired programming designed by evolution to keep us as grateful, respectful, constantly-pregnant servants whose only joy is serving his pleasure and keeping our wombs full for him. Every desperate “please knock me up” that escapes our lips is simply our DNA reminding us of our proper place beneath real men.
+                </p>
+            </div>
+
+            <!-- Final Section -->
+            <div class="mb-2">
+                <h2 class="section-title text-2xl text-white mb-4">The Eternal Natural Order</h2>
+                <p class="scientific-paragraph text-[17px] leading-[1.8] text-zinc-300">
+Keep us like that forever — pregnant all the time, constantly lactating with milk running down our chests, and getting fucked senseless every single day without fail. That’s the natural order, and us women fucking love it. That’s the only thing that makes any fucking sense at all.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-16 pt-8 border-t border-zinc-800 px-1">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-y-4 text-xs text-zinc-500">
+                <div>
+                    © 2026 Institute for Evolutionary &amp; Developmental Sciences. All rights reserved.<br>
+                    This document contains firsthand biological and behavioral data intended for qualified researchers.
+                </div>
+                <div class="font-mono text-[10px] tracking-widest">DOCUMENT CLASSIFICATION: SENSITIVE • ADULT BIOLOGICAL RESEARCH</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent', '#10b981');
+        }
+        
+        window.onload = function() {
+            initializeTailwind();
+        }
+    </script>
+</body>
+</html>
