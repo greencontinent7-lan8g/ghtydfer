@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHER LABS • Premier Research Institution</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --pink: #ff1493;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .font-display {
+            font-family: 'Space Grotesk', 'Inter', system_ui, sans-serif;
+            font-weight: 600;
+        }
+
+        .section-header {
+            font-size: 3.2rem;
+            line-height: 1.05;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .nav-active {
+            color: #ff1493;
+            position: relative;
+        }
+        
+        .nav-active:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(to right, #ff1493, transparent);
+        }
+
+        .research-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .research-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(255 20 147 / 0.1), 
+                       0 8px 10px -6px rgb(255 20 147 / 0.1);
+            border-color: #ff1493;
+        }
+
+        .stat-number {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .pink-glow {
+            box-shadow: 0 0 15px rgb(255 20 147 / 0.3);
+        }
+
+        .gradient-text {
+            background: linear-gradient(90deg, #ffffff, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtle-grid {
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- NAVBAR -->
+    <nav class="bg-black border-b border-zinc-900 fixed w-full z-50">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg pink-glow">
+                        <span class="text-black font-bold text-3xl tracking-tighter">A</span>
+                    </div>
+                    <div>
+                        <span class="font-display text-3xl font-semibold tracking-tighter">AETHER</span>
+                        <span class="font-light text-zinc-500 text-3xl tracking-[2px]">LABS</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
+                    <a href="#about" class="hover:text-pink-400 transition-colors duration-200">About</a>
+                    <a href="#research" class="hover:text-pink-400 transition-colors duration-200">Research</a>
+                    <a href="#impact" class="hover:text-pink-400 transition-colors duration-200">Impact</a>
+                    <a href="#vision" class="hover:text-pink-400 transition-colors duration-200">Vision</a>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <!-- CTA Button -->
+                    <a href="#contact" 
+                       class="hidden sm:flex items-center px-8 py-3 text-sm font-semibold border border-pink-500 text-pink-500 hover:bg-pink-500 hover:text-black rounded-3xl transition-all duration-300">
+                        PARTNER WITH US
+                    </a>
+                    
+                    <!-- Mobile Menu -->
+                    <button class="md:hidden w-10 h-10 flex items-center justify-center text-pink-500">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="min-h-screen flex items-center pt-20 bg-black relative subtle-grid">
+        <div class="max-w-screen-2xl mx-auto px-8 pt-12 md:pt-0">
+            <div class="max-w-5xl">
+                <!-- Badge -->
+                <div class="inline-flex items-center gap-x-2 px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900 mb-8">
+                    <div class="w-2 h-2 bg-pink-500 rounded-full animate-pulse"></div>
+                    <span class="uppercase text-xs tracking-[2.5px] font-semibold text-pink-500">GLOBAL RESEARCH LEADER • 2026</span>
+                </div>
+
+                <h1 class="font-display text-[92px] md:text-[120px] leading-[0.92] font-bold tracking-tighter mb-6">
+                    RESEARCH THAT<br>
+                    <span class="text-pink-500">GENERATES</span><br>
+                    BILLIONS.
+                </h1>
+
+                <div class="max-w-[620px]">
+                    <p class="text-2xl text-zinc-300 leading-tight mb-10">
+                        Aether Labs is the world's most profitable private research institution, 
+                        delivering breakthrough innovations that have created <span class="font-semibold text-white">$28.6 billion</span> in economic value.
+                    </p>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                    <a href="#impact" 
+                       class="group inline-flex items-center justify-center gap-x-3 px-10 py-4 bg-white text-black font-semibold text-lg rounded-3xl hover:bg-zinc-100 transition-all active:scale-[0.985]">
+                        <span>EXPLORE OUR IMPACT</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                    </a>
+                    
+                    <a href="#research" 
+                       class="inline-flex items-center justify-center gap-x-3 px-8 py-4 border border-white/60 hover:bg-white/5 font-semibold text-lg rounded-3xl transition-all">
+                        VIEW RESEARCH DOMAINS
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-x-8 mt-16">
+                    <div class="flex -space-x-3">
+                        <div class="w-9 h-9 bg-zinc-700 rounded-full border-2 border-black overflow-hidden"><img src="https://i.pravatar.cc/36?img=28" class="w-full h-full object-cover"></div>
+                        <div class="w-9 h-9 bg-zinc-700 rounded-full border-2 border-black overflow-hidden"><img src="https://i.pravatar.cc/36?img=47" class="w-full h-full object-cover"></div>
+                        <div class="w-9 h-9 bg-zinc-700 rounded-full border-2 border-black overflow-hidden"><img src="https://i.pravatar.cc/36?img=12" class="w-full h-full object-cover"></div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-zinc-500">TRUSTED BY</div>
+                        <div class="text-sm font-medium">Leaders at NASA, Pfizer, Google DeepMind &amp; 140+ others</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-12 left-1/2 hidden md:block">
+            <div class="flex flex-col items-center gap-y-1 text-[10px] tracking-widest text-zinc-500">
+                <span>SCROLL TO BEGIN</span>
+                <i class="fa-solid fa-chevron-down animate-bounce"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="max-w-screen-2xl mx-auto px-8 py-24 border-t border-zinc-900">
+        <div class="grid md:grid-cols-12 gap-x-8 items-center">
+            <div class="md:col-span-5 mb-12 md:mb-0">
+                <div class="sticky top-24">
+                    <div class="uppercase tracking-[3px] text-pink-500 text-sm font-semibold mb-4">OUR STORY</div>
+                    <h2 class="font-display text-6xl leading-none tracking-tighter">We don't chase<br>discoveries.<br>We <span class="text-pink-500">engineer</span> them.</h2>
+                </div>
+            </div>
+            
+            <div class="md:col-span-7">
+                <div class="prose prose-invert max-w-none text-xl text-zinc-300">
+                    <p class="mb-8">Founded in 2008 in a modest laboratory in Zurich, Aether Labs has grown into the most commercially successful research organization on the planet. We operate at the intersection of fundamental science and high-stakes commercialization.</p>
+                    
+                    <p>Our unique model — combining elite talent, proprietary research platforms, and aggressive intellectual property strategy — has delivered consistent double-digit returns for our investors while producing technologies that have reshaped entire industries.</p>
+                </div>
+                
+                <div class="mt-10 pt-8 border-t border-zinc-800 flex flex-wrap gap-x-12 gap-y-6 text-sm">
+                    <div>
+                        <div class="font-mono text-pink-500 text-xs tracking-widest mb-1">HEADQUARTERS</div>
+                        <div class="font-medium">Zurich • Singapore • Boston • Dubai</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-pink-500 text-xs tracking-widest mb-1">TEAM SIZE</div>
+                        <div class="font-medium">3,214 world-class researchers</div>
+                    </div>
+                    <div>
+                        <div class="font-mono text-pink-500 text-xs tracking-widest mb-1">NOBEL AFFILIATES</div>
+                        <div class="font-medium">14 laureates on advisory board</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- RESEARCH DOMAINS -->
+    <section id="research" class="bg-zinc-950 py-24 border-t border-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between mb-14">
+                <div>
+                    <span class="uppercase tracking-[3px] text-pink-500 text-sm font-semibold">EXPERTISE</span>
+                    <h2 class="font-display text-6xl tracking-tighter mt-2">Core Research<br>Domains</h2>
+                </div>
+                <p class="max-w-md text-lg text-zinc-400 mt-4 md:mt-0">Each domain has generated billions in licensed technology and new market creation.</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="research-card group bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-500/10 text-pink-500 rounded-2xl mb-8">
+                        <i class="fa-solid fa-atom text-4xl"></i>
+                    </div>
+                    <h3 class="font-display text-3xl tracking-tight mb-4">Quantum Systems</h3>
+                    <p class="text-zinc-400 flex-grow">Next-generation quantum processors, error-corrected algorithms, and quantum-secure communication networks.</p>
+                    <div class="pt-8 mt-auto border-t border-zinc-800 flex items-center justify-between">
+                        <div>
+                            <div class="text-pink-500 font-semibold">$6.8B</div>
+                            <div class="text-xs text-zinc-500">generated value</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-xs">2,184 patents</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="research-card group bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-500/10 text-pink-500 rounded-2xl mb-8">
+                        <i class="fa-solid fa-dna text-4xl"></i>
+                    </div>
+                    <h3 class="font-display text-3xl tracking-tight mb-4">Synthetic Genomics</h3>
+                    <p class="text-zinc-400 flex-grow">Programmable biology platforms enabling custom organism design for medicine, materials, and sustainable manufacturing.</p>
+                    <div class="pt-8 mt-auto border-t border-zinc-800 flex items-center justify-between">
+                        <div>
+                            <div class="text-pink-500 font-semibold">$5.2B</div>
+                            <div class="text-xs text-zinc-500">generated value</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-xs">1,672 patents</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="research-card group bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-500/10 text-pink-500 rounded-2xl mb-8">
+                        <i class="fa-solid fa-robot text-4xl"></i>
+                    </div>
+                    <h3 class="font-display text-3xl tracking-tight mb-4">Autonomous Intelligence</h3>
+                    <p class="text-zinc-400 flex-grow">Foundation models and agentic systems that outperform human experts across scientific discovery and complex decision-making.</p>
+                    <div class="pt-8 mt-auto border-t border-zinc-800 flex items-center justify-between">
+                        <div>
+                            <div class="text-pink-500 font-semibold">$7.1B</div>
+                            <div class="text-xs text-zinc-500">generated value</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-xs">2,943 patents</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="research-card group bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-500/10 text-pink-500 rounded-2xl mb-8">
+                        <i class="fa-solid fa-bolt text-4xl"></i>
+                    </div>
+                    <h3 class="font-display text-3xl tracking-tight mb-4">Fusion Energy Systems</h3>
+                    <p class="text-zinc-400 flex-grow">Compact, commercially viable fusion reactors and advanced plasma control systems for limitless clean power.</p>
+                    <div class="pt-8 mt-auto border-t border-zinc-800 flex items-center justify-between">
+                        <div>
+                            <div class="text-pink-500 font-semibold">$4.9B</div>
+                            <div class="text-xs text-zinc-500">generated value</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-xs">891 patents</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="research-card group bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-500/10 text-pink-500 rounded-2xl mb-8">
+                        <i class="fa-solid fa-brain text-4xl"></i>
+                    </div>
+                    <h3 class="font-display text-3xl tracking-tight mb-4">Neurotechnology</h3>
+                    <p class="text-zinc-400 flex-grow">High-bandwidth brain-computer interfaces and neural restoration platforms for medicine and human augmentation.</p>
+                    <div class="pt-8 mt-auto border-t border-zinc-800 flex items-center justify-between">
+                        <div>
+                            <div class="text-pink-500 font-semibold">$3.4B</div>
+                            <div class="text-xs text-zinc-500">generated value</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-xs">1,157 patents</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="research-card group bg-zinc-900 border border-zinc-800 rounded-3xl p-9 flex flex-col">
+                    <div class="w-16 h-16 flex items-center justify-center bg-pink-500/10 text-pink-500 rounded-2xl mb-8">
+                        <i class="fa-solid fa-rocket text-4xl"></i>
+                    </div>
+                    <h3 class="font-display text-3xl tracking-tight mb-4">Orbital Manufacturing</h3>
+                    <p class="text-zinc-400 flex-grow">In-space production of pharmaceuticals, semiconductors, and exotic materials in microgravity environments.</p>
+                    <div class="pt-8 mt-auto border-t border-zinc-800 flex items-center justify-between">
+                        <div>
+                            <div class="text-pink-500 font-semibold">$1.2B</div>
+                            <div class="text-xs text-zinc-500">generated value</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-xs">643 patents</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMPACT / BY THE NUMBERS -->
+    <section id="impact" class="max-w-screen-2xl mx-auto px-8 py-24 border-t border-zinc-900">
+        <div class="text-center mb-16">
+            <span class="uppercase tracking-[3px] text-pink-500 text-sm font-semibold">PROVEN PERFORMANCE</span>
+            <h2 class="font-display text-6xl tracking-tighter mt-3">Massive Returns.<br>Measurable Impact.</h2>
+            <p class="mt-4 max-w-md mx-auto text-zinc-400">Every research program at Aether is designed for both scientific excellence and exceptional commercial outcomes.</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-px bg-zinc-900 rounded-3xl overflow-hidden">
+            <div class="bg-zinc-950 p-10 text-center">
+                <div class="text-pink-500 text-7xl font-display font-bold stat-number">$28.6B</div>
+                <div class="uppercase text-xs tracking-[2px] text-zinc-400 mt-3">Cumulative Research Revenue</div>
+                <div class="text-[10px] text-emerald-400 mt-1">↑ 41% YoY</div>
+            </div>
+            
+            <div class="bg-zinc-950 p-10 text-center">
+                <div class="text-pink-500 text-7xl font-display font-bold stat-number">9,847</div>
+                <div class="uppercase text-xs tracking-[2px] text-zinc-400 mt-3">Active Patents</div>
+                <div class="text-[10px] text-emerald-400 mt-1">1,248 filed in 2025</div>
+            </div>
+            
+            <div class="bg-zinc-950 p-10 text-center">
+                <div class="text-pink-500 text-7xl font-display font-bold stat-number">3,214</div>
+                <div class="uppercase text-xs tracking-[2px] text-zinc-400 mt-3">Elite Researchers</div>
+                <div class="text-[10px] text-emerald-400 mt-1">92 PhD hires last year</div>
+            </div>
+            
+            <div class="bg-zinc-950 p-10 text-center">
+                <div class="text-pink-500 text-7xl font-display font-bold stat-number">92</div>
+                <div class="uppercase text-xs tracking-[2px] text-zinc-400 mt-3">Countries Impacted</div>
+                <div class="text-[10px] text-emerald-400 mt-1">Global licensing footprint</div>
+            </div>
+        </div>
+
+        <div class="text-center mt-12">
+            <p class="text-sm text-zinc-400">All figures independently audited by Deloitte • Fiscal Year 2025</p>
+        </div>
+    </section>
+
+    <!-- VISION / LEADERSHIP -->
+    <section id="vision" class="max-w-screen-2xl mx-auto px-8 py-24 border-t border-zinc-900 bg-zinc-950">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-pink-500 text-xs tracking-[3px] font-semibold">LEADERSHIP</span>
+                <h2 class="font-display text-5xl tracking-tighter mt-2">Visionaries Behind<br>the Breakthroughs</h2>
+            </div>
+
+            <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-12 md:p-16">
+                <div class="flex flex-col md:flex-row gap-10 items-center">
+                    <div class="flex-shrink-0">
+                        <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-pink-500/30 mx-auto md:mx-0">
+                            <img src="https://i.pravatar.cc/112?img=32" alt="Dr. Elena Voss" class="w-full h-full object-cover">
+                        </div>
+                    </div>
+                    
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="text-pink-500 font-semibold tracking-wider text-sm">FOUNDER &amp; CHIEF VISIONARY OFFICER</div>
+                        <h3 class="font-display text-4xl tracking-tight mt-1">Dr. Elena Voss</h3>
+                        
+                        <div class="mt-6 text-lg text-zinc-300 max-w-prose">
+                            "At Aether, profit is not a byproduct of great research — it is the direct result of intentional, disciplined innovation. 
+                            Every project we undertake is measured against its potential to create new markets and deliver extraordinary returns."
+                        </div>
+                        
+                        <div class="mt-6 flex items-center justify-center md:justify-start gap-x-4 text-sm">
+                            <div class="flex items-center gap-x-2">
+                                <i class="fa-brands fa-linkedin text-pink-400"></i>
+                                <span class="font-medium">LinkedIn</span>
+                            </div>
+                            <div class="text-zinc-500">•</div>
+                            <span class="text-zinc-400">Nobel Prize in Physics, 2019</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section id="contact" class="max-w-screen-2xl mx-auto px-8 py-20 border-t border-zinc-900">
+        <div class="bg-gradient-to-br from-zinc-900 to-black border border-zinc-800 rounded-3xl px-8 md:px-16 py-16 md:py-20 text-center">
+            <div class="max-w-2xl mx-auto">
+                <div class="mx-auto w-16 h-16 bg-pink-500 rounded-2xl flex items-center justify-center mb-8 pink-glow">
+                    <i class="fa-solid fa-handshake text-black text-4xl"></i>
+                </div>
+                
+                <h2 class="font-display text-5xl md:text-6xl tracking-tighter">Ready to create<br>the next $10 billion<br>breakthrough?</h2>
+                
+                <p class="mt-6 text-xl text-zinc-400">Whether you're a government, corporation, or visionary investor, Aether Labs offers unparalleled access to frontier technologies and exceptional financial returns.</p>
+                
+                <div class="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#" class="px-12 py-4 bg-pink-500 hover:bg-pink-600 text-black font-bold text-lg rounded-3xl transition flex items-center justify-center gap-x-3">
+                        <span>INITIATE STRATEGIC PARTNERSHIP</span>
+                    </a>
+                    <a href="#" class="px-10 py-4 border border-white/70 hover:bg-white/5 font-semibold text-lg rounded-3xl transition">
+                        DOWNLOAD 2025 IMPACT REPORT
+                    </a>
+                </div>
+                
+                <div class="text-xs text-zinc-500 mt-8">Confidential inquiries: partnerships@aetherlabs.global</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-black border-t border-zinc-900">
+        <div class="max-w-screen-2xl mx-auto px-8 py-16">
+            <div class="flex flex-col md:flex-row justify-between gap-y-12">
+                <div>
+                    <div class="flex items-center gap-x-3 mb-6">
+                        <div class="w-9 h-9 bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl flex items-center justify-center">
+                            <span class="text-black font-bold text-2xl tracking-tighter">A</span>
+                        </div>
+                        <span class="font-display text-2xl font-semibold tracking-tighter">AETHER LABS</span>
+                    </div>
+                    <div class="text-sm text-zinc-400 max-w-xs">Engineering the future. Delivering extraordinary returns.</div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-16 gap-y-8 text-sm">
+                    <div>
+                        <div class="font-semibold tracking-wider text-xs text-pink-500 mb-4">COMPANY</div>
+                        <div class="space-y-2 text-zinc-400">
+                            <div>About Us</div>
+                            <div>Leadership</div>
+                            <div>Careers</div>
+                            <div>Press</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold tracking-wider text-xs text-pink-500 mb-4">RESEARCH</div>
+                        <div class="space-y-2 text-zinc-400">
+                            <div>Domains</div>
+                            <div>Publications</div>
+                            <div>Patents</div>
+                            <div>Facilities</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold tracking-wider text-xs text-pink-500 mb-4">INVESTORS</div>
+                        <div class="space-y-2 text-zinc-400">
+                            <div>Financials</div>
+                            <div>Annual Reports</div>
+                            <div>ESG</div>
+                            <div>IR Portal</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="font-semibold tracking-wider text-xs text-pink-500 mb-4">LEGAL</div>
+                        <div class="space-y-2 text-zinc-400">
+                            <div>Privacy</div>
+                            <div>Terms</div>
+                            <div>Compliance</div>
+                            <div>Licensing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 pt-8 border-t border-zinc-900 flex flex-col md:flex-row justify-between items-center text-xs text-zinc-500">
+                <div>© 2026 Aether Labs AG. All rights reserved. A private research institution.</div>
+                <div class="mt-3 md:mt-0 flex items-center gap-x-5">
+                    <span>Privacy Policy</span>
+                    <span>Legal</span>
+                    <span class="flex items-center gap-x-1"><i class="fa-brands fa-linkedin"></i> <span>LinkedIn</span></span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tailwind script
+        function initializeTailwind() {
+            document.documentElement.style.setProperty('--accent-pink', '#ff1493');
+        }
+        
+        // Smooth scroll for navigation links
+        function initializeSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const targetId = this.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    
+                    if (targetElement) {
+                        e.preventDefault();
+                        
+                        const navHeight = 80;
+                        const elementPosition = targetElement.getBoundingClientRect().top;
+                        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+                        
+                        window.scrollTo({
+                            top: offsetPosition,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Close mobile menu if open (future enhancement)
+                    }
+                });
+            });
+        }
+        
+        // Add subtle animation to stat numbers on scroll
+        function initializeStatCounters() {
+            const stats = document.querySelectorAll('.stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        stats.forEach(stat => {
+                            const target = stat.textContent;
+                            if (target.includes('$') || target.includes(',')) {
+                                // Simple animation for numbers
+                                stat.style.transition = 'all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                                stat.style.transform = 'scale(1.05)';
+                                setTimeout(() => {
+                                    stat.style.transform = 'scale(1)';
+                                }, 600);
+                            }
+                        });
+                        observer.disconnect();
+                    }
+                });
+            }, { threshold: 0.6 });
+            
+            const impactSection = document.getElementById('impact');
+            if (impactSection) observer.observe(impactSection);
+        }
+        
+        // Keyboard accessibility for CTA buttons
+        function initializeKeyboardSupport() {
+            document.addEventListener('keydown', function(e) {
+                if (e.key === '/' && document.activeElement.tagName === 'BODY') {
+                    e.preventDefault();
+                    const cta = document.querySelector('#contact');
+                    if (cta) cta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            });
+        }
+        
+        // Initialize everything
+        function init() {
+            initializeTailwind();
+            initializeSmoothScroll();
+            initializeStatCounters();
+            initializeKeyboardSupport();
+            
+            // Easter egg: Konami code for pink mode (fun professional touch)
+            let konamiCode = [];
+            const konamiSequence = [38, 38, 40, 40, 37, 39, 37, 39, 66, 65]; // ↑↑↓↓←→←→BA
+            
+            document.addEventListener('keydown', function(e) {
+                konamiCode.push(e.keyCode);
+                if (konamiCode.length > konamiSequence.length) konamiCode.shift();
+                
+                if (JSON.stringify(konamiCode) === JSON.stringify(konamiSequence)) {
+                    document.body.style.transition = 'all 0.6s';
+                    document.body.style.filter = 'hue-rotate(320deg) saturate(1.4)';
+                    setTimeout(() => {
+                        document.body.style.filter = 'none';
+                    }, 2400);
+                    konamiCode = [];
+                }
+            });
+            
+            // Console message for developers
+            console.log('%c[AETHER LABS] Professional intro page initialized. All systems nominal.', 'color:#ff1493; font-size:9px');
+        }
+        
+        // Boot application
+        window.onload = init;
+    </script>
+</body>
+</html>
