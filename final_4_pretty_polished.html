@@ -1,0 +1,2205 @@
+<!doctype html>
+
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Final 4 — Beautiful Reading Archive</title>
+<style>
+/* =========================================================
+   Final 4 — polished reading archive
+   Clean single-file CSS. No external fonts, scripts, or assets.
+   ========================================================= */
+
+:root {
+    color-scheme: dark;
+
+    --bg-0: #070a12;
+    --bg-1: #0b1020;
+    --bg-2: #10182a;
+
+    --surface-0: rgba(15, 23, 42, 0.82);
+    --surface-1: rgba(20, 31, 52, 0.88);
+    --surface-2: rgba(30, 44, 72, 0.72);
+    --surface-glass: rgba(8, 13, 25, 0.70);
+
+    --text-0: #f4f7fb;
+    --text-1: #d9e5f6;
+    --text-2: #9fb1cc;
+    --text-3: #7587a5;
+
+    --line-0: rgba(255, 255, 255, 0.11);
+    --line-1: rgba(255, 255, 255, 0.065);
+    --line-2: rgba(255, 255, 255, 0.035);
+
+    --accent-blue: #88c8ff;
+    --accent-violet: #cbb2ff;
+    --accent-gold: #ffd479;
+    --accent-green: #9af0ca;
+    --accent-red: #ffb0a0;
+
+    --radius-sm: 14px;
+    --radius-md: 20px;
+    --radius-lg: 28px;
+    --radius-xl: 34px;
+
+    --shadow-soft: 0 18px 50px rgba(0, 0, 0, 0.24);
+    --shadow-strong: 0 28px 90px rgba(0, 0, 0, 0.38);
+
+    --page: min(1160px, calc(100% - 28px));
+    --reading: 88ch;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--text-0);
+    background:
+        radial-gradient(circle at 8% -8%, rgba(136, 200, 255, 0.24), transparent 34rem),
+        radial-gradient(circle at 92% 2%, rgba(203, 178, 255, 0.17), transparent 32rem),
+        radial-gradient(circle at 50% 110%, rgba(154, 240, 202, 0.08), transparent 35rem),
+        linear-gradient(180deg, var(--bg-0), var(--bg-1) 48%, var(--bg-0));
+    font-family:
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+    line-height: 1.62;
+    letter-spacing: -0.01em;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.014) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), transparent 75%);
+}
+
+::selection {
+    color: #06111f;
+    background: var(--accent-blue);
+}
+
+.skip-link {
+    position: fixed;
+    top: 14px;
+    left: 14px;
+    z-index: 999;
+    transform: translateY(-180%);
+    padding: 10px 14px;
+    border-radius: 999px;
+    color: #07111f;
+    background: var(--accent-blue);
+    font-weight: 900;
+    text-decoration: none;
+    box-shadow: var(--shadow-soft);
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
+
+.page {
+    width: var(--page);
+    margin: 0 auto;
+    padding: clamp(18px, 4vw, 34px) 0 70px;
+}
+
+.hero,
+.stats,
+.year-card,
+.mini-card,
+.toc {
+    border: 1px solid var(--line-0);
+}
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    margin: 0 0 18px;
+    padding: clamp(26px, 6vw, 58px);
+    border-radius: var(--radius-xl);
+    background:
+        linear-gradient(145deg, rgba(19, 31, 54, 0.96), rgba(12, 18, 32, 0.88)),
+        radial-gradient(circle at 85% 18%, rgba(136, 200, 255, 0.14), transparent 24rem);
+    box-shadow: var(--shadow-strong);
+}
+
+.hero::before,
+.hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    border-radius: 999px;
+    filter: blur(4px);
+}
+
+.hero::before {
+    width: 360px;
+    height: 360px;
+    right: -130px;
+    top: -160px;
+    background: rgba(203, 178, 255, 0.18);
+}
+
+.hero::after {
+    width: 230px;
+    height: 230px;
+    right: 70px;
+    bottom: -150px;
+    background: rgba(136, 200, 255, 0.16);
+}
+
+.kicker,
+.eyebrow {
+    color: var(--accent-blue);
+    font-size: 12px;
+    font-weight: 950;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.kicker {
+    margin-bottom: 12px;
+}
+
+h1,
+h2 {
+    text-wrap: balance;
+}
+
+h1 {
+    max-width: 830px;
+    margin: 0;
+    font-size: clamp(38px, 8vw, 82px);
+    line-height: 0.92;
+    letter-spacing: -0.075em;
+}
+
+.hero p {
+    max-width: 760px;
+    margin: 20px 0 0;
+    color: var(--text-2);
+    font-size: clamp(15px, 1.6vw, 17px);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin: 18px 0;
+}
+
+.mini-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 98px;
+    padding: 17px 18px;
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(180deg, rgba(17, 26, 46, 0.82), rgba(14, 21, 36, 0.74));
+    box-shadow: 0 14px 38px rgba(0, 0, 0, 0.16);
+}
+
+.mini-card::after {
+    content: "";
+    position: absolute;
+    inset: auto 14px 0 14px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(136, 200, 255, 0.45), transparent);
+}
+
+.mini-card .num {
+    overflow-wrap: anywhere;
+    color: var(--text-0);
+    font-size: clamp(25px, 4vw, 34px);
+    font-weight: 950;
+    line-height: 1.05;
+    letter-spacing: -0.055em;
+}
+
+.mini-card:nth-child(3) .num {
+    color: var(--text-1);
+    font-size: 15px;
+    letter-spacing: -0.025em;
+    line-height: 1.35;
+}
+
+.mini-card .label {
+    margin-top: 8px;
+    color: var(--text-2);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.toc {
+    position: sticky;
+    top: 12px;
+    z-index: 20;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 18px 0 28px;
+    padding: 12px;
+    border-radius: 999px;
+    background: var(--surface-glass);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 14px 44px rgba(0, 0, 0, 0.22);
+}
+
+.toc a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    padding: 8px 13px;
+    border: 1px solid var(--line-0);
+    border-radius: 999px;
+    color: var(--text-1);
+    background: rgba(255, 255, 255, 0.045);
+    font-size: 13px;
+    font-weight: 900;
+    text-decoration: none;
+    transition:
+        transform 160ms ease,
+        border-color 160ms ease,
+        background 160ms ease;
+}
+
+.toc a:hover {
+    transform: translateY(-1px);
+    border-color: rgba(136, 200, 255, 0.55);
+    background: rgba(136, 200, 255, 0.15);
+}
+
+.toc a:focus-visible,
+.entry:focus-visible {
+    outline: 3px solid rgba(136, 200, 255, 0.55);
+    outline-offset: 3px;
+}
+
+.stats {
+    overflow-x: auto;
+    margin: 0 0 30px;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    background:
+        linear-gradient(180deg, rgba(15, 24, 42, 0.82), rgba(14, 20, 34, 0.78));
+    box-shadow: var(--shadow-soft);
+}
+
+.stats h2 {
+    margin: 0 0 12px;
+    font-size: 21px;
+    letter-spacing: -0.04em;
+}
+
+table {
+    width: 100%;
+    min-width: 460px;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 11px 12px;
+    border-bottom: 1px solid var(--line-1);
+    text-align: left;
+}
+
+th {
+    color: var(--text-2);
+    font-size: 11px;
+    font-weight: 950;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+td {
+    color: var(--text-1);
+    font-size: 14px;
+}
+
+tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.year-card {
+    position: relative;
+    overflow: clip;
+    margin: 30px 0;
+    padding: clamp(18px, 3vw, 30px);
+    border-radius: var(--radius-xl);
+    background:
+        linear-gradient(180deg, rgba(20, 31, 52, 0.94), rgba(12, 18, 32, 0.92));
+    box-shadow: var(--shadow-soft);
+    scroll-margin-top: 108px;
+}
+
+.year-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 4px;
+    background: linear-gradient(
+        180deg,
+        var(--accent-blue),
+        var(--accent-violet),
+        transparent
+    );
+    opacity: 0.72;
+}
+
+.year-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 19px;
+    border-bottom: 1px solid var(--line-0);
+}
+
+.eyebrow {
+    color: var(--accent-violet);
+}
+
+.year-head h2 {
+    margin: 4px 0 0;
+    font-size: clamp(32px, 5.4vw, 54px);
+    line-height: 0.96;
+    letter-spacing: -0.065em;
+}
+
+.year-pill {
+    flex: 0 0 auto;
+    padding: 9px 13px;
+    border: 1px solid rgba(136, 200, 255, 0.28);
+    border-radius: 999px;
+    color: #dcefff;
+    background: rgba(136, 200, 255, 0.105);
+    font-size: 13px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.blocks {
+    display: grid;
+    gap: 14px;
+}
+
+.block {
+    overflow: hidden;
+    border: 1px solid var(--line-0);
+    border-radius: var(--radius-md);
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.022));
+}
+.block.unmoved {
+    border-color: rgba(255, 212, 121, 0.28);
+    background:
+        linear-gradient(180deg, rgba(255, 212, 121, 0.07), rgba(255, 212, 121, 0.035));
+}
+
+.month-title,
+.unmoved-title,
+.notes-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 48px;
+    padding: 13px 16px;
+    border-bottom: 1px solid var(--line-1);
+    background:
+        linear-gradient(90deg, rgba(136, 200, 255, 0.13), transparent 62%);
+    font-weight: 950;
+}
+
+.unmoved-title {
+    color: #ffe5ad;
+    background:
+        linear-gradient(90deg, rgba(255, 212, 121, 0.16), transparent 62%);
+}
+
+.block-name {
+    display: inline-flex;
+    align-items: center;
+    min-width: 0;
+    gap: 9px;
+}
+
+.icon {
+    color: var(--accent-blue);
+}
+
+.unmoved-title .icon {
+    color: var(--accent-gold);
+}
+
+.count {
+    flex: 0 0 auto;
+    color: var(--text-2);
+    font-size: 12px;
+    font-weight: 900;
+    white-space: nowrap;
+}
+
+.count.warning {
+    color: var(--accent-gold);
+}
+
+.entries {
+    display: grid;
+    gap: 0;
+    padding: 9px;
+}
+
+.entry {
+    max-width: var(--reading);
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--line-2);
+    border-radius: 12px;
+    color: rgba(244, 247, 251, 0.94);
+    font-size: 15.2px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.entry:last-child {
+    border-bottom: 0;
+}
+
+.entry:hover {
+    background: rgba(255, 255, 255, 0.045);
+}
+
+.entry.meta {
+    border-left: 3px solid rgba(136, 200, 255, 0.58);
+    color: #d8ebff;
+    background: rgba(136, 200, 255, 0.07);
+    font-weight: 800;
+}
+
+.entry.placeholder {
+    border: 1px dashed rgba(154, 240, 202, 0.30);
+    color: var(--accent-green);
+    background: rgba(154, 240, 202, 0.055);
+    font-style: italic;
+    opacity: 0.86;
+}
+
+.entry.loud {
+    border-left: 3px solid rgba(255, 212, 121, 0.72);
+    color: #fff1c4;
+    background: rgba(255, 212, 121, 0.075);
+    font-weight: 950;
+}
+
+.entry.empty {
+    color: var(--text-2);
+    font-style: italic;
+}
+
+.entry.gap {
+    min-height: 8px;
+    padding: 2px 10px;
+    border-bottom: 0;
+    opacity: 0.35;
+}
+
+.footer {
+    max-width: 760px;
+    margin: 36px auto 0;
+    color: var(--text-2);
+    text-align: center;
+    font-size: 13px;
+}
+
+@media (max-width: 780px) {
+    .page {
+        width: min(100% - 20px, 680px);
+        padding-top: 18px;
+    }
+
+    .summary-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .toc {
+        position: static;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        border-radius: var(--radius-md);
+        scrollbar-width: thin;
+    }
+
+    .toc a {
+        flex: 0 0 auto;
+    }
+
+    .year-head {
+        flex-direction: column;
+    }
+
+    .year-pill {
+        white-space: normal;
+    }
+
+    .entry {
+        font-size: 14.6px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+@media print {
+    :root {
+        color-scheme: light;
+        --text-0: #111827;
+        --text-1: #1f2937;
+        --text-2: #4b5563;
+        --line-0: #d7dce5;
+        --line-1: #e5e7eb;
+        --line-2: #eef0f4;
+    }
+
+    body {
+        color: #111827;
+        background: #ffffff;
+    }
+
+    body::before,
+    .skip-link {
+        display: none;
+    }
+
+    .page {
+        width: 100%;
+        padding: 0;
+    }
+
+    .hero,
+    .toc,
+    .stats,
+    .year-card,
+    .block,
+    .mini-card {
+        break-inside: avoid;
+        color: #111827;
+        background: #ffffff !important;
+        box-shadow: none;
+    }
+
+    .toc {
+        position: static;
+        border-radius: 16px;
+    }
+
+    .toc a {
+        color: #111827;
+        background: transparent;
+    }
+
+    .entry {
+        color: #111827;
+    }
+}
+</style>
+<meta content="A polished, readable HTML archive organized by year and month." name="description"/><meta content="#0b1020" name="theme-color"/><meta content="dark light" name="color-scheme"/></head>
+<body><a class="skip-link" href="#content">Skip to archive</a>
+<main class="page archive" id="content">
+<header class="hero">
+<div class="kicker">Polished readable archive</div>
+<h1>Final 4<br/>Reading Archive</h1>
+<p>A cleaner, calmer version built for long reading: year cards, month blocks, softer spacing, stronger contrast, highlighted placeholders, and a simple jump menu. The archive text is preserved; only the presentation and code structure were polished.</p>
+</header>
+<section aria-label="File summary" class="summary-grid">
+<div class="mini-card"><div class="num">7</div><div class="label">Year sections</div></div>
+<div class="mini-card"><div class="num">732</div><div class="label">Visible non-empty lines</div></div>
+<div class="mini-card"><div class="num">final_4_2025_year_removed(2).txt</div><div class="label">Source file</div></div>
+</section>
+<nav aria-label="Jump to year" class="toc">
+<a href="#year-2020">2020</a>
+<a href="#year-2021">2021</a>
+<a href="#year-2022">2022</a>
+<a href="#year-2023">2023</a>
+<a href="#year-2024">2024</a>
+<a href="#year-2026">2026</a>
+<a href="#year-unknown">Unknown</a>
+</nav>
+<section class="stats">
+<h2>Section counts</h2>
+<table>
+<thead><tr><th>Section</th><th>Non-empty lines</th><th>Month blocks</th></tr></thead>
+<tbody>
+<tr><td>2020</td><td>114</td><td>12</td></tr>
+<tr><td>2021</td><td>163</td><td>12</td></tr>
+<tr><td>2022</td><td>92</td><td>12</td></tr>
+<tr><td>2023</td><td>50</td><td>12</td></tr>
+<tr><td>2024</td><td>26</td><td>12</td></tr>
+<tr><td>2026</td><td>15</td><td>12</td></tr>
+<tr><td>Unknown</td><td>272</td><td>0</td></tr>
+</tbody>
+</table>
+</section>
+<section class="year-card" id="year-2020">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 01</div>
+<h2>Year 2020</h2>
+</div>
+<div class="year-pill">101 real lines</div>
+</header>
+<div class="blocks">
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>January</span>
+<span class="count">4 notes</span>
+</header>
+<div class="entries">
+<div class="entry meta">Period A (1 Jan 2020 to 20 Nov 2022): 1055 days</div>
+<div class="entry meta">New Period (1 Jan 2020 to 1 May 2022): 852 days</div>
+<div class="entry">1 jan 2020 me in la i am as big as jake i have a mantion and i am a popstar and a lot of girls love me.</div>
+<div class="entry">2020 Jan ins lock</div>
+<div class="entry placeholder">    [PLACEHOLDER — move January 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>February</span>
+<span class="count">5 notes</span>
+</header>
+<div class="entries">
+<div class="entry">This period includes the leap day of 2020.</div>
+<div class="entry">2020 feb i went outside with oshedar</div>
+<div class="entry">2020 Feb oshedar</div>
+<div class="entry">2020 feb i went out with oshedar</div>
+<div class="entry">2020 Feb I went with oshedar</div>
+<div class="entry placeholder">    [PLACEHOLDER — move February 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>March</span>
+<span class="count">9 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 march we had lockdown</div>
+<div class="entry">2020 april march we had to bang utencils outside balcony</div>
+<div class="entry">2020 march lockdown started</div>
+<div class="entry">2020 march lockdown</div>
+<div class="entry">2020 March lockdown</div>
+<div class="entry">2020 March 04 lock down</div>
+<div class="entry">2020 03 lockdown</div>
+<div class="entry">2020 march lockdown was intro duced.</div>
+<div class="entry">2020 March lockdown happend</div>
+<div class="entry placeholder">    [PLACEHOLDER — move March 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>April</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 aprill i was still at home</div>
+<div class="entry">2020 April still lockdown</div>
+<div class="entry placeholder">    [PLACEHOLDER — move April 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>May</span>
+<span class="count">5 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 05 i turned 17</div>
+<div class="entry">2020 may my birthday</div>
+<div class="entry">2020 may 05 6ix9inw free and music video</div>
+<div class="entry">2020 may I turned 17 I ordered berdo in June may</div>
+<div class="entry">2020 may 6ix9ine relese</div>
+<div class="entry placeholder">    [PLACEHOLDER — move May 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>June</span>
+<span class="count">13 notes</span>
+</header>
+<div class="entries">
+<div class="entry">I discovered tannesha in June 2020</div>
+<div class="entry">I did had tannesha crush going on 2020</div>
+<div class="entry">I most likely knew rddit p and was scrolling regularly in 2020 but i dont recall what i saw exept i seen t girls for the first time in 2020 jun july</div>
+<div class="entry">Tiktok girls , ulikeherbae and reddit most likely fly on june 2020</div>
+<div class="entry">I broght my beardo shaveer in june or may in 2020</div>
+<div class="entry">2020 june tiktok ban</div>
+<div class="entry">2020 tannesha happened too</div>
+<div class="entry">2020 06 tiktook</div>
+<div class="entry">I remember In summer is when I first started playing GTA 5 in 2020</div>
+<div class="entry">Did p today massive reminded me of the first time i did ts cum on reddit it was 06 of 2020</div>
+<div class="entry">2020 06 i found out about tanisha</div>
+<div class="entry">2020 06 i did reddit ts cum</div>
+<div class="entry">2020 06 I was doing tiktok sim card out cause my ban was there</div>
+<div class="entry placeholder">    [PLACEHOLDER — move June 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>July</span>
+<span class="count">10 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 07 i was doing tiktok</div>
+<div class="entry">2020 july still tiktok</div>
+<div class="entry">2020 I bought 07 clash Royale</div>
+<div class="entry">2020 07 tiktok ban and tiktok sim card</div>
+<div class="entry">2020 07 i played cr for the first time</div>
+<div class="entry">2020 07 tiktok sim card and tiktok</div>
+<div class="entry">2020 07 tiktok was banned i was removing my sim to use it.</div>
+<div class="entry">2020 07 i was at mcdonalds and i texted my whats app group feiends "how did the ban there own prisident"</div>
+<div class="entry">2020 07 I bought a hoodie</div>
+<div class="entry">2020 07 I removed simcard multiple times and said it's my last</div>
+<div class="entry placeholder">    [PLACEHOLDER — move July 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>August</span>
+<span class="count">9 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 08 i went to flipkart to buy play google pass royale and and i got masked and went down to get it.</div>
+<div class="entry">2020 augest gta probably</div>
+<div class="entry">2020 clash purshace</div>
+<div class="entry">2020 08 i paid cr money and you have mbox recit for that.</div>
+<div class="entry">2020 08 clash royale</div>
+<div class="entry">2020 i had purchase clash royale pass with flipkart coupuns</div>
+<div class="entry">2020 I bought clash Royale pirchase</div>
+<div class="entry">2020 08 I went to copperchimnet</div>
+<div class="entry">2020 ordered hoodi 08</div>
+<div class="entry placeholder">    [PLACEHOLDER — move August 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>September</span>
+<span class="count">4 notes</span>
+</header>
+<div class="entries">
+<div class="entry">I think i got my pc in 2020 second half</div>
+<div class="entry">I logged out after purchasing cr pass second time if I worked since then I would have easily did it which is 2020 September.</div>
+<div class="entry">2020 09 dad prob bought me new pc</div>
+<div class="entry">2020 sep clash royal ig</div>
+<div class="entry placeholder">    [PLACEHOLDER — move September 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>October</span>
+<span class="count">6 notes</span>
+</header>
+<div class="entries">
+<div class="entry">22 october until tthen i was prime buttercup who exaclyt what he wanted he was inficient and stupid but he knew what he wanted same as feb 2020 same thing just stupid</div>
+<div class="entry">I broght black hoodies and the star wars track pants i october 2020 i have the email bill somewhere and i am wearing them right now</div>
+<div class="entry">2020 octob samething bullshit p</div>
+<div class="entry">2020 october i started making vids for the first time</div>
+<div class="entry">2020 electro gaint and electro sprit intro was the first passs i bought in clash royale.</div>
+<div class="entry">2020 Oct I tried video for the first time</div>
+<div class="entry placeholder">    [PLACEHOLDER — move October 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>November</span>
+<span class="count">1 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 november somthing did happen</div>
+<div class="entry placeholder">    [PLACEHOLDER — move November 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>December</span>
+<span class="count">10 notes</span>
+</header>
+<div class="entries">
+<div class="entry meta">Date - 18 December 2020.</div>
+<div class="entry">2020 when Logan vs Floyd got announced I thought I will prepare like I am fighting floyed.</div>
+<div class="entry">2020 december i had meganight poster in my bed</div>
+<div class="entry">2020 dec some did happen</div>
+<div class="entry">2020 December mk poster</div>
+<div class="entry">2020 december i had poster of mk in bed</div>
+<div class="entry">2020 12 clash mk poster</div>
+<div class="entry">2020 december i jad mega knight poster on bed.</div>
+<div class="entry">2020 December I was into clash royal</div>
+<div class="entry">2020 december i had poster of mega knight</div>
+<div class="entry placeholder">    [PLACEHOLDER — move December 2020 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block unmoved">
+<header class="unmoved-title">
+<span class="block-name"><span class="icon">◇</span>UNMOVED 2020 CONTENT</span>
+<span class="count warning">23 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2020 was the last year of me.</div>
+<div aria-hidden="true" class="entry gap"></div>
+<div class="entry">Full 2020 and 2021 I dint had air conditioner and when I had it I was showering and going in cool temp of AC on the whole time and then I put my hand on computer exast to feel got air and I was like damn</div>
+<div class="entry">I was over all wasting my time almost wprst than 2020</div>
+<div class="entry">2020 i was still on cwllular data</div>
+<div class="entry">Its wierd cause 2020 is trash when i look at it you were possed.</div>
+<div class="entry">2020 should not be counted at all</div>
+<div class="entry">Stats say 2020 is chill af</div>
+<div class="entry">Ya like 2020 seems decent</div>
+<div class="entry">2020 Gmail ark stats</div>
+<div class="entry">2020 yt comms</div>
+<div class="entry">2020 ins stats</div>
+<div class="entry">All yt mrb and creators were also good in 2020 thats y 2020 should not be counted</div>
+<div class="entry loud">TALK ABOUT ONLY 2020 IN THIS THREAD</div>
+<div class="entry">2020</div>
+<div class="entry">we have to work hard on 2020 stats</div>
+<div class="entry">i need top 50 of 2020</div>
+<div class="entry">I wanted it bad in 2020 look at the time I just woke up.</div>
+<div class="entry">2020 dosent count</div>
+<div class="entry">2020 I was using insta</div>
+<div class="entry">2020 and 2021  i was just largly one stage one</div>
+<div class="entry">2020 i condnt close door at mornings</div>
+<div class="entry">2020 i used to use pillow while doing</div>
+<div class="entry">2020 fast but forgot goal</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes for this year here]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+</div>
+</section>
+<section class="year-card" id="year-2021">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 02</div>
+<h2>Year 2021</h2>
+</div>
+<div class="year-pill">150 real lines</div>
+</header>
+<div class="blocks">
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>January</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 jan</div>
+<div class="entry">2021 start I was into insta</div>
+<div class="entry placeholder">    [PLACEHOLDER — move January 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>February</span>
+<span class="count">14 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 feb i took my mom to get me a sim card</div>
+<div class="entry">2021 i got wifi for gta vpn se4ver nat type</div>
+<div class="entry">2021 feb i told my mom to not stay at home</div>
+<div class="entry">2021 feb i made chicken</div>
+<div class="entry">2021 feb i made paytm for the first time with moms acount</div>
+<div class="entry">2021 feb i got wifi for gta nat type.</div>
+<div class="entry">2021 Feb I got wifi for the first time.</div>
+<div class="entry">2021 I got Feb wifi for the first time for GTA 5 nat type and thought it would also benefit clash Royale.</div>
+<div class="entry">2021 feb i bought wifi just for gta 5 nat type.</div>
+<div class="entry">I found out about hage pro deck in feb of2021 i started watching him on miratv amd he repod on twitter.</div>
+<div class="entry">2021 feb we had clemy instagramer situation she was not a girl.</div>
+<div class="entry">Clemy . Mp4 thing happened in feb 2021</div>
+<div class="entry">Clemy instagram. Mp4 2021 February.</div>
+<div class="entry">2021 Feb I bought wifi</div>
+<div class="entry placeholder">    [PLACEHOLDER — move February 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>March</span>
+<span class="count">5 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 march</div>
+<div class="entry">2021 March GTA boght Gmail.</div>
+<div class="entry">2021 March I washed my clothes for the first</div>
+<div class="entry">2021 march i bought more gta 5 cds and i bought parents card for steam payment.</div>
+<div class="entry">2021 03 first time washing clothes mine</div>
+<div class="entry placeholder">    [PLACEHOLDER — move March 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>April</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 04 I was still on hage pro</div>
+<div class="entry">2021 04 I was on gta5</div>
+<div class="entry placeholder">    [PLACEHOLDER — move April 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>May</span>
+<span class="count">9 notes</span>
+</header>
+<div class="entries">
+<div class="entry">all the stats that is real linfe event and internet events and thing thats happen before 4 may 2021 should be spazed everything</div>
+<div class="entry">I turned 18 on 2021 may</div>
+<div class="entry">2021 i tirned 18</div>
+<div class="entry">2021 may i still did the same thing</div>
+<div class="entry">2021 I turned 18</div>
+<div class="entry">2021 may I turned 18</div>
+<div class="entry">2021may i turned 18</div>
+<div class="entry">2021 05 I was watching hage pro</div>
+<div class="entry">2021 05 I was imagining David dobrick.</div>
+<div class="entry placeholder">    [PLACEHOLDER — move May 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>June</span>
+<span class="count">13 notes</span>
+</header>
+<div class="entries">
+<div class="entry">June 2021 I imagined that I am corner McGregor and I am playing clash and I am at master 5 blue spell and also at champion thinking I can be good at both</div>
+<div class="entry">It was June 2021</div>
+<div class="entry">Ya i did the math and logan new podacst room was done in june 6 which is obious that its all first have of 2021</div>
+<div class="entry">2021 june i boght pan card</div>
+<div class="entry">2021 i went to satrasta to get my pan card/adhar card.</div>
+<div class="entry">2021 june first time i tried making a video of carry type thing</div>
+<div class="entry">2021 06 i tried making carry like vids in music vid thing</div>
+<div class="entry">2021 067 i made bank account</div>
+<div class="entry">2021 i had 06 made emiway rost</div>
+<div class="entry">We have yt history since 2021 06.</div>
+<div class="entry">2021 06 i made my bank account</div>
+<div class="entry">2021 logan foght floyd</div>
+<div class="entry">2021 06 pancard</div>
+<div class="entry placeholder">    [PLACEHOLDER — move June 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>July</span>
+<span class="count">7 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 it was raining when i got that bank guy in my house to do kyc and he said do i live alone in house</div>
+<div class="entry">2021 i made my bank account</div>
+<div class="entry">2021 july</div>
+<div class="entry">2021 I started bank account</div>
+<div class="entry">2021 i made bank</div>
+<div class="entry">2021 07 i have stats of yt history.</div>
+<div class="entry">2021 07 I made bank acount</div>
+<div class="entry placeholder">    [PLACEHOLDER — move July 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>August</span>
+<span class="count">14 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 augest i also boght a new phone samsung</div>
+<div class="entry">2021 second half i bought gta sanadreas to test my credit card</div>
+<div class="entry">2021 i got new phone</div>
+<div class="entry">2021 08 i was watchibg and wasting time on netflix money heist and deathnote pure waste of time</div>
+<div class="entry">2021 augest i bought a new phone mainly beacuse of clash royale</div>
+<div class="entry">2021 i watched Netflix on phone to test amoled. New phone.</div>
+<div class="entry">2021 I watched Netflix - cause of amoled new phone and it was death note and money heist.</div>
+<div class="entry">2021 08 I bought new phone</div>
+<div class="entry">2021 08 i bought a new phone</div>
+<div class="entry">2021 08 09 i watched netflix for the first time</div>
+<div class="entry">2021 08 I got my new phone</div>
+<div class="entry">2021 08 i bought a new phone.</div>
+<div class="entry">2021 08 I bought a GTA of sandareas</div>
+<div class="entry">2021 08 I bought keyboard from lamington road and also bought fan to boost my fps to play gta5 same time I played a lot of gta5</div>
+<div class="entry placeholder">    [PLACEHOLDER — move August 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>September</span>
+<span class="count">4 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 gta5 PS5 trailer came out I guess</div>
+<div class="entry">2021 sep</div>
+<div class="entry">2021 iPhone 13 launched with side way cameras for the first time</div>
+<div class="entry">2021 September ps5 GTA was announced</div>
+<div class="entry placeholder">    [PLACEHOLDER — move September 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>October</span>
+<span class="count">15 notes</span>
+</header>
+<div class="entries">
+<div class="entry">21 10 2021</div>
+<div class="entry">My other stat was my tuened my computer in 2021 october</div>
+<div class="entry">2021 i thought of buying gtx for diwali gift</div>
+<div class="entry">2021 diwali i thought of buying gtx and accully went to shop amd he said it is 8 thousand and i left and i did it beacuse i was big on gaming</div>
+<div class="entry">2021 october diwali i said to buy gtx</div>
+<div class="entry">2021 I thought of buying GTX in diwali</div>
+<div class="entry">2021  october i turned my pc sideways for the first time</div>
+<div class="entry">2021 october raksha bandan happend</div>
+<div class="entry">2021 October first time PC jorzontal</div>
+<div class="entry">2021 oct i got pc horzontal</div>
+<div class="entry">2021 Diwali I thought of getting GTx 1030 for Diwali gift I went to lamington road too</div>
+<div class="entry">2021 october i bought a new phone.</div>
+<div class="entry">2021 diwali i had gtx buying</div>
+<div class="entry">2021 pre diwali i went to laminton road to get a fan to boost my fps.</div>
+<div class="entry">2021 09 October was the first time I shift my PC hrizontal</div>
+<div class="entry placeholder">    [PLACEHOLDER — move October 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>November</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">So jake paul vs nate robinson was november 2021</div>
+<div class="entry">2021 nov</div>
+<div class="entry placeholder">    [PLACEHOLDER — move November 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>December</span>
+<span class="count">12 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2021 december i boght 2takeone and cherax</div>
+<div class="entry">2021 dec i was hooked into chess world chapionship</div>
+<div class="entry">2021 dec the naboirs had workers near lift making noise</div>
+<div class="entry">2021 31 dec i remember</div>
+<div class="entry">2021 dec i was into chess chapion ship and opera browser and all</div>
+<div class="entry">2021 december gta cherax bought because i had bank acoount for the firat time</div>
+<div class="entry">A great spreader would be December 2021</div>
+<div class="entry">2021 december i was doing stock market stuff</div>
+<div class="entry">2021 I bought a new blanket for the first time</div>
+<div class="entry">2021 December I bought cherax and taketwo</div>
+<div class="entry">2021 I had first December with bank account bought windscrive vegas</div>
+<div class="entry">2021 december first pillow and blanket parches</div>
+<div class="entry placeholder">    [PLACEHOLDER — move December 2021 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block unmoved">
+<header class="unmoved-title">
+<span class="block-name"><span class="icon">◇</span>UNMOVED 2021 CONTENT</span>
+<span class="count warning">51 notes</span>
+</header>
+<div class="entries">
+<div class="entry">I am surprised we have stats from 2021 history</div>
+<div class="entry">First half of 2021 is the last culture and dream. And uderstanding of physics i knew</div>
+<div class="entry">Thats also all main thing in 2021</div>
+<div class="entry">Just know i litrally did that most research possible and everything says first half of 2021 was last</div>
+<div class="entry">First half of 2021 was last</div>
+<div class="entry">Forst half of 2021 was last</div>
+<div class="entry">2021 fisrst half last</div>
+<div class="entry">so the conclution was made that frst half of 2021 was the last of us</div>
+<div aria-hidden="true" class="entry gap"></div>
+<div class="entry">Second half of 2021 was trash</div>
+<div class="entry">Last thing i remember was 2021</div>
+<div class="entry">Like 2021 was lit</div>
+<div class="entry">2021 second half is to be talked about more</div>
+<div class="entry">2021 second half i was doing more of my bank stuff</div>
+<div class="entry">2021 was the first year with a wifi conection</div>
+<div class="entry">2021 after i got my bank i said now i am going to make it and get a axis bank account</div>
+<div class="entry">2021 second half i was cleaning my pc for higher fps</div>
+<div class="entry">2021 i boght a pc fan for extra ventilation for fps because i had high tempresure</div>
+<div class="entry">I have 2021 second half history</div>
+<div class="entry">2021 second half i had. Blue light at night which i taped</div>
+<div class="entry">Honestly IDC how bad 2021 was it was the last of me</div>
+<div class="entry">2021 second half was like twitch thing then my bank account was made I got pan card too. And I was doing some GTA but I haven't bought stand or mod menu yet and I was cooling my old  pc from heatting and many more stuff</div>
+<div class="entry">Maybe it was 2021 idk really</div>
+<div class="entry">I had shower gell spilled on my closet in 2021 I guess</div>
+<div class="entry">2021 i was doing clash and gta 5 a lot</div>
+<div class="entry">Ok lets just talk about 2021 and anything</div>
+<div class="entry">2021 I was into twitch</div>
+<div class="entry">2021 I have second half of yt history</div>
+<div class="entry">2021 i was a lot into gta5</div>
+<div class="entry">2021 pizza girlfreind apartment</div>
+<div class="entry">I wish I had made t2 in 2021 worst 2022 Jan atleast</div>
+<div class="entry">2021 half stats we have you can cjeck shot</div>
+<div class="entry">2021 i played the most gta</div>
+<div class="entry">2021 main dream was just stage one</div>
+<div class="entry">2021 i imagined a lot of stage one</div>
+<div class="entry">2021 last of me 2020 more last of me</div>
+<div class="entry">2021</div>
+<div class="entry">There is a question would I have t3 if I was in 2021</div>
+<div class="entry">2021 second half we have yt history</div>
+<div class="entry">2021 mother witch came up with Golin drill and goblin drill was hard to deal with.</div>
+<div class="entry">2021 I was really into GTA nd clash royale</div>
+<div class="entry">2021 was the last year.</div>
+<div class="entry">2021 i did this .</div>
+<div class="entry">2021 I was engaged in football for my 2021</div>
+<div class="entry">2021 was the death</div>
+<div class="entry">2021 memes</div>
+<div class="entry">2021 veey highly optimistic about stage one</div>
+<div class="entry">Rdc world 2021</div>
+<div class="entry">2021 half stats we have</div>
+<div class="entry">2021 stop all old shot</div>
+<div class="entry">2021 vacine shot</div>
+<div class="entry">2021 fast</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes for this year here]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+</div>
+</section>
+<section class="year-card" id="year-2022">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 03</div>
+<h2>Year 2022</h2>
+</div>
+<div class="year-pill">79 real lines</div>
+</header>
+<div class="blocks">
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>January</span>
+<span class="count">7 notes</span>
+</header>
+<div class="entries">
+<div class="entry">So in thats situation today should be jan 1 2022</div>
+<div class="entry">It should be first januarry 2022</div>
+<div class="entry">the conclution  of 1 jan 2022 is the fist day of real butter is done</div>
+<div class="entry">the conclution of 1 jan 2022 is the fist day of real butter is done</div>
+<div class="entry">The prim3 being released in 2022 jan 4 is crazy</div>
+<div class="entry">2022 jan</div>
+<div class="entry">2022 jan history exist</div>
+<div class="entry placeholder">    [PLACEHOLDER — move January 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>February</span>
+<span class="count">11 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 i got rtx</div>
+<div class="entry">2022 feb</div>
+<div class="entry">2022 Feb I bought rtx</div>
+<div class="entry">2022 rtx</div>
+<div class="entry">2022 feb rtx</div>
+<div class="entry">Cherax vip and 2take one , stand in feb 2022 which you have gmail of in blossom pheonix</div>
+<div class="entry">2022 when i went to but rtx i said to you i will not play gta just getting it</div>
+<div class="entry">02 2022 i told my mom to fit ac</div>
+<div class="entry">2022 feb i was bing watching yt shorts.</div>
+<div class="entry">2022 Feb I still was cool</div>
+<div class="entry">2022 02 rtx</div>
+<div class="entry placeholder">    [PLACEHOLDER — move February 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>March</span>
+<span class="count">13 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 ac was fit in</div>
+<div class="entry">2022 when ac was fit in i said we will do our dream of hoodie and ac with gta5</div>
+<div class="entry">2022 mrch</div>
+<div class="entry">2022 march since then you should have locked in the way we do now big 4 pre done and t2 and t3 pre done and ypi start from there type shit.</div>
+<div class="entry">2022 03 was the last</div>
+<div class="entry">2022 march ac was fit</div>
+<div class="entry">2022 AC fit</div>
+<div class="entry">2022 i got ac for the first tome</div>
+<div class="entry">2022 03 jonny depp and shorts boomed and i was doom scrolling on bed like an idiot</div>
+<div class="entry">2022 march first time air conditioner.</div>
+<div class="entry">2022 March we were being watching shorts</div>
+<div class="entry">2022 03 short yt</div>
+<div class="entry">2022 03 i can confirm stage one was everything</div>
+<div class="entry placeholder">    [PLACEHOLDER — move March 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>April</span>
+<span class="count">3 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 april we did p for the firat time.</div>
+<div class="entry">2022 04 no stats og</div>
+<div class="entry">2022 04 tooorrr</div>
+<div class="entry placeholder">    [PLACEHOLDER — move April 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>May</span>
+<span class="count">9 notes</span>
+</header>
+<div class="entries">
+<div class="entry meta">First Period (1 May 2022 to 30 June 2025): 1157 days</div>
+<div class="entry">2022 first half i turned 19</div>
+<div class="entry">2022 may i turned 19</div>
+<div class="entry">2022 i bought hnm hoddie disney</div>
+<div class="entry">2022 may I turned 19</div>
+<div class="entry">2022 05 i went hnm to buy hoddie</div>
+<div class="entry">2022 i turn 19</div>
+<div class="entry">2022 may you turned 18.</div>
+<div class="entry">2022 05 true end</div>
+<div class="entry placeholder">    [PLACEHOLDER — move May 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>June</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 june the first time proper mega was done.</div>
+<div class="entry">2022 06 I was lost</div>
+<div class="entry placeholder">    [PLACEHOLDER — move June 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>July</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move July 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>August</span>
+<span class="count">3 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 aug i was still hullusinating</div>
+<div class="entry">2022 aug i was stilll on gta</div>
+<div class="entry">2022 August I was still in gta5</div>
+<div class="entry placeholder">    [PLACEHOLDER — move August 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>September</span>
+<span class="count">1 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 09 still gta</div>
+<div class="entry placeholder">    [PLACEHOLDER — move September 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>October</span>
+<span class="count">3 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 oct i went to copperchimney.</div>
+<div class="entry">2022 ocotber things started going wrong very wrong.</div>
+<div class="entry">2022 I got October tatoo</div>
+<div class="entry placeholder">    [PLACEHOLDER — move October 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>November</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 november i took a neymar photo in walpaper saying i will go race couce every morning for running.</div>
+<div class="entry">2022 November I used to go to race course</div>
+<div class="entry placeholder">    [PLACEHOLDER — move November 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>December</span>
+<span class="count">6 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022 dec i took my mom to khooneero square mall and i bought clothes in dec 2022 and liked andrews post</div>
+<div class="entry">2022 dec was buttercups 911</div>
+<div class="entry">2022 Dec I was watching out fan</div>
+<div class="entry">2022 dec i went to a mall to buy clothes</div>
+<div class="entry">2022 dec football</div>
+<div class="entry">2022 dec wordl cup football</div>
+<div class="entry placeholder">    [PLACEHOLDER — move December 2022 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block unmoved">
+<header class="unmoved-title">
+<span class="block-name"><span class="icon">◇</span>UNMOVED 2022 CONTENT</span>
+<span class="count warning">19 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2022</div>
+<div aria-hidden="true" class="entry gap"></div>
+<div class="entry">I used to go to grandmamas in 2022</div>
+<div class="entry">2022 full was trash expect feb and march sum good did come out of it</div>
+<div class="entry">We have stats of 2022 first half</div>
+<div class="entry">2022 is trash lost/hulusination</div>
+<div class="entry">We have history full of 2022</div>
+<div class="entry">2022 was like the worst year</div>
+<div class="entry">2022 i was a lot in gta5 with ac</div>
+<div class="entry">2022 stats we have on yt history</div>
+<div class="entry">2022 june and july you did massive p.</div>
+<div class="entry">2022 needs to be deleted</div>
+<div class="entry">2022 start</div>
+<div class="entry">2022 I did this.</div>
+<div class="entry">2022 I did a lot of mcdonalds</div>
+<div class="entry">2022 I tried going gym to not be home</div>
+<div class="entry">2022 I imagined a lot of stage one</div>
+<div class="entry">2022 I went to hopital</div>
+<div class="entry">2022 i dreamed of stage one the most</div>
+<div class="entry">2022 slow but bullshit</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes for this year here]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+</div>
+</section>
+<section class="year-card" id="year-2023">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 04</div>
+<h2>Year 2023</h2>
+</div>
+<div class="year-pill">37 real lines</div>
+</header>
+<div class="blocks">
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>January</span>
+<span class="count">4 notes</span>
+</header>
+<div class="entries">
+<div class="entry meta">Period B (1 Jan 2023 to 20 Nov 2025): 1055 days</div>
+<div class="entry">2023 jan i went to granmamas for the last time.</div>
+<div class="entry">2023 jan was same as 2022 dec</div>
+<div class="entry">2023 jan bad</div>
+<div class="entry placeholder">    [PLACEHOLDER — move January 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>February</span>
+<span class="count">3 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2023 feb i did a lot of p</div>
+<div class="entry">2023 feb and march i was masive on p.</div>
+<div class="entry">2023 feb i went racecource</div>
+<div class="entry placeholder">    [PLACEHOLDER — move February 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>March</span>
+<span class="count">8 notes</span>
+</header>
+<div class="entries">
+<div class="entry">I was slleping in the bedroon alone in 2023 marxh i felt guilty</div>
+<div class="entry">2023 March p water of time was the worst</div>
+<div class="entry">2023 i went to swimming classes</div>
+<div class="entry">2023 i bought swimmiing clothes</div>
+<div class="entry">2023 march i was into air conditioner.</div>
+<div class="entry">2023 march i went to swimming</div>
+<div class="entry">2023 03 swimming</div>
+<div class="entry">2023 badmintone 03</div>
+<div class="entry placeholder">    [PLACEHOLDER — move March 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>April</span>
+<span class="count">1 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2023 aprill i said i am ok with 20 years old</div>
+<div class="entry placeholder">    [PLACEHOLDER — move April 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>May</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2023 may I went to panvell</div>
+<div class="entry">2023 may 20 year old</div>
+<div class="entry placeholder">    [PLACEHOLDER — move May 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>June</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move June 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>July</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move July 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>August</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move August 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>September</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move September 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>October</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move October 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>November</span>
+<span class="count">1 notes</span>
+</header>
+<div class="entries">
+<div class="entry">i remember 2023 diwali</div>
+<div class="entry placeholder">    [PLACEHOLDER — move November 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>December</span>
+<span class="count">1 notes</span>
+</header>
+<div class="entries">
+<div class="entry">Like not being able to watch gta6 trailer on dec 10 2023 and saying dad will now is CARRZZYYY</div>
+<div class="entry placeholder">    [PLACEHOLDER — move December 2023 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block unmoved">
+<header class="unmoved-title">
+<span class="block-name"><span class="icon">◇</span>UNMOVED 2023 CONTENT</span>
+<span class="count warning">17 notes</span>
+</header>
+<div class="entries">
+<div class="entry">2023 i had grandfather took to barber that was the most embarssing shit ever</div>
+<div class="entry">2023 was litral hell</div>
+<div class="entry">i wanna cover 2023 more</div>
+<div class="entry">ya 2023</div>
+<div class="entry">We should open 2023 thread soon</div>
+<div class="entry">2023</div>
+<div class="entry">2023 was a interesting year I remember air conditioner a lot.</div>
+<div class="entry">2023 was a massive year</div>
+<div class="entry">2023 was useless</div>
+<div class="entry">We need to talk about 2023</div>
+<div class="entry">A lot more about 2023.</div>
+<div class="entry">Massive 2023.</div>
+<div class="entry">2023 this happened</div>
+<div class="entry">2023 I went for a blood test to hemo pho</div>
+<div class="entry">2023 I was doing p</div>
+<div class="entry">2023 was the end</div>
+<div class="entry">2023 self alien</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes for this year here]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+</div>
+</section>
+<section class="year-card" id="year-2024">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 05</div>
+<h2>Year 2024</h2>
+</div>
+<div class="year-pill">13 real lines</div>
+</header>
+<div class="blocks">
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>January</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move January 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>February</span>
+<span class="count">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">This period includes the leap day of 2024.</div>
+<div class="entry">2024 02 i gess is when we got protien milk powedet in cabinet</div>
+<div class="entry placeholder">    [PLACEHOLDER — move February 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>March</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move March 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>April</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move April 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>May</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move May 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>June</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move June 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>July</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move July 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>August</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move August 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>September</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move September 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>October</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move October 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>November</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move November 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>December</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move December 2024 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block unmoved">
+<header class="unmoved-title">
+<span class="block-name"><span class="icon">◇</span>UNMOVED 2024 CONTENT</span>
+<span class="count warning">11 notes</span>
+</header>
+<div class="entries">
+<div class="entry">Why will i waste 2024 is the main question</div>
+<div aria-hidden="true" class="entry gap"></div>
+<div class="entry">ded speed aligator in 2024</div>
+<div class="entry">Lets start with 2024</div>
+<div class="entry">Ok my parrents went to village in 2024</div>
+<div class="entry">I danced to this is america in 2024</div>
+<div class="entry">I recorded speed aligator in 2024</div>
+<div class="entry">Amd 2024 i was a victim of all that.</div>
+<div class="entry">Thets why 2024 was so dull</div>
+<div class="entry">2024</div>
+<div class="entry">2024 was bad</div>
+<div class="entry">2024 hullustination</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes for this year here]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+</div>
+</section>
+<section class="year-card" id="year-2026">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 06</div>
+<h2>Year 2026</h2>
+</div>
+<div class="year-pill">2 real lines</div>
+</header>
+<div class="blocks">
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>January</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move January 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>February</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move February 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>March</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move March 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>April</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move April 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>May</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move May 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>June</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move June 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>July</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move July 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>August</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move August 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>September</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move September 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>October</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move October 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>November</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move November 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block month">
+<header class="month-title">
+<span class="block-name"><span class="icon">▸</span>December</span>
+<span class="count">0 notes</span>
+</header>
+<div class="entries">
+<div class="entry placeholder">    [PLACEHOLDER — move December 2026 notes here later]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+<article class="block unmoved">
+<header class="unmoved-title">
+<span class="block-name"><span class="icon">◇</span>UNMOVED 2026 CONTENT</span>
+<span class="count warning">2 notes</span>
+</header>
+<div class="entries">
+<div class="entry">December i get 100k subs on my apple channel and i make around 5k per mont and nothing happens in the next 2 month and in feb 2026 i have 5k in bank and making 5k per month and living alone . And everything becomes the gretest after that my la dream and everything.....</div>
+<div aria-hidden="true" class="entry gap"></div>
+<div class="entry">2026 idk. Not working yet tho.</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes for this year here]</div>
+<div aria-hidden="true" class="entry gap"></div>
+</div>
+</article>
+</div>
+</section>
+<section class="year-card" id="year-unknown">
+<header class="year-head">
+<div>
+<div class="eyebrow">Section 07</div>
+<h2>Unknown Year</h2>
+</div>
+<div class="year-pill">271 real lines</div>
+</header>
+<div class="blocks">
+<article class="block notes">
+<header class="notes-title">
+<span class="block-name"><span class="icon">•</span>Notes</span>
+<span class="count">271 notes</span>
+</header>
+<div class="entries">
+<div class="entry">More talks on 22 december</div>
+<div class="entry">So now I am gonna pretent to. Be at Starbucks for 3 hrs with me spazing tier 3 and tier 2 and just pretending to be at Starbucks that's it. But first I think I should get 15k then we only do that like we at Starbucks .</div>
+<div class="entry">Look I wanted to go Starbucks the other day and spend 1500 rupees and sit there for 6 hrs straight with a notebook and a pen while I do that I fill the notebook completely full and spaz on disc tier 3 and tier 2 that's all there is Starbuck sitting for 6 hrs straight spazing tier3 and tier2 and filling my notebook full and complete .</div>
+<div class="entry">.................................................................................................................................................................................................................................................................................................................................................................................................................................................................</div>
+<div class="entry">kets sttat</div>
+<div class="entry">lets start</div>
+<div class="entry">i remember 24 diwalli</div>
+<div class="entry">I had a cruch on Khushi then I had a crush on madiie I love them all</div>
+<div class="entry">I am having flashback of when I knew I would make it thinking I can get my own apartment and fuck bitches and have a great gaming PC.</div>
+<div class="entry">June</div>
+<div class="entry">I saw her tiktok get banned right in front of me</div>
+<div class="entry">Put this wallpaper no jokes I am serious</div>
+<div class="entry">Put this wallpaper no jokes I am serious</div>
+<div class="entry">Dec 22 dad use to be near dust bin a lot.</div>
+<div class="entry">I have been scared since 22 december</div>
+<div class="entry">That cool 06 22 buttercup is dead</div>
+<div class="entry">22 dec i was basically afraid of death .</div>
+<div class="entry">Jynxi lost 1 game to jason in 99-0 match</div>
+<div class="entry">The hire that lost casue he took a nap.</div>
+<div class="entry">Jynxi lost 1 game to jason in 99-0 match</div>
+<div class="entry">Forwarded</div>
+<div class="entry">8th grade dream is same thing rich but more focused on now of teen girls and spending time with freinds and impressing my girlfreind in obious rich appartment complex or suberban school woth a lot of activities.</div>
+<div class="entry">......................................................................................................................................................................................................................................................................................................................................</div>
+<div class="entry">The real buttercup would have left his parents house before turning 18.</div>
+<div class="entry">??</div>
+<div class="entry">🔃</div>
+<div class="entry">Last sane meme / culture i remember</div>
+<div class="entry">Akhina cat riding meme.</div>
+<div class="entry">Iphone 12 .</div>
+<div class="entry">Edp caught</div>
+<div class="entry">Jake boxing a lot and he was on tweeter getting trolled and stuff</div>
+<div class="entry">Jake vs ben askern</div>
+<div class="entry">Big one</div>
+<div class="entry">Tells us that 18 and going retarded is real</div>
+<div class="entry">I remember the face of clear as day</div>
+<div class="entry">Logan puals new podacast room was when i almost dint even watch one episode of it</div>
+<div class="entry">Ben askerin and everything</div>
+<div class="entry">22</div>
+<div class="entry">Twenty two</div>
+<div class="entry">First jan</div>
+<div class="entry">January</div>
+<div class="entry">Ypu turning 18 and going retarded is real</div>
+<div class="entry">18 and going retarded is real</div>
+<div class="entry">18 and over</div>
+<div class="entry">The conclusion is mde and final you nothing in this unverse happned after you turned 18</div>
+<div class="entry">so now topuc change</div>
+<div class="entry">repeating things is not bad</div>
+<div class="entry">redbull addiction is good it means you are buying time and locking in.</div>
+<div class="entry">Then i can live how i want whether to go play all day with my freinds and vlog it being him and bieng a youtuber .</div>
+<div class="entry">La , suber school syndrome and me bieng him</div>
+<div class="entry">Air maxes go without saying , iphones go without saying</div>
+<div class="entry loud">LOS ANGELES</div>
+<div class="entry">Like there is no work just me chilling and being a popstar.</div>
+<div class="entry">The video of madsen beer was like having my own bed.</div>
+<div class="entry loud">JP AND LP SAYS IT ALL ANYWAY PLUS YOU ADD JB BIENG POPSTAR</div>
+<div class="entry">Thres not much point in talking about the past esspacially dum shit like cut to the chase you wanna be like JP and a  popstar.</div>
+<div class="entry">Batch and stuff was a samll dust but main is jp.</div>
+<div class="entry">Los angles is the most massive</div>
+<div class="entry">Like pop star in general</div>
+<div class="entry">Bitches calling my phone like i am a popstar</div>
+<div class="entry">Thres not much point in talking about the past esspacially dum shit like cut to the chase you wanna be like JP and a popstar.</div>
+<div aria-hidden="true" class="entry gap"></div>
+<div class="entry">Impo  - WHEN I FIRST PLAYED AMONGUS I WAS IN US SERVER AND I REMEMBER TALKING TO YOU ON HOW ITS COOL TO BE WITH AMERICAN PEOPLE LIKE SAYING THE CHAT HAD ALL ENGLISH SPEAKER AND THEME SPEAKER.</div>
+<div class="entry">Impo - WHEN I FIRST PLAYED AMONGUS I WAS IN US SERVER AND I REMEMBER TALKING TO YOU ON HOW ITS COOL TO BE WITH AMERICAN PEOPLE LIKE SAYING THE CHAT HAD ALL ENGLISH SPEAKER AND THEME SPEAKER.</div>
+<div class="entry">I had a camp going on when i was a kid and just activities all day then food and ac rooms too and girls too</div>
+<div class="entry">Akhina cat is the only thing i remeber from p on past</div>
+<div class="entry">I will update soon tho</div>
+<div class="entry">Fellow ship school had a lot to do with me</div>
+<div class="entry">Breach candy had a lot to do with me</div>
+<div class="entry">Suberb girls had a lot to do with me</div>
+<div class="entry">Shroof garden had a lot to fo with me</div>
+<div class="entry">My 18th birthday is more memory to me than my 19 one</div>
+<div class="entry">Suberb sports complex with high quality sprots and indoors like nsci had a lot to do with me</div>
+<div class="entry">I always considerd myself hot and lean</div>
+<div class="entry">When i was in 5th grade i told my freind in a camp how i look good while drinking water like i look sexy while drinking water.</div>
+<div class="entry">Clash royale had a lot tofo woth my life and all eras i played for differnt reason so clash is the goat lover of mine</div>
+<div class="entry">I used to play vice city way to much and supring i still like gta genre games</div>
+<div class="entry">Iphone 11 was for a large time only iphone that i imaged myself with esspasilayy taking lips that grip pics with</div>
+<div class="entry">Additya brila school had a lot to do with me and i imagined a girl arhuing with me while my freinds surround and i am the only one speaking in english with this suburbn girl</div>
+<div class="entry">And she probably faalls in love with me or atlest girls in my school fall in love with me</div>
+<div class="entry">Tall blonde girl</div>
+<div class="entry">Suberb school syndrome</div>
+<div class="entry">Still in 21 Q3</div>
+<div class="entry">Xqc flight reacts pokimane are massive timeline players</div>
+<div class="entry">Air maxes</div>
+<div class="entry">I recorCupbupp — 2025-11-06, 5:02 AM</div>
+<div class="entry">Ts cum and and them nutting and i said i see the contraction and i felt relatable.</div>
+<div class="entry">T girl thing is cool you remember it .</div>
+<div class="entry">That puts a good proof on the timeline that shobe you use it visit gonewild .</div>
+<div class="entry">Did a lot of it then</div>
+<div class="entry">iPhone 11 was massive infflucen then iPhone 12 was same layout</div>
+<div class="entry">So the vertical camera with iPhone like os thing was threer</div>
+<div class="entry loud">PEOPLE ARE ALIENS,ANIMALS,ZOMBIES.</div>
+<div class="entry">I broght 2 takw one first time and you will have the bill in bank then baoght cherax then boght stand later which we have email of.</div>
+<div class="entry">I broght gta san andreas and we have the bill in buttervuup email.</div>
+<div class="entry">I broght my nike shooes in 21 jan</div>
+<div class="entry">I dont remember 17 birthday</div>
+<div class="entry">Grandmamas cafe</div>
+<div class="entry loud">TIER 2 AND TIER 3.</div>
+<div class="entry">700 MB.</div>
+<div class="entry loud">MEMORISED EXACT GOAL OF BUTTERCUP.</div>
+<div class="entry loud">BIG 5 EVERYWHERE.</div>
+<div class="entry">I just want to stick to tier 123 in life evrything else is garbage.</div>
+<div class="entry">This is the start of the #spaz-tier-3 private channel.</div>
+<div class="entry">Write every thought every second on tier two.</div>
+<div class="entry">Start with spazing anything you want anything</div>
+<div class="entry">Spaz just spaz a lot</div>
+<div class="entry">Go now</div>
+<div class="entry">Anythong</div>
+<div class="entry">Any sapz gooo fast</div>
+<div class="entry">We just sapz like this</div>
+<div class="entry">Anyway lets go home and do big 8</div>
+<div class="entry">I tried playing gta and told my dad it was smooth</div>
+<div class="entry">Jan i bought stand</div>
+<div class="entry">I was talking about cherax support.</div>
+<div class="entry">Yo</div>
+<div class="entry">I remeber my 19 birthday but it was foggy i do remember being scared to tell take off the happy birthday poster</div>
+<div class="entry">I should have been more active and doing more stuff</div>
+<div class="entry">I wanna focus on 21 first half more</div>
+<div class="entry">So you turn 18 and JP and lp was there too</div>
+<div class="entry">Cool</div>
+<div class="entry">We have second half history yt</div>
+<div class="entry">t3 spaz here</div>
+<div class="entry">Ya just spaz all</div>
+<div class="entry">T3 is all i have</div>
+<div class="entry">Gta5 and clash</div>
+<div class="entry">So</div>
+<div class="entry">By the way the only reason we are doing this is beacuse apartntly this is not default setting</div>
+<div class="entry">Anyway</div>
+<div class="entry">Ig</div>
+<div class="entry">I hade wiffi gta and clash royale and 2.6 ballon</div>
+<div class="entry">Thats it nothing eles</div>
+<div class="entry">Not being able to move in bed while sleeping is CRAAZZYY</div>
+<div class="entry">I was afraid from all sides</div>
+<div class="entry loud">NOT BEING ABLE TO EAT WHAT YOU WANT IS CRAZZZYYYY</div>
+<div class="entry loud">NOT BEING ABLE TO JERK OFFF IS CRAZZY</div>
+<div class="entry">t3 will be spazed more</div>
+<div class="entry">And I have a lot todo</div>
+<div class="entry loud">T3 THINGS CAN BE A BIT INACURATE AND ITS FINE ITS MORE ABOUT THE CONCEPT AND ITS FINE JUST SPAZ MORE.</div>
+<div class="entry">I was still skinny all these years</div>
+<div class="entry">I also said how clash royale it can help in</div>
+<div class="entry">amma  fill this up in 600 pages soon</div>
+<div class="entry">That's when you said you will lock in</div>
+<div class="entry">Your t3 makes the most sense since it is the best aniti alien and true buttercup self</div>
+<div class="entry">A jinie and t3 makes sence</div>
+<div class="entry">I got stats in big4</div>
+<div class="entry">Like the main dream was basics like wearing favorite hoodie playing games having repect bettween friends how everybody works and you do you.</div>
+<div class="entry">Hvaing a cute girlfreind that loves kids and you her man</div>
+<div class="entry">And everything else</div>
+<div class="entry">Any way lets start t3 spaz</div>
+<div class="entry">Same night i watched kevin complain about cancell culture and david jeeff sitation</div>
+<div class="entry loud">LIKE I WANNA GET INTO OLD BUTTERCUPPS DREAM</div>
+<div class="entry">When i got my tatoo in 22 i felt like a cool independent popstar with apartment time and bitches and alpha</div>
+<div class="entry">Like all my feeling also need to be spazed no mattet how small they were</div>
+<div class="entry">Like the suber school sydrome conqured my most life with cycle cool bike cycle riding with suberb freinds and just frre time and stuff</div>
+<div class="entry">Like thosee  pre 1600 wishes and dream will be spazed later some day they are not important.</div>
+<div class="entry">Sit a Starbucks for 3 hours (really) use phone order white mocha and spaz non stop on phone plus note pad that's it and then do the same for 2 hrs at augest Kranti but no notepad just phone .</div>
+<div class="entry">Starbucks and redbull with full force in only t3 only t3 for 3 hours will give you 60 pages that's good for a minute</div>
+<div class="entry">Focussing on 2200 more</div>
+<div class="entry">random : t3 is important</div>
+<div class="entry">These days I am getting summer morise of 2020 and 2021.</div>
+<div class="entry">I don't had ac so it was this hot.</div>
+<div class="entry loud">T3 IS THE WORD FOR TODAY</div>
+<div class="entry loud">T3 IS THE WORD FOR TODAY ONLY FOCUS ON IT CAN INCLUDE PHEOINX.</div>
+<div class="entry loud">SERIOUSLY MASSIVE FOCUS ON T3</div>
+<div class="entry">t3 and pheonix is all i want to focus on</div>
+<div class="entry">Every year stats will be repod here.</div>
+<div class="entry">Usually you don't have to spaz on threads only when you want</div>
+<div class="entry">T3 600 pages</div>
+<div class="entry">I will combine all years in here and keep it 600 pages long</div>
+<div class="entry">My t3 has to be 600 pages long including pre 1600 and 1600 itself and post 1600 and everything after that.</div>
+<div class="entry">**Every single year will be talked about every imagination you had that year very thing you did that year alll will be talked about everything spazed even if it's inaccurate just spaz i need my history buttercups history very important.</div>
+<div class="entry">Total 600 pages of every year and ever imagination.</div>
+<div class="entry">Past imagination is past top50.</div>
+<div class="entry">So focus on past imagination.</div>
+<div class="entry loud">WE NEED TO GENUINLY WORK HARD ON T3 REALLY MY PHEONIX IS DONE THATS GOOD BUT T3 IS IMPORTANT.</div>
+<div class="entry">Just deleted threads for each year found it slowing me down and distratining.</div>
+<div class="entry">Now spazz it all bebe.</div>
+<div class="entry">T3 spaz start.</div>
+<div class="entry">We have the stats from then</div>
+<div class="entry">We only need t3 don't add threads to it ever threads are comlpty different.</div>
+<div class="entry">We need t3.</div>
+<div class="entry">We need pheonix only.</div>
+<div class="entry">Past spaz</div>
+<div class="entry">Tags also avalabile</div>
+<div class="entry">After filtering only impo in t3 stepulation.</div>
+<div class="entry">we will spend whole night spazing t3.</div>
+<div class="entry">2020, 2021 , 2022 the main year I want the most stats from.</div>
+<div class="entry">Then 2023 , 2024 , 2025 is I wanna know where your head was at.</div>
+<div class="entry">Feb or march i went to swimming and badminton.</div>
+<div class="entry">March or april dada came home.</div>
+<div class="entry">May my 20 nirthday.</div>
+<div class="entry">June sad i guess no stats either.</div>
+<div class="entry">July caos.</div>
+<div class="entry">Augest tried youtube.</div>
+<div class="entry">September did something else.</div>
+<div class="entry">feels like summer for the firsdt time after years</div>
+<div class="entry">T3 is unlimited.</div>
+<div class="entry">T1 is unlimited .</div>
+<div class="entry">Both are effortless.</div>
+<div class="entry">Just did p forgot what I like and got carried away with something I don't like either.</div>
+<div class="entry">Hullusination and t3 avoids it.</div>
+<div class="entry">i was going to so t3 at pdp but i was bored</div>
+<div class="entry">I knew I wanted it bad.</div>
+<div class="entry">First year.</div>
+<div class="entry">Second year.</div>
+<div class="entry">Third year.</div>
+<div class="entry">Forth year.</div>
+<div class="entry">Fifth year.</div>
+<div class="entry">Sixth year.</div>
+<div class="entry">Seventh year.</div>
+<div class="entry">Whatt noooo this has to be wrong no wayyyyg</div>
+<div class="entry">All my wishes from past goes in top50 and in t3.</div>
+<div class="entry">All my imagination and thoughts and opinions of the past goes in t3.</div>
+<div class="entry">Past years history.</div>
+<div class="entry">Spaz 600 pages pls</div>
+<div class="entry">i was in hevne doing david dobrick i was in haven</div>
+<div class="entry">#t1-private  •  Tuesday</div>
+<div class="entry">i was in haven doing david dobrick</div>
+<div class="entry">god is david dobrick</div>
+<div class="entry">fuck god</div>
+<div class="entry">Thats better.</div>
+<div class="entry loud">STRICT BUTTERCUP - 600 TRUE PAGES OF T3 I WANT.</div>
+<div class="entry">600 pages spaz</div>
+<div class="entry">600 pages of -</div>
+<div class="entry">I liked this</div>
+<div class="entry">This was cool is that thing.</div>
+<div class="entry">I did that to this .</div>
+<div class="entry">T3 subjects</div>
+<div class="entry">Phoenix - the most impo .</div>
+<div class="entry">Oftha - second impo.</div>
+<div class="entry">700 mb - third impo.</div>
+<div class="entry">500 mb - TRASH.</div>
+<div class="entry">All months - TRASH .</div>
+<div class="entry loud">NEW TAKPUTS - TRASH.</div>
+<div class="entry">All months - TRASH..</div>
+<div class="entry">Any mega files - (TRASH</div>
+<div class="entry">Only impo thing</div>
+<div class="entry loud">PHEONIX, 700MB. OFTHA. THATS IT.</div>
+<div class="entry">Only impo files</div>
+<div class="entry">Then only thing is t123</div>
+<div class="entry">That's it</div>
+<div class="entry">T123</div>
+<div class="entry">Top 50 file - Gmail.</div>
+<div class="entry">Nothing else is impo</div>
+<div class="entry loud">PINTREST - TRASH.</div>
+<div class="entry">Listing - TRASH.</div>
+<div class="entry loud">REPEAT TOP 50.</div>
+<div class="entry loud">REAPEAT T3.</div>
+<div class="entry loud">REAPEAT PHEONIX THATS IT.</div>
+<div class="entry">I also bought royale ghost skin in clash royale with mega knight emote as main.</div>
+<div class="entry">We had bang utemcils in lockdown</div>
+<div class="entry">t3 might be the most important and it is going to save me a lot</div>
+<div class="entry loud">RANDOM RWORD__</div>
+<div class="entry loud">UFC/MILITARRY</div>
+<div class="entry">1600 pages seriously.</div>
+<div class="entry">Let's go</div>
+<div class="entry">I used to go more gradmama cafe</div>
+<div class="entry">Especially after david d</div>
+<div class="entry">06</div>
+<div class="entry">I used my credit card to buy sandadreas</div>
+<div class="entry">I have stats from them</div>
+<div class="entry">I remember doing a lot of prison break heist in gta</div>
+<div class="entry">hereee</div>
+<div class="entry">t1 stuff here</div>
+<div class="entry">Ok i am back and t2 is very impo</div>
+<div class="entry">this is t2 spaz anything here</div>
+<div class="entry">ok spaz anything here too</div>
+<div class="entry">anything</div>
+<div class="entry">I am here yaaaaaaaay</div>
+<div class="entry loud">DO T2 EVERY SECOND PLS PLS PLS</div>
+<div class="entry loud">I WILL MAKE A STREAK TO PING T2 EVRY DAY OF THE YEAR STARTING TODAY. EVERYDAY I HAVE TO PING T2.</div>
+<div class="entry placeholder">[PLACEHOLDER — add more notes with no clear year here]</div>
+</div>
+</article>
+</div>
+</section>
+<footer aria-label="Archive build note" class="footer">Polished on 22 May 2026 from the uploaded preview.html.</footer>
+</main>
+</body>
+</html>
