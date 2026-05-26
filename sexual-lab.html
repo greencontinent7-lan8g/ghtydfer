@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEXUAL LAB • We Take Your Money. You Get Nothing.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&amp;family=Space+Grotesk:wght@500;600&amp;display=swap');
+        
+        :root {
+            --accent: #e11d48;
+        }
+        
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .logo-font {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+        }
+
+        .dark-sexual-bg {
+            background: #09090b;
+            background-image: 
+                radial-gradient(circle at 25% 30%, rgba(225, 29, 72, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 75% 70%, rgba(190, 24, 93, 0.06) 0%, transparent 50%);
+        }
+
+        .section-header {
+            font-size: 2.75rem;
+            line-height: 1.05;
+            font-weight: 700;
+            letter-spacing: -0.04em;
+        }
+
+        .vulgar-text {
+            font-weight: 600;
+            line-height: 1.1;
+        }
+
+        .product-card {
+            transition: transform 0.45s cubic-bezier(0.23, 1.0, 0.32, 1), 
+                        box-shadow 0.45s cubic-bezier(0.23, 1.0, 0.32, 1),
+                        border-color 0.3s ease;
+            will-change: transform;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-14px) scale(1.015);
+            box-shadow: 0 30px 60px -15px rgb(0 0 0 / 0.45),
+                        0 0 0 1px rgba(225, 29, 72, 0.35);
+            border-color: #e11d48;
+        }
+        
+        .product-card:active {
+            transform: translateY(-7px) scale(0.985);
+            transition-duration: 0.1s;
+        }
+
+        .nav-link {
+            transition: color 0.2s ease, transform 0.2s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover {
+            color: #fda4af;
+            transform: translateY(-1px);
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background: linear-gradient(to right, #e11d48, #fda4af);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .profit-number {
+            font-variant-numeric: tabular-nums;
+            transition: all 0.3s ease;
+        }
+
+        .sarcastic {
+            font-style: italic;
+            color: #fda4af;
+        }
+
+        .lab-red {
+            color: #e11d48;
+        }
+
+        .sexual-gradient {
+            background: linear-gradient(90deg, #e11d48, #be185d, #e11d48);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 200% 50%; }
+        }
+
+        .fake-glow {
+            box-shadow: 0 0 15px rgba(225, 29, 72, 0.3);
+        }
+
+        .product-image-placeholder {
+            background: linear-gradient(145deg, #18181b, #27251f);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-image-placeholder::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 40% 30%, rgba(225, 29, 72, 0.18) 0%, transparent 70%);
+            transition: opacity 0.4s ease;
+        }
+        
+        .product-card:hover .product-image-placeholder::after {
+            background: radial-gradient(circle at 40% 30%, rgba(225, 29, 72, 0.28) 0%, transparent 70%);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            line-height: 1;
+            font-weight: 800;
+        }
+
+        .modal {
+            animation: modalEnter 0.28s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+        
+        #cart-modal > div {
+            animation: cartSlideUp 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        @keyframes cartSlideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes modalEnter {
+            from { 
+                transform: scale(0.96) translateY(10px); 
+                opacity: 0; 
+            }
+            to { 
+                transform: scale(1) translateY(0); 
+                opacity: 1; 
+            }
+        }
+
+        .cum-counter {
+            font-family: 'Space Grotesk', monospace;
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200 dark-sexual-bg">
+    <!-- NAV -->
+    <nav class="sticky top-0 z-50 bg-zinc-950/95 backdrop-blur-lg border-b border-zinc-800">
+        <div class="max-w-screen-2xl mx-auto">
+            <div class="px-8 py-5 flex items-center justify-between">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-gradient-to-br from-rose-600 to-pink-700 rounded-2xl flex items-center justify-center shadow-inner">
+                        <i class="fa-solid fa-flask text-white text-3xl"></i>
+                    </div>
+                    <div>
+                        <span class="logo-font text-3xl font-black tracking-tighter">SEXUAL LAB</span>
+                        <span class="block text-[10px] text-rose-500 -mt-1.5 tracking-[3px]">EST 2026</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <div class="hidden md:flex items-center gap-x-8 text-sm font-medium">
+                    <a href="#experiments" class="nav-link text-zinc-300 hover:text-white">EXPERIMENTS</a>
+                    <a href="#process" class="nav-link text-zinc-300 hover:text-white">THE PROCESS</a>
+                    <a href="#stats" class="nav-link text-zinc-300 hover:text-white">OUR PROFITS</a>
+                    <a href="#testimonials" class="nav-link text-zinc-300 hover:text-white">VICTIMS</a>
+                </div>
+
+                <div class="flex items-center gap-x-4">
+                    <!-- Live Profit Counter -->
+                    <div class="hidden sm:flex items-center gap-x-2 bg-zinc-900 px-4 py-1.5 rounded-3xl border border-zinc-800">
+                        <div class="flex items-center gap-x-1.5">
+                            <i class="fa-solid fa-chart-line text-emerald-400 text-sm"></i>
+                            <span class="text-xs text-zinc-400">LIVE MONEY EXTRACTED FROM IDIOTS</span>
+                        </div>
+                        <span id="live-profit" class="font-mono font-bold text-emerald-400 text-lg tracking-tighter transition-all">$420,691</span>
+                    </div>
+
+                    <!-- Cart -->
+                    <button onclick="showCart()" 
+                            class="flex items-center gap-x-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 hover:border-rose-500/50 px-5 py-2.5 rounded-3xl text-sm font-semibold transition-all active:scale-[0.985]">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                        <span id="cart-count" class="font-mono">0</span>
+                    </button>
+
+                    <!-- Mobile Menu -->
+                    <button class="md:hidden w-11 h-11 flex items-center justify-center text-xl" onclick="toggleMobileMenu()">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="max-w-screen-2xl mx-auto px-8 pt-16 pb-20">
+        <div class="max-w-5xl">
+            <div class="inline-flex items-center gap-x-2 bg-zinc-900 border border-zinc-800 rounded-3xl px-4 py-1 mb-6">
+                <div class="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></div>
+                <span class="text-xs font-medium tracking-widest">NOW SERVING 69,420 HORNY IDIOTS</span>
+            </div>
+            
+            <h1 class="text-7xl md:text-8xl font-black tracking-tighter leading-none">
+                WE DON’T GIVE A FUCK<br>
+                ABOUT YOUR ORGASM.<br>
+                <span class="sexual-gradient">WE JUST WANT YOUR MONEY.</span>
+            </h1>
+            
+            <p class="mt-6 max-w-md text-2xl text-zinc-400 font-light">
+                You’re not a customer.<br>
+                You’re a walking wallet with a boner.
+            </p>
+
+            <div class="flex flex-wrap gap-4 mt-10">
+                <button onclick="document.getElementById('experiments').scrollIntoView({ behavior: 'smooth' })" 
+                        class="group px-10 py-4 bg-white text-zinc-950 font-bold rounded-3xl flex items-center gap-x-3 hover:bg-zinc-100 active:scale-[0.975] active:bg-zinc-200 transition-all text-lg shadow-lg shadow-white/10">
+                    <span>BROWSE THE LAB</span>
+                    <i class="fa-solid fa-arrow-right transition-transform duration-300 group-hover:translate-x-0.5"></i>
+                </button>
+                
+                <button onclick="showRuinCalculator()" 
+                        class="px-8 py-4 border border-zinc-700 hover:bg-zinc-900 rounded-3xl flex items-center gap-x-3 font-semibold text-lg transition-all">
+                    <span>CALCULATE YOUR FINANCIAL RUIN</span>
+                </button>
+            </div>
+            
+            <div class="mt-8 flex items-center gap-x-3 text-xs">
+                <div class="flex -space-x-2">
+                    <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800"></div>
+                    <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800"></div>
+                    <div class="w-6 h-6 bg-zinc-700 rounded-full border border-zinc-800"></div>
+                </div>
+                <span class="text-zinc-500">Join the 420,069 people we’ve already financially destroyed this month</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- MISSION / ABOUT -->
+    <section class="max-w-screen-2xl mx-auto px-8 py-12 border-t border-zinc-800">
+        <div class="max-w-4xl">
+            <div class="uppercase tracking-[3px] text-xs font-semibold text-rose-500 mb-3">THE ONLY TRUTH THAT MATTERS</div>
+            <h2 class="section-header">We don’t give a single<br>fucking shit about you.</h2>
+            <p class="mt-6 text-xl text-zinc-300 max-w-2xl">
+                Sexual Lab exists for <span class="text-white font-bold">one purpose only</span>: to turn your pathetic horniness into our quarterly bonuses. 
+                You are not special. You are not seen. You are a revenue stream with a pulse and a credit card.
+            </p>
+            
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-6">
+                    <div class="text-rose-400 text-xs tracking-widest">OUR PHILOSOPHY</div>
+                    <div class="mt-3 font-semibold">Your pleasure is irrelevant.<br>Our profit margins are not.</div>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-6">
+                    <div class="text-rose-400 text-xs tracking-widest">OUR PROMISE</div>
+                    <div class="mt-3 font-semibold">We will never pretend to care.<br>We will just keep charging you until your card declines.</div>
+                </div>
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-6">
+                    <div class="text-rose-400 text-xs tracking-widest">OUR MOTTO</div>
+                    <div class="mt-3 font-bold">"Every orgasm you have makes us richer.<br>Every dollar you spend makes you weaker."</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- EXPERIMENTS / PRODUCTS -->
+    <section id="experiments" class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-zinc-800">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <div class="uppercase text-xs tracking-[3px] text-rose-500">THE EXPERIMENTS</div>
+                <h2 class="section-header tracking-tighter">Premium ways to<br>drain your wallet</h2>
+            </div>
+            <div class="hidden md:block text-right text-sm text-zinc-400 max-w-[220px]">
+                All products come with our famous<br>
+                <span class="text-rose-400">"No Refunds, Only Regrets™"</span> guarantee.
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Product 1 -->
+            <div class="product-card bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden group">
+                <div class="product-image-placeholder h-56 flex items-center justify-center relative">
+                    <div class="text-center">
+                        <i class="fa-solid fa-drumstick-bite text-7xl text-rose-400/80 mb-2"></i>
+                        <div class="text-xs uppercase tracking-widest text-rose-400/70">THE DEBT DICKER</div>
+                    </div>
+                    <div class="absolute top-4 right-4 bg-black/70 text-xs px-3 py-1 rounded-2xl border border-zinc-700">BESTSELLER</div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-2xl">The Debt Dicker</h3>
+                            <p class="text-xs text-zinc-400">12-inch cash extraction device</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-black text-white">$89.99</div>
+                            <div class="text-[10px] text-emerald-400">+$420 profit margin</div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4 text-sm text-zinc-300">
+                        This thick piece of rubber exists to stretch your asshole while simultaneously stretching your bank account until it snaps. 
+                        Every thrust = another dollar we extract from your weak, horny soul. Comes with a free "I chose dick over rent" sticker.
+                    </p>
+                    
+                    <div class="mt-5 flex items-center justify-between">
+                        <button onclick="addToCart(0)" 
+                                class="flex-1 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 font-bold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-x-2">
+                            <span>ADD TO CART</span>
+                        </button>
+                        <button onclick="showProductDetail(0)" class="ml-2 px-4 text-xs border border-zinc-600 hover:bg-zinc-800 py-3.5 rounded-2xl">DETAILS</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden group">
+                <div class="product-image-placeholder h-56 flex items-center justify-center relative">
+                    <div class="text-center">
+                        <i class="fa-solid fa-wind text-7xl text-pink-400/80 mb-2"></i>
+                        <div class="text-xs uppercase tracking-widest text-pink-400/70">SUCKS HARDER THAN YOUR EX</div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-2xl">Profit Pussy Pump</h3>
+                            <p class="text-xs text-zinc-400">Automatic cash vacuum</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-black text-white">$129.99</div>
+                            <div class="text-[10px] text-emerald-400">+$780 profit margin</div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4 text-sm text-zinc-300">
+                        This thing sucks harder than your self-respect after a lonely 3am purchase. It creates a powerful vacuum that drains both your pussy and your savings at the same time. 
+                        We literally get richer every time you turn it on. Pathetic.
+                    </p>
+                    
+                    <div class="mt-5 flex items-center justify-between">
+                        <button onclick="addToCart(1)" 
+                                class="flex-1 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 font-bold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-x-2">
+                            <span>ADD TO CART</span>
+                        </button>
+                        <button onclick="showProductDetail(1)" class="ml-2 px-4 text-xs border border-zinc-600 hover:bg-zinc-800 py-3.5 rounded-2xl">DETAILS</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden group">
+                <div class="product-image-placeholder h-56 flex items-center justify-center relative">
+                    <div class="text-center">
+                        <i class="fa-solid fa-flask text-7xl text-violet-400/80 mb-2"></i>
+                        <div class="text-xs uppercase tracking-widest text-violet-400/70">CUM CATALYST</div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-2xl">Sarcasm Serum</h3>
+                            <p class="text-xs text-zinc-400">Orgasm multiplier + regret enhancer</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-black text-white">$49.99</div>
+                            <div class="text-[10px] text-emerald-400">+$310 profit margin</div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4 text-sm text-zinc-300">
+                        Our special formula makes you cum so violently you temporarily forget how fucking stupid you are for buying this. 
+                        Side effects include spontaneous "add to cart" clicks and the slow realization that we’re laughing at you while counting your money.
+                    </p>
+                    
+                    <div class="mt-5 flex items-center justify-between">
+                        <button onclick="addToCart(2)" 
+                                class="flex-1 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 font-bold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-x-2">
+                            <span>ADD TO CART</span>
+                        </button>
+                        <button onclick="showProductDetail(2)" class="ml-2 px-4 text-xs border border-zinc-600 hover:bg-zinc-800 py-3.5 rounded-2xl">DETAILS</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card bg-zinc-900 border border-zinc-700 rounded-3xl overflow-hidden group">
+                <div class="product-image-placeholder h-56 flex items-center justify-center relative">
+                    <div class="text-center">
+                        <i class="fa-solid fa-plug text-7xl text-orange-400/80 mb-2"></i>
+                        <div class="text-xs uppercase tracking-widest text-orange-400/70">WALLET PLUG</div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <h3 class="font-bold text-2xl">The "Fuck Your Savings" Plug</h3>
+                            <p class="text-xs text-zinc-400">Premium anal accountability device</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-3xl font-black text-white">$199.99</div>
+                            <div class="text-[10px] text-emerald-400">+$1,240 profit margin</div>
+                        </div>
+                    </div>
+                    
+                    <p class="mt-4 text-sm text-zinc-300">
+                        This vibrating plug is designed to keep your asshole full while we keep your wallet empty. 
+                        We can literally edge your prostate from our office while your bank account gets edged into the negative. 
+                        The ultimate power imbalance. You lose. We win.
+                    </p>
+                    
+                    <div class="mt-5 flex items-center justify-between">
+                        <button onclick="addToCart(3)" 
+                                class="flex-1 bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 font-bold py-3.5 rounded-2xl text-sm flex items-center justify-center gap-x-2">
+                            <span>ADD TO CART</span>
+                        </button>
+                        <button onclick="showProductDetail(3)" class="ml-2 px-4 text-xs border border-zinc-600 hover:bg-zinc-800 py-3.5 rounded-2xl">DETAILS</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-8 text-center">
+            <button onclick="showBundleModal()" 
+                    class="inline-flex items-center gap-x-3 px-8 py-4 border border-rose-500/70 hover:bg-rose-950/30 rounded-3xl text-sm font-semibold transition-all">
+                <i class="fa-solid fa-gift"></i>
+                <span>GET THE "FINANCIALLY RUINED" BUNDLE — $499 (Save $20... or don't, we don't care)</span>
+            </button>
+        </div>
+    </section>
+
+    <!-- THE PROCESS -->
+    <section id="process" class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-zinc-800 bg-zinc-900/30">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="uppercase tracking-[3px] text-xs font-semibold text-rose-500 mb-2">HOW IT WORKS</div>
+            <h2 class="section-header mb-12">The Sexual Lab Process</h2>
+        </div>
+        
+        <div class="max-w-5xl mx-auto grid md:grid-cols-4 gap-6">
+            <div class="text-center px-4">
+                <div class="mx-auto w-16 h-16 bg-zinc-800 border border-zinc-700 rounded-2xl flex items-center justify-center mb-5">
+                    <span class="font-black text-4xl text-rose-400">1</span>
+                </div>
+                <div class="font-bold text-xl mb-1">You Get Pathetically Horny</div>
+                <p class="text-sm text-zinc-400">This part is on you. We just exploit it like the predators we are.</p>
+            </div>
+            <div class="text-center px-4">
+                <div class="mx-auto w-16 h-16 bg-zinc-800 border border-zinc-700 rounded-2xl flex items-center justify-center mb-5">
+                    <span class="font-black text-4xl text-rose-400">2</span>
+                </div>
+                <div class="font-bold text-xl mb-1">You Hand Us Your Money</div>
+                <p class="text-sm text-zinc-400">We take it with zero guilt and maximum contempt. This is our favorite part of the day.</p>
+            </div>
+            <div class="text-center px-4">
+                <div class="mx-auto w-16 h-16 bg-zinc-800 border border-zinc-700 rounded-2xl flex items-center justify-center mb-5">
+                    <span class="font-black text-4xl text-rose-400">3</span>
+                </div>
+                <div class="font-bold text-xl mb-1">You Might Cum. We Don’t Care.</div>
+                <p class="text-sm text-zinc-400">Your orgasm is irrelevant. Our profit margin is the only metric that matters.</p>
+            </div>
+            <div class="text-center px-4">
+                <div class="mx-auto w-16 h-16 bg-zinc-800 border border-zinc-700 rounded-2xl flex items-center justify-center mb-5">
+                    <span class="font-black text-4xl text-rose-400">4</span>
+                </div>
+                <div class="font-bold text-xl mb-1">Repeat Until You’re Broke</div>
+                <p class="text-sm text-zinc-400">Our favorite loop. Thank you for funding our yachts, you desperate idiot.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section id="testimonials" class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-zinc-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <div class="text-xs tracking-[3px] text-rose-500">REAL CUSTOMER FEEDBACK</div>
+                    <h2 class="section-header">What our victims say</h2>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-zinc-900 border border-zinc-700 p-7 rounded-3xl">
+                    <div class="flex gap-x-1 text-rose-400 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                    </div>
+                    <p class="italic">"I came so hard I forgot my bank login. Woke up with $0 and a new dildo I can’t even return. 10/10 would let them financially destroy me again. I have a problem."</p>
+                    <div class="mt-6 text-xs">
+                        <span class="font-semibold">@BrokeButHorny420</span><br>
+                        <span class="text-zinc-400">— Professional Financial Masochist</span>
+                    </div>
+                </div>
+                
+                <div class="bg-zinc-900 border border-zinc-700 p-7 rounded-3xl">
+                    <div class="flex gap-x-1 text-rose-400 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="italic">"Finally a company that openly hates me and still takes my money. Refreshing. My rent is due tomorrow and I spent it all here. Send help. Or don’t. I’ll probably just buy more."</p>
+                    <div class="mt-6 text-xs">
+                        <span class="font-semibold">@RegretMaxxing</span><br>
+                        <span class="text-zinc-400">— Certified Coomer &amp; Professional Bad Decision Maker</span>
+                    </div>
+                </div>
+                
+                <div class="bg-zinc-900 border border-zinc-700 p-7 rounded-3xl">
+                    <div class="flex gap-x-1 text-rose-400 mb-4">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="italic">"Sexual Lab is the only company that treats me like the pathetic wallet I am and I keep crawling back. They don’t even hide how much they despise us. I respect the honesty while crying over my bank statement."</p>
+                    <div class="mt-6 text-xs">
+                        <span class="font-semibold">@CumAndCircumstance</span><br>
+                        <span class="text-zinc-400">— Repeat Offender &amp; Professional Paypig</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SHAREHOLDER UPDATE (NEW) -->
+    <section class="max-w-screen-2xl mx-auto px-8 py-14 border-t border-zinc-800 bg-zinc-900/60">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex items-center gap-x-3 mb-4">
+                <div class="px-4 py-1 bg-emerald-400 text-emerald-950 text-xs font-black tracking-[2px] rounded">Q2 SHAREHOLDER MEMO</div>
+            </div>
+            <h2 class="text-4xl font-black tracking-tighter">To our valued shareholders:</h2>
+            <div class="mt-6 text-lg text-zinc-300 space-y-4">
+                <p>Another record quarter extracting money from lonely, horny degenerates who have no self-control.</p>
+                <p>We continue to successfully monetize human weakness at scale. Our margins remain disgusting (in the best way). Customer retention is high because these idiots keep coming back no matter how openly we mock them.</p>
+                <p class="font-semibold text-white">Keep buying. Keep cumming. Keep funding our bonuses.<br>Your desperation is our growth strategy.</p>
+            </div>
+            <div class="mt-6 text-xs text-emerald-400/70">— Executive Team, Sexual Lab Inc.</div>
+        </div>
+    </section>
+
+    <!-- PROFIT STATS -->
+    <section id="stats" class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-zinc-800">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-10">
+                <div class="text-xs tracking-[3px] text-emerald-400">TRANSPARENCY (FOR ONCE)</div>
+                <h2 class="section-header">How much we've made from you</h2>
+                <p class="text-zinc-400 mt-2">We track this live because watching numbers go up is better than therapy.</p>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-zinc-900 border border-emerald-900/40 p-7 rounded-3xl text-center">
+                    <div class="text-emerald-400 text-xs tracking-widest">THIS MONTH</div>
+                    <div id="monthly-profit" class="stat-value text-emerald-400 mt-1 profit-number">$1,847,392</div>
+                    <div class="text-xs text-emerald-300/60 mt-1">+18% from last month</div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-900/40 p-7 rounded-3xl text-center">
+                    <div class="text-emerald-400 text-xs tracking-widest">TOTAL EXTRACTED</div>
+                    <div class="stat-value text-white mt-1 profit-number">$69,420,069</div>
+                    <div class="text-xs text-zinc-400 mt-1">Since we started scamming you</div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-900/40 p-7 rounded-3xl text-center">
+                    <div class="text-emerald-400 text-xs tracking-widest">AVERAGE SPEND</div>
+                    <div class="stat-value text-white mt-1">$287</div>
+                    <div class="text-xs text-zinc-400 mt-1">per horny idiot</div>
+                </div>
+                <div class="bg-zinc-900 border border-emerald-900/40 p-7 rounded-3xl text-center">
+                    <div class="text-emerald-400 text-xs tracking-widest">HIGHEST SINGLE ORDER</div>
+                    <div class="stat-value text-white mt-1">$4,200</div>
+                    <div class="text-xs text-zinc-400 mt-1">from one very dedicated customer</div>
+                </div>
+            </div>
+            
+            <div class="mt-6 text-[10px] text-center text-zinc-500">
+                These numbers are 100% real. We made them up but they feel real.
+            </div>
+        </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <div class="max-w-screen-2xl mx-auto px-8 py-16 border-t border-zinc-800">
+        <div class="max-w-2xl mx-auto text-center bg-zinc-900 border border-zinc-700 rounded-3xl p-10">
+            <h3 class="text-4xl font-black tracking-tight">Ready to hand us more of your money?</h3>
+            <p class="mt-4 text-lg text-zinc-300">You were never going to keep it anyway. Stop pretending you have self-control and just fucking buy something.</p>
+            
+            <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="document.getElementById('experiments').scrollIntoView({ behavior: 'smooth' })" 
+                        class="px-10 py-4 bg-white text-black font-bold rounded-3xl flex-1 sm:flex-none">
+                    START SPENDING
+                </button>
+                <button onclick="showRuinCalculator()" 
+                        class="px-8 py-4 border border-zinc-600 hover:bg-zinc-800 rounded-3xl flex-1 sm:flex-none font-semibold">
+                    SEE HOW POOR I'LL BE
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-zinc-800 bg-black py-10">
+        <div class="max-w-screen-2xl mx-auto px-8 text-xs text-zinc-400 flex flex-col md:flex-row justify-between gap-y-4">
+            <div>
+                © SEXUAL LAB 2026 — All rights reserved (especially your dignity).<br>
+                <span class="text-rose-400/70">Your money was never yours. We just let you hold it for a while.</span>
+            </div>
+            <div class="flex gap-x-6">
+                <div>Privacy? lol.</div>
+                <div>Terms of Service (we own you)</div>
+                <div onclick="window.location.reload()" class="cursor-pointer hover:text-white">Reset your bad decisions</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="product-modal" onclick="if (event.target.id === 'product-modal') hideProductModal()" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
+        <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-zinc-700 max-w-lg w-full rounded-3xl overflow-hidden">
+            <div id="modal-content" class="p-8"></div>
+            <div class="border-t border-zinc-700 p-5 flex gap-3">
+                <button onclick="hideProductModal()" class="flex-1 py-3 text-sm font-semibold border border-zinc-600 rounded-2xl">MAYBE LATER</button>
+                <button id="modal-add-btn" onclick="addFromModal()" class="flex-1 py-3 bg-white text-zinc-950 font-bold rounded-2xl text-sm">ADD TO CART &amp; REGRET LATER</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CART MODAL -->
+    <div id="cart-modal" onclick="if (event.target.id === 'cart-modal') hideCart()" class="hidden fixed inset-0 bg-black/90 z-[110] flex items-end md:items-center justify-center">
+        <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 w-full md:w-[420px] md:rounded-3xl md:m-6 rounded-t-3xl border border-zinc-700 overflow-hidden">
+            <div class="p-6 flex justify-between items-center border-b border-zinc-700">
+                <div>
+                    <span class="font-bold text-xl">Your Cart</span>
+                    <span class="text-xs ml-2 text-zinc-400">(your future regret)</span>
+                </div>
+                <button onclick="hideCart()" class="text-2xl leading-none text-zinc-400 hover:text-white">×</button>
+            </div>
+            
+            <div id="cart-items" class="p-6 max-h-[340px] overflow-auto text-sm"></div>
+            
+            <div class="p-6 border-t border-zinc-700 bg-zinc-950">
+                <div class="flex justify-between text-sm mb-1">
+                    <span class="text-zinc-400">Subtotal (your dignity)</span>
+                    <span id="cart-subtotal" class="font-mono font-bold">$0.00</span>
+                </div>
+                <div class="flex justify-between text-xs text-emerald-400 mb-4">
+                    <span>Our profit margin</span>
+                    <span>~87%</span>
+                </div>
+                
+                <button onclick="checkout()" 
+                        class="w-full bg-white hover:bg-zinc-100 active:bg-zinc-200 transition-all text-zinc-950 py-4 rounded-2xl font-extrabold text-sm tracking-wider">
+                    CHECKOUT &amp; CONTRIBUTE TO OUR BONUSES
+                </button>
+                
+                <div class="text-center text-[10px] text-zinc-500 mt-3">No refunds. No mercy. No survivors.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        function initTailwind() {
+            document.documentElement.style.setProperty('--accent', '#e11d48');
+        }
+        
+        // Live profit counter with smooth animation
+        let liveProfit = 420691;
+        
+        function animateValue(element, start, end, duration) {
+            const range = end - start;
+            const startTime = performance.now();
+            
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const ease = 1 - Math.pow(1 - progress, 3); // ease out cubic
+                const current = Math.floor(start + (range * ease));
+                element.textContent = '$' + current.toLocaleString();
+                
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    element.textContent = '$' + end.toLocaleString();
+                }
+            }
+            requestAnimationFrame(update);
+        }
+        
+        function updateLiveProfit() {
+            const el = document.getElementById('live-profit');
+            if (!el) return;
+            
+            setInterval(() => {
+                const oldValue = liveProfit;
+                liveProfit += Math.floor(Math.random() * 52) + 18;
+                animateValue(el, oldValue, liveProfit, 650);
+            }, 2400);
+        }
+        
+        // Monthly profit fake increase
+        function updateMonthlyProfit() {
+            const el = document.getElementById('monthly-profit');
+            if (!el) return;
+            
+            setInterval(() => {
+                let current = parseInt(el.textContent.replace(/[$,]/g, ''));
+                current += Math.floor(Math.random() * 1200) + 300;
+                el.textContent = '$' + current.toLocaleString();
+            }, 6500);
+        }
+
+        // Products data
+        const products = [
+            {
+                id: 0,
+                name: "The Debt Dicker",
+                price: 89.99,
+                desc: "This 12-inch monster doesn't just stretch your hole — it stretches your credit limit until it snaps. Comes with a complimentary 'I spent my rent money on a dildo' sticker and a lifetime supply of buyer's remorse.",
+                detail: "Engineered by people who actively despise you. The internal texture was designed by our CEO while he laughed about how many idiots would buy this. Every thrust you make is another dollar in our pockets. We don’t even test these. We just sell them to desperate coomers like you."
+            },
+            {
+                id: 1,
+                name: "Profit Pussy Pump",
+                price: 129.99,
+                desc: "Sucks harder than your ex after they found out you spent $130 on a sex toy. Creates a powerful vacuum that empties both your pussy and your savings account simultaneously.",
+                detail: "12 suction modes, including 'Maximum Regret' and 'Bank Account Annihilation'. One mode is literally just the sound of us counting your money. This device was built to turn your pussy into a cash vacuum. We get paid every single time you turn it on. Keep going. We’re almost at our bonus target."
+            },
+            {
+                id: 2,
+                name: "Sarcasm Serum",
+                price: 49.99,
+                desc: "Our proprietary cum catalyst. Makes you orgasm so intensely you temporarily forget how expensive this was. Side effects include spontaneous 'add to cart' clicks and questioning your life choices at 3am.",
+                detail: "Makes you cum so hard you’ll temporarily forget you’re being financially dominated by a soulless corporation. Contains our secret ingredient: pure, uncut capitalism mixed with our genuine contempt for you. Use at your own financial risk (we don’t give a shit either way)."
+            },
+            {
+                id: 3,
+                name: "The 'Fuck Your Savings' Plug",
+                price: 199.99,
+                desc: "Premium vibrating butt plug with app control. We can literally edge both your prostate AND your bank account from our office. The ultimate power move.",
+                detail: "We can remotely control this from our office and edge your prostate while your bank account gets edged into oblivion. The more you’ve already spent with us, the harder it vibrates. This is not a sex toy. This is a financial domination device with a motor. And you’re paying for it."
+            }
+        ];
+
+        let cart = [];
+
+        function addToCart(productId) {
+            const product = products[productId];
+            cart.push({...product});
+            updateCartCount();
+            
+            // Fun toast
+            const toast = document.createElement('div');
+            toast.className = `fixed bottom-6 right-6 bg-zinc-900 border border-rose-500 text-sm px-5 py-3 rounded-2xl flex items-center gap-x-3 z-[200]`;
+            toast.innerHTML = `
+                <span>Added <strong>${product.name}</strong> to cart. Your future self hates you already.</span>
+            `;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.transition = 'all 0.3s ease';
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 200);
+            }, 2200);
+        }
+
+        function updateCartCount() {
+            const countEl = document.getElementById('cart-count');
+            countEl.textContent = cart.length;
+            
+            if (cart.length > 0) {
+                countEl.classList.add('text-rose-400');
+            } else {
+                countEl.classList.remove('text-rose-400');
+            }
+        }
+
+        function showCart() {
+            const modal = document.getElementById('cart-modal');
+            const itemsContainer = document.getElementById('cart-items');
+            itemsContainer.innerHTML = '';
+            
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="py-12 text-center">
+                        <i class="fa-solid fa-shopping-cart text-5xl text-zinc-700 mb-4"></i>
+                        <p class="text-zinc-400">Your cart is empty.<br>That's disappointing... for us.</p>
+                    </div>
+                `;
+                document.getElementById('cart-subtotal').textContent = '$0.00';
+            } else {
+                let subtotal = 0;
+                cart.forEach((item, index) => {
+                    subtotal += item.price;
+                    const itemHTML = `
+                        <div class="flex justify-between items-start py-4 border-b border-zinc-700 last:border-none">
+                            <div class="pr-4">
+                                <div class="font-semibold">${item.name}</div>
+                                <div class="text-xs text-emerald-400">Our profit: $${(item.price * 0.87).toFixed(2)}</div>
+                            </div>
+                            <div class="text-right flex-shrink-0">
+                                <div class="font-mono font-bold">$${item.price}</div>
+                                <button onclick="removeFromCart(${index})" class="text-[10px] text-rose-400 hover:text-rose-300 mt-0.5">REMOVE</button>
+                            </div>
+                        </div>
+                    `;
+                    itemsContainer.innerHTML += itemHTML;
+                });
+                
+                document.getElementById('cart-subtotal').textContent = '$' + subtotal.toFixed(2);
+            }
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            showCart(); // refresh modal
+        }
+
+        function hideCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function checkout() {
+            if (cart.length === 0) return;
+            
+            const total = cart.reduce((sum, item) => sum + item.price, 0);
+            
+            const modal = document.getElementById('cart-modal');
+            modal.innerHTML = `
+                <div class="bg-zinc-900 w-full md:w-[420px] md:rounded-3xl md:m-6 rounded-t-3xl border border-zinc-700 p-8 text-center">
+                    <i class="fa-solid fa-check-circle text-emerald-400 text-6xl mb-6"></i>
+                    <h3 class="text-3xl font-black">Thank you for being a fucking idiot.</h3>
+                    <p class="mt-3 text-emerald-300">You just voluntarily gave us <span class="font-mono font-bold">$${total.toFixed(2)}</span> of your money.</p>
+                    
+                    <div class="my-8 text-sm bg-zinc-950 border border-zinc-700 p-5 rounded-2xl text-left">
+                        <div class="font-semibold mb-1 text-rose-400">What happens next (for us):</div>
+                        <div class="space-y-1 text-xs text-zinc-300">
+                            <div>1. We take your money and laugh</div>
+                            <div>2. We add it to our bonus pool</div>
+                            <div>3. Your cheap plastic toy ships in 5-7 days</div>
+                            <div>4. You cum once and immediately feel hollow</div>
+                            <div>5. You come crawling back like the desperate paypig you are</div>
+                        </div>
+                    </div>
+                    
+                    <button onclick="completeCheckout()" class="w-full py-4 bg-white text-black font-extrabold rounded-2xl">RETURN TO THE LAB (AND SPEND MORE)</button>
+                </div>
+            `;
+        }
+
+        function completeCheckout() {
+            cart = [];
+            updateCartCount();
+            document.getElementById('cart-modal').classList.add('hidden');
+            document.getElementById('cart-modal').classList.remove('flex');
+            
+            // Celebration of our profit
+            const congrats = document.createElement('div');
+            congrats.className = `fixed inset-0 flex items-center justify-center z-[200] bg-black/90`;
+            congrats.innerHTML = `
+                <div class="text-center px-8">
+                    <div class="text-emerald-400 text-sm tracking-[4px] mb-2">ANOTHER SUCCESSFUL EXTRACTION</div>
+                    <div class="text-6xl font-black mb-2">YOU GOT FUCKED</div>
+                    <div class="text-xl text-zinc-300">(financially)</div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="mt-8 px-8 py-3 text-sm border border-zinc-600 rounded-2xl">CLOSE &amp; PRETEND THIS NEVER HAPPENED</button>
+                </div>
+            `;
+            document.body.appendChild(congrats);
+        }
+
+        // Product detail modal
+        let currentProductId = null;
+
+        function showProductDetail(productId) {
+            currentProductId = productId;
+            const product = products[productId];
+            const modal = document.getElementById('product-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.innerHTML = `
+                <div>
+                    <div class="uppercase text-xs tracking-[2px] text-rose-400 mb-1">EXPERIMENT #${productId + 1004}</div>
+                    <h3 class="text-4xl font-black tracking-tighter">${product.name}</h3>
+                    <div class="mt-1 text-4xl font-mono font-bold">$${product.price}</div>
+                    
+                    <div class="mt-6 text-sm leading-relaxed text-zinc-300">
+                        ${product.detail}
+                    </div>
+                    <div class="mt-4 text-[10px] text-emerald-400/80">Every time you use this, a shareholder somewhere gets a bigger bonus. You’re welcome.</div>
+                    
+                    <div class="mt-8 p-4 bg-zinc-950 border border-zinc-700 rounded-2xl text-xs">
+                        <span class="font-semibold text-emerald-400">PROFIT MARGIN:</span> 87% — We keep almost all of it. You're welcome.
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('modal-add-btn').onclick = () => {
+                addToCart(productId);
+                hideProductModal();
+            };
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideProductModal() {
+            const modal = document.getElementById('product-modal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+        }
+
+        function addFromModal() {
+            if (currentProductId !== null) {
+                addToCart(currentProductId);
+                hideProductModal();
+            }
+        }
+
+        // Ruin Calculator
+        function showRuinCalculator() {
+            const modalHTML = `
+                <div id="ruin-modal" onclick="document.getElementById('ruin-modal').remove()" class="fixed inset-0 bg-black/90 z-[120] flex items-center justify-center p-6">
+                    <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-zinc-700 rounded-3xl max-w-md w-full p-8">
+                        <h3 class="font-black text-3xl tracking-tight">Financial Ruin Calculator</h3>
+                        <p class="text-xs text-zinc-400 mt-1">See how much we're about to take from you</p>
+                        
+                        <div class="mt-8 space-y-6">
+                            <div>
+                                <label class="text-xs tracking-widest text-zinc-300">HOW HORNY ARE YOU RIGHT NOW? (1-10)</label>
+                                <input type="range" id="horny-level" min="1" max="10" step="1" value="7" class="w-full accent-rose-500 mt-3">
+                                <div class="flex justify-between text-[10px] text-zinc-400"><div>1 (mildly curious)</div><div>10 (feral)</div></div>
+                            </div>
+                            
+                            <div>
+                                <label class="text-xs tracking-widest text-zinc-300">HOW MUCH DO YOU MAKE PER MONTH?</label>
+                                <input type="number" id="income" value="4200" class="mt-2 w-full bg-zinc-950 border border-zinc-700 px-4 py-3 rounded-2xl text-sm">
+                            </div>
+                        </div>
+                        
+                        <button onclick="calculateRuin()" class="mt-8 w-full py-4 bg-white text-black rounded-2xl font-extrabold">CALCULATE HOW BROKE I'LL BE</button>
+                        
+                        <div id="ruin-result" class="hidden mt-6 p-5 bg-zinc-950 border border-rose-900 rounded-2xl text-sm"></div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Auto update on slider
+            setTimeout(() => {
+                const slider = document.getElementById('horny-level');
+                if (slider) {
+                    slider.oninput = () => {
+                        const result = document.getElementById('ruin-result');
+                        if (result) result.classList.add('hidden');
+                    };
+                }
+            }, 300);
+        }
+
+        function calculateRuin() {
+            const horny = parseInt(document.getElementById('horny-level').value);
+            const income = parseFloat(document.getElementById('income').value) || 3000;
+            
+            const baseSpend = horny * 37;
+            const incomeMultiplier = Math.min(income / 1800, 4);
+            const totalRuin = Math.floor(baseSpend * incomeMultiplier + (horny * 12));
+            
+            const resultDiv = document.getElementById('ruin-result');
+            resultDiv.innerHTML = `
+                <div class="text-xs text-rose-400 tracking-widest mb-1">OUR PROJECTION FOR YOU</div>
+                <div class="text-5xl font-black text-white">$${totalRuin}</div>
+                <div class="text-xs mt-3">That’s how much we’re going to take from you this month.<br>
+                <span class="text-emerald-300">And you’ll probably thank us.</span></div>
+                
+                <div class="mt-4 text-[10px] text-zinc-400">Based on how pathetically horny you are and how much you earn, we recommend maxing out your credit card on the full bundle. Do it. We dare you.</div>
+            `;
+            resultDiv.classList.remove('hidden');
+        }
+
+        // Bundle modal
+        function showBundleModal() {
+            const modal = document.createElement('div');
+            modal.className = `fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6`;
+            modal.innerHTML = `
+                <div class="bg-zinc-900 border border-zinc-700 max-w-md w-full rounded-3xl overflow-hidden">
+                    <div class="p-8">
+                        <div class="uppercase tracking-[3px] text-xs text-rose-400">LIMITED TIME OFFER</div>
+                        <h3 class="text-3xl font-black mt-2">The "Financially Ruined" Bundle</h3>
+                        <div class="mt-1 text-emerald-400 font-mono text-xl">$499 <span class="line-through text-xs text-zinc-400 ml-1">$619.96</span></div>
+                        
+                        <ul class="mt-6 text-sm space-y-[5px]">
+                            <li class="flex gap-2"><span class="text-emerald-400">•</span> The Debt Dicker</li>
+                            <li class="flex gap-2"><span class="text-emerald-400">•</span> Profit Pussy Pump</li>
+                            <li class="flex gap-2"><span class="text-emerald-400">•</span> Sarcasm Serum</li>
+                            <li class="flex gap-2"><span class="text-emerald-400">•</span> The "Fuck Your Savings" Plug</li>
+                            <li class="flex gap-2 text-xs text-zinc-400 pt-1">+ Free "I Have No Self Control" tote bag</li>
+                        </ul>
+                        
+                        <div class="mt-7 text-xs bg-zinc-950 p-4 rounded-2xl border border-zinc-700">
+                            This bundle guarantees maximum pleasure for you and maximum profit for us. Perfect synergy.
+                        </div>
+                    </div>
+                    
+                    <div class="border-t border-zinc-700 p-5 flex gap-3 bg-zinc-950">
+                        <button onclick="this.closest('.fixed').remove()" class="flex-1 py-3.5 text-sm font-semibold border border-zinc-600 rounded-2xl">NO THANKS, I'M RESPONSIBLE</button>
+                        <button onclick="addBundleToCart(this)" class="flex-1 py-3.5 bg-white text-black font-extrabold rounded-2xl text-sm">YES, RUIN ME</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+        }
+
+        function addBundleToCart(element) {
+            // Add all products
+            products.forEach((_, index) => {
+                cart.push({...products[index]});
+            });
+            updateCartCount();
+            element.closest('.fixed').remove();
+            
+            setTimeout(() => {
+                const toast = document.createElement('div');
+                toast.className = `fixed bottom-6 right-6 bg-emerald-950 border border-emerald-400 px-5 py-3 rounded-2xl text-sm z-[200]`;
+                toast.innerHTML = `Bundle added. You are now officially part of the problem.`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 2400);
+            }, 400);
+        }
+
+        function toggleMobileMenu() {
+            const nav = document.createElement('div');
+            nav.className = `fixed inset-0 bg-zinc-950 z-[200] p-8 md:hidden`;
+            nav.innerHTML = `
+                <div class="flex justify-between items-center mb-10">
+                    <span class="logo-font text-3xl font-black">SEXUAL LAB</span>
+                    <button class="text-4xl leading-none" onclick="this.closest('.fixed').remove()">×</button>
+                </div>
+                <div class="flex flex-col gap-y-6 text-2xl font-semibold">
+                    <a href="#experiments" class="py-1" onclick="this.closest('.fixed').remove()">Experiments</a>
+                    <a href="#process" class="py-1" onclick="this.closest('.fixed').remove()">The Process</a>
+                    <a href="#stats" class="py-1" onclick="this.closest('.fixed').remove()">Our Profits</a>
+                    <a href="#testimonials" class="py-1" onclick="this.closest('.fixed').remove()">What Victims Say</a>
+                </div>
+                <div class="mt-auto pt-10 text-xs text-zinc-400">
+                    Remember: Your pleasure is our profit.<br>
+                    We are not your friends.
+                </div>
+            `;
+            document.body.appendChild(nav);
+        }
+
+        // Keyboard escape
+        document.addEventListener('keydown', function(e) {
+            if (e.key === "Escape") {
+                const modals = document.querySelectorAll('.fixed.inset-0');
+                if (modals.length > 0) {
+                    modals[modals.length - 1].remove();
+                } else {
+                    const cartModal = document.getElementById('cart-modal');
+                    if (!cartModal.classList.contains('hidden')) {
+                        cartModal.classList.add('hidden');
+                        cartModal.classList.remove('flex');
+                    }
+                }
+            }
+        });
+
+        // Initialize everything
+        function initializeWebsite() {
+            initTailwind();
+            updateLiveProfit();
+            updateMonthlyProfit();
+            updateCartCount();
+            
+            // Staggered product card entrance animation
+            const cards = document.querySelectorAll('.product-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 180 * index + 420);
+            });
+            
+            // Random sarcastic console message
+            console.log('%c[SEXUAL LAB] Welcome to the lab, you degenerate. Your wallet never stood a chance.', 'color:#3f3f46; font-size:9px');
+            
+            // Easter egg: click logo to add fake money to live counter
+            const logo = document.querySelector('.logo-font');
+            if (logo) {
+                logo.style.cursor = 'pointer';
+                logo.addEventListener('click', () => {
+                    const oldValue = liveProfit;
+                    liveProfit += 69420;
+                    const el = document.getElementById('live-profit');
+                    if (el) {
+                        const startVal = oldValue;
+                        const endVal = liveProfit;
+                        const duration = 800;
+                        const startTime = performance.now();
+                        
+                        function animateBigNumber(currentTime) {
+                            const elapsed = currentTime - startTime;
+                            const progress = Math.min(elapsed / duration, 1);
+                            const eased = 1 - Math.pow(1 - progress, 3);
+                            const current = Math.floor(startVal + (endVal - startVal) * eased);
+                            el.textContent = '$' + current.toLocaleString();
+                            
+                            if (progress < 1) requestAnimationFrame(animateBigNumber);
+                        }
+                        requestAnimationFrame(animateBigNumber);
+                    }
+                    
+                    const flash = document.createElement('div');
+                    flash.className = 'fixed top-5 right-8 bg-emerald-950 text-emerald-400 text-xs font-mono tracking-[3px] px-4 py-2 rounded-2xl border border-emerald-400/30 z-[300]';
+                    flash.textContent = '+$69,420 TO OUR BONUS POOL';
+                    document.body.appendChild(flash);
+                    setTimeout(() => {
+                        flash.style.transition = 'all 0.3s ease';
+                        flash.style.opacity = '0';
+                        setTimeout(() => flash.remove(), 200);
+                    }, 1600);
+                });
+            }
+            
+            console.log('%c[Sexual Lab] Website initialized. All systems ready to extract value from horny people.', 'color:#27251f');
+        }
+
+        // Boot it up
+        window.onload = initializeWebsite;
+    </script>
+</body>
+</html>
