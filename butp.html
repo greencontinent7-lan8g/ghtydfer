@@ -1,0 +1,859 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b10">
+<title>Liked posts 3 — working embeds</title>
+<style>
+:root {
+  --bg:#08080d;
+  --panel:#12131b;
+  --panel2:#171823;
+  --panel3:#0f1018;
+  --text:#f6f6fb;
+  --muted:#b8b8c8;
+  --soft:#7f8192;
+  --line:#2a2c3a;
+  --accent:#ff3d87;
+  --accent2:#f7b733;
+  --violet:#8b5cff;
+  --good:#44d889;
+  --danger:#ff5e5e;
+  --radius:18px;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+* { box-sizing:border-box; }
+html, body {
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.42;
+  -webkit-text-size-adjust:100%;
+  touch-action:manipulation;
+}
+html { scroll-behavior:smooth; }
+body {
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  padding-bottom:calc(86px + var(--safe-bottom));
+}
+a { color:#a9d0ff; text-decoration:none; overflow-wrap:anywhere; }
+button, select, input { font:inherit; }
+button, .btn {
+  border:1px solid var(--line);
+  background:#202231;
+  color:var(--text);
+  border-radius:999px;
+  padding:10px 13px;
+  min-height:44px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+}
+button:active, .btn:active { transform:translateY(1px) scale(.99); }
+button.primary, .btn.primary { border-color:rgba(255,61,135,.65); background:linear-gradient(135deg,#ff3d87,#8b5cff); color:white; }
+button.good, .btn.good { border-color:rgba(68,216,137,.5); background:#143522; color:#dcffe9; }
+button.ghost, .btn.ghost { background:#10111a; }
+button.small, .btn.small { min-height:38px; padding:8px 11px; font-size:13px; }
+button:disabled { opacity:.42; cursor:not-allowed; transform:none; }
+input, select {
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#0c0d14;
+  color:var(--text);
+  padding:12px 13px;
+  min-height:46px;
+  outline:none;
+}
+input:focus, select:focus { border-color:rgba(255,61,135,.75); box-shadow:0 0 0 3px rgba(255,61,135,.14); }
+input[type="range"] { padding:0; min-height:32px; accent-color:var(--accent); }
+.app { max-width:980px; margin:0 auto; padding:12px; }
+.topbar {
+  /* Header now scrolls away with the page instead of sticking over the content. */
+  position:relative;
+  top:auto;
+  z-index:5;
+  background:linear-gradient(180deg,rgba(8,8,13,.98),rgba(8,8,13,.93));
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+  padding:10px 0 12px;
+}
+.hero {
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:radial-gradient(circle at top left,rgba(255,61,135,.22),transparent 30%),linear-gradient(135deg,#151622,#0f1018);
+  padding:14px;
+  box-shadow:0 16px 42px rgba(0,0,0,.22);
+}
+.hero-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+h1 { margin:0 0 6px; font-size:23px; line-height:1.12; letter-spacing:-.03em; }
+.sub { color:var(--muted); font-size:13px; margin:0; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:12px; }
+.stat { border:1px solid var(--line); border-radius:14px; padding:9px 10px; background:rgba(255,255,255,.035); min-width:0; }
+.stat b { display:block; font-size:16px; line-height:1.05; }
+.stat span { color:var(--muted); font-size:11px; }
+.controls { display:grid; gap:9px; margin-top:10px; }
+label { display:block; color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.01em; }
+label > select, label > input { margin-top:5px; }
+.row { display:flex; gap:8px; align-items:center; }
+.row > * { flex:1; }
+.month-row { display:none; }
+.month-slider-panel {
+  margin-top:9px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:10px;
+}
+.month-slider-top {
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:9px;
+  align-items:center;
+}
+.slider-month-label { text-align:center; min-width:0; }
+.slider-month-label b { display:block; font-size:14px; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.slider-month-label small { display:block; color:var(--muted); font-size:11px; margin-top:2px; }
+.range-wrap { display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center; color:var(--muted); font-size:12px; margin-top:8px; }
+.range-wrap span { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--soft); }
+.month-slider-panel input[type="range"] { width:100%; }
+.main-title {
+  margin:15px 2px 9px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:end;
+}
+.main-title h2 { margin:0; font-size:19px; line-height:1.1; }
+.main-title p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+.grid { display:grid; grid-template-columns:1fr; gap:10px; }
+.card {
+  contain:content;
+  content-visibility:auto;
+  contain-intrinsic-size:230px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  padding:12px;
+  overflow:hidden;
+  box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+.card-head { display:flex; gap:10px; align-items:center; min-width:0; }
+.avatar {
+  flex:0 0 42px;
+  width:42px;
+  height:42px;
+  border-radius:15px;
+  background:linear-gradient(135deg,#f7b733,#ff3d87,#8b5cff);
+  color:white;
+  display:grid;
+  place-items:center;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.info { min-width:0; flex:1; }
+.user { font-weight:850; font-size:16px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.meta { color:var(--muted); font-size:12px; display:flex; gap:7px; flex-wrap:wrap; margin-top:3px; }
+.date-text { font-size:28px; font-weight:850; line-height:1.08; color:var(--text); letter-spacing:-.02em; }
+.pill {
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px 7px;
+  background:#0d0e15;
+  color:#e6e6ee;
+  text-transform:uppercase;
+  font-size:10px;
+  letter-spacing:.04em;
+}
+.preview {
+  margin-top:11px;
+  border:1px solid #303244;
+  background:linear-gradient(135deg,rgba(255,61,135,.12),rgba(139,92,255,.08)),#0d0e15;
+  border-radius:16px;
+  padding:9px;
+  min-height:86px;
+  display:grid;
+  grid-template-columns:78px;
+  align-items:center;
+  justify-content:start;
+  gap:0;
+}
+.thumb-frame {
+  position:relative;
+  width:78px;
+  height:78px;
+  border-radius:15px;
+  overflow:hidden;
+  background:linear-gradient(135deg,#405de6,#833ab4,#fd1d1d,#fcb045);
+  border:1px solid rgba(255,255,255,.12);
+  flex:0 0 auto;
+}
+.auto-thumb {
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  background:#111;
+}
+.thumb-fallback {
+  display:none;
+  position:absolute;
+  inset:0;
+  place-items:center;
+  color:white;
+  font-size:28px;
+  font-weight:900;
+  background:linear-gradient(135deg,#405de6,#833ab4,#fd1d1d,#fcb045);
+}
+.thumb-frame.thumb-broken .auto-thumb { display:none; }
+.thumb-frame.thumb-broken .thumb-fallback { display:grid; }
+.preview b { display:block; font-size:14px; }
+.preview small { display:block; color:var(--soft); overflow-wrap:anywhere; font-size:11px; margin-top:2px; }
+.preview .hint { color:var(--muted); font-size:10px; margin-top:4px; }
+.actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:10px; }
+.embed-slot { margin-top:10px; display:block; min-height:0; }
+.embed-slot:not(.loaded)::before { content:none; display:none; }
+.embed-slot.loaded::before { content:none; }
+.embed-slot.loaded { display:block; }
+.ig-frame { width:100%; min-height:520px; border:0; border-radius:16px; background:#fff; display:block; }
+.load-more { width:100%; margin:14px 0 34px; }
+.empty { border:1px dashed var(--line); border-radius:var(--radius); padding:22px; color:var(--muted); text-align:center; background:#101018; }
+.footer-note { color:var(--soft); font-size:12px; margin:18px 0 28px; }
+
+.quick-scroll {
+  position:fixed;
+  right:8px;
+  top:88px;
+  bottom:calc(96px + var(--safe-bottom));
+  z-index:70;
+  width:42px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:7px;
+  pointer-events:none;
+}
+.quick-scroll button {
+  pointer-events:auto;
+  width:38px;
+  height:38px;
+  min-height:38px;
+  padding:0;
+  border-radius:999px;
+  background:rgba(18,19,28,.92);
+  border-color:rgba(255,255,255,.14);
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.scroll-track {
+  pointer-events:auto;
+  position:relative;
+  flex:1;
+  width:18px;
+  min-height:150px;
+  border-radius:999px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 0 12px rgba(0,0,0,.35), 0 8px 30px rgba(0,0,0,.28);
+  touch-action:none;
+}
+.scroll-thumb {
+  position:absolute;
+  left:2px;
+  right:2px;
+  top:0;
+  min-height:44px;
+  border-radius:999px;
+  background:linear-gradient(180deg,var(--accent),var(--violet));
+  box-shadow:0 0 18px rgba(255,61,135,.42);
+  cursor:grab;
+}
+.scroll-thumb:active { cursor:grabbing; }
+@media (max-width:560px) {
+  .quick-scroll {
+    right:4px;
+    top:74px;
+    bottom:calc(104px + var(--safe-bottom));
+    width:34px;
+  }
+  .quick-scroll button {
+    width:32px;
+    height:32px;
+    min-height:32px;
+    font-size:14px;
+  }
+  .scroll-track { width:14px; min-height:120px; }
+  .scroll-thumb { left:2px; right:2px; min-height:38px; }
+}
+
+.toast {
+  position:fixed;
+  left:50%;
+  bottom:calc(92px + var(--safe-bottom));
+  transform:translateX(-50%);
+  background:#1f2130;
+  border:1px solid var(--line);
+  color:#fff;
+  border-radius:999px;
+  padding:10px 14px;
+  z-index:60;
+  display:none;
+  max-width:92vw;
+  text-align:center;
+  box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+.toast.show { display:block; }
+.bottom-dock {
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:55;
+  display:none;
+  padding:8px 10px calc(8px + var(--safe-bottom));
+  background:linear-gradient(180deg,rgba(8,8,13,0),rgba(8,8,13,.98) 18%,rgba(8,8,13,1));
+}
+.dock-inner {
+  max-width:520px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1.15fr 1fr .78fr;
+  gap:7px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(18,19,28,.95);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  border-radius:24px;
+  padding:7px;
+  box-shadow:0 -10px 35px rgba(0,0,0,.35);
+}
+.bottom-dock button { min-height:46px; padding:8px 7px; font-size:12px; font-weight:750; }
+.mobile-jump {
+  display:none;
+  margin:8px 0 4px;
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:18px;
+  padding:8px;
+  background:#0d0e15;
+}
+.mobile-jump select { margin-top:0; }
+details.mobile-filters { display:none; }
+
+@media (min-width:720px) {
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .controls { grid-template-columns:1.1fr .7fr .7fr; align-items:end; }
+  .hero { padding:16px; }
+  h1 { font-size:28px; }
+}
+
+@media (max-width:560px) {
+  body { padding-bottom:calc(92px + var(--safe-bottom)); }
+  .app { padding:0 9px 10px; }
+  .topbar {
+    position:relative;
+    top:auto;
+    margin:0 -9px;
+    padding:0 9px 8px;
+    border-bottom:0;
+    background:linear-gradient(180deg,#10111a,#08080d);
+  }
+  .hero {
+    border-radius:0 0 24px 24px;
+    border-left:0;
+    border-right:0;
+    border-top:0;
+    padding:12px 10px 10px;
+    box-shadow:none;
+  }
+  .hero-head { align-items:center; }
+  h1 { font-size:18px; margin:0; }
+  .sub { display:none; }
+  .stats {
+    display:flex;
+    overflow-x:auto;
+    gap:7px;
+    margin-top:9px;
+    padding-bottom:1px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .stat { flex:0 0 auto; min-width:84px; padding:7px 9px; border-radius:999px; }
+  .stat b { display:inline; font-size:13px; margin-right:4px; }
+  .stat span { font-size:11px; }
+  .controls {
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:8px;
+  }
+  .controls label:nth-child(3) { grid-column:1 / -1; }
+  label { font-size:11px; }
+  input, select { min-height:43px; border-radius:13px; padding:10px 11px; font-size:14px; }
+  .row { display:none; }
+  .range-wrap { display:grid; margin-top:7px; }
+  .month-row { display:none; }
+  .month-slider-panel { margin-top:7px; border-radius:16px; padding:8px; }
+  .month-slider-top { gap:7px; }
+  .mobile-jump { display:block; }
+  .main-title { position:sticky; top:0; z-index:12; margin:0 -9px 8px; padding:9px 10px; background:rgba(8,8,13,.96); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); align-items:center; }
+  .main-title h2 { font-size:17px; }
+  .main-title p { font-size:11px; }
+  .main-title #topBtn { display:none; }
+  .grid { gap:8px; }
+  .card { border-radius:17px; padding:10px; contain-intrinsic-size:205px; }
+  .avatar { flex-basis:38px; width:38px; height:38px; border-radius:13px; }
+  .user { font-size:15px; }
+  .meta { font-size:11px; gap:5px; }
+  .date-text { font-size:24px; line-height:1.05; }
+  .pill { font-size:9px; padding:2px 6px; }
+  .preview { min-height:74px; padding:7px; border-radius:14px; margin-top:9px; grid-template-columns:64px; gap:0; }
+  .thumb-frame { width:64px; height:64px; border-radius:13px; }
+  .thumb-fallback { font-size:22px; }
+  .preview b { font-size:13px; }
+  .preview small { font-size:10px; line-height:1.25; }
+  .actions { grid-template-columns:1fr 1fr; gap:7px; }
+  .actions .copy-link { grid-column:1 / -1; }
+  .btn.small, button.small { min-height:40px; font-size:12px; padding:8px 10px; }
+  .ig-frame { min-height:460px; border-radius:14px; }
+  .load-more { margin-bottom:16px; min-height:48px; }
+  .footer-note { font-size:11px; margin-bottom:8px; }
+  .bottom-dock { display:block; }
+  .toast { bottom:calc(96px + var(--safe-bottom)); }
+}
+
+@media (max-width:360px) {
+  .controls { grid-template-columns:1fr; }
+  .actions { grid-template-columns:1fr; }
+  .actions .copy-link { grid-column:auto; }
+  .dock-inner { grid-template-columns:1fr 1fr 1fr 1fr; gap:5px; padding:6px; }
+  .bottom-dock button { font-size:11px; padding-left:4px; padding-right:4px; }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  * { scroll-behavior:auto!important; transition:none!important; animation:none!important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <section class="hero">
+      <div class="hero-head">
+        <div>
+          <h1>Liked posts</h1>
+          <p class="sub">Rebuilt from the new liked-posts export using the same working embed reader layout. No fake thumbnail tiles — cards load Instagram embeds as you scroll.</p>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="controls">
+        <label>Month
+          <select id="monthSelect"></select>
+        </label>
+        <label>Type
+          <select id="typeSelect">
+            <option value="all">All types</option>
+            <option value="post">Posts only</option>
+            <option value="reel">Reels only</option>
+            <option value="tv">TV only</option>
+          </select>
+        </label>
+        <label>Search username / link
+          <input id="searchBox" type="search" placeholder="Search all months...">
+        </label>
+      </div>
+      <div class="mobile-jump">
+        <select id="mobileMonthSelect" aria-label="Jump to month"></select>
+      </div>
+      <div class="month-slider-panel" aria-label="Month slider navigation">
+        <div class="month-slider-top">
+          <button id="prevBtn" class="small ghost" type="button">←</button>
+          <div class="slider-month-label">
+            <b id="sliderMonthLabel">Month</b>
+            <small id="sliderMonthCount">Slide to jump months</small>
+          </div>
+          <button id="nextBtn" class="small ghost" type="button">→</button>
+        </div>
+        <div class="range-wrap">
+          <span>new</span>
+          <input id="monthRange" type="range" min="0" value="0" aria-label="Month slider">
+          <span>old</span>
+        </div>
+        <button id="embedVisibleBtn" class="small good" type="button" style="width:100%;margin-top:8px">Reload visible embeds</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="main-title">
+    <div>
+      <h2 id="viewTitle">Loading...</h2>
+      <p id="viewSub"></p>
+    </div>
+    <button id="topBtn" class="small">Top</button>
+  </div>
+
+  <main id="list" class="grid"></main>
+  <button id="loadMoreBtn" class="load-more primary">Load more</button>
+  <div id="sentinel" style="height:1px"></div>
+  <p class="footer-note">Instagram embeds auto-load as cards reach the screen. They need internet access, and Instagram may block removed, private, or login-required posts. The direct Open buttons stay available even when an embed is blocked.</p>
+</div>
+
+
+<div class="quick-scroll" aria-label="Fast vertical page scroller">
+  <button id="scrollUpBtn" class="ghost" type="button" aria-label="Scroll up">↑</button>
+  <div id="scrollTrack" class="scroll-track" aria-label="Drag to scroll page" role="scrollbar" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div id="scrollThumb" class="scroll-thumb"></div>
+  </div>
+  <button id="scrollDownBtn" class="ghost" type="button" aria-label="Scroll down">↓</button>
+</div>
+
+<div class="bottom-dock" aria-label="Mobile quick navigation">
+  <div class="dock-inner">
+    <button id="dockPrevBtn" class="ghost" type="button">← Month</button>
+    <button id="dockEmbedBtn" class="good" type="button">Reload</button>
+    <button id="dockNextBtn" class="ghost" type="button">Month →</button>
+    <button id="dockTopBtn" class="primary" type="button">Top</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [{"i":1,"u":"samdoesarts","url":"https://www.instagram.com/p/DFvSoJCxw-r/","type":"post","reaction":"👍","date":"26 February 2025, 02:48 AM","iso":"2025-02-26T02:48:00","month":"2025-02","monthLabel":"February 2025","embed":"https://www.instagram.com/p/DFvSoJCxw-r/embed","code":"DFvSoJCxw-r"},{"i":2,"u":"funnyimhome","url":"https://www.instagram.com/reel/Cq9RhikuOVt/","type":"reel","reaction":"👍","date":"27 June 2023, 10:25 PM","iso":"2023-06-27T22:25:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/Cq9RhikuOVt/embed","code":"Cq9RhikuOVt"},{"i":3,"u":"archinorn","url":"https://www.instagram.com/p/Ct_7GU5uVMS/","type":"post","reaction":"👍","date":"27 June 2023, 04:31 PM","iso":"2023-06-27T16:31:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/p/Ct_7GU5uVMS/embed","code":"Ct_7GU5uVMS"},{"i":4,"u":"premdailycr7","url":"https://www.instagram.com/reel/Ct49x-6INhc/","type":"reel","reaction":"👍","date":"27 June 2023, 04:30 PM","iso":"2023-06-27T16:30:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/Ct49x-6INhc/embed","code":"Ct49x-6INhc"},{"i":5,"u":"funnyblokes","url":"https://www.instagram.com/reel/CsZtFy4g_c8/","type":"reel","reaction":"👍","date":"27 June 2023, 04:29 PM","iso":"2023-06-27T16:29:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/CsZtFy4g_c8/embed","code":"CsZtFy4g_c8"},{"i":6,"u":"oversensitive_girl_boss","url":"https://www.instagram.com/reel/Ct4OjpWKSLW/","type":"reel","reaction":"👍","date":"27 June 2023, 04:18 PM","iso":"2023-06-27T16:18:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/Ct4OjpWKSLW/embed","code":"Ct4OjpWKSLW"},{"i":7,"u":"kim_crab632","url":"https://www.instagram.com/p/Ct6R4Xquqce/","type":"post","reaction":"👍","date":"27 June 2023, 04:02 PM","iso":"2023-06-27T16:02:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/p/Ct6R4Xquqce/embed","code":"Ct6R4Xquqce"},{"i":8,"u":"extremeblitz_","url":"https://www.instagram.com/reel/CsKkvRBoNO2/","type":"reel","reaction":"👍","date":"27 June 2023, 03:47 PM","iso":"2023-06-27T15:47:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/CsKkvRBoNO2/embed","code":"CsKkvRBoNO2"},{"i":9,"u":"world2pv","url":"https://www.instagram.com/reel/Cr--Oj2vlNP/","type":"reel","reaction":"👍","date":"27 June 2023, 03:33 PM","iso":"2023-06-27T15:33:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/Cr--Oj2vlNP/embed","code":"Cr--Oj2vlNP"},{"i":10,"u":"everyday._.tiktok","url":"https://www.instagram.com/reel/Ct6qmHtr-os/","type":"reel","reaction":"👍","date":"27 June 2023, 03:29 PM","iso":"2023-06-27T15:29:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/Ct6qmHtr-os/embed","code":"Ct6qmHtr-os"},{"i":11,"u":"blue_lagoon_out","url":"https://www.instagram.com/reel/CtvSoIfLLpp/","type":"reel","reaction":"👍","date":"27 June 2023, 03:16 PM","iso":"2023-06-27T15:16:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/reel/CtvSoIfLLpp/embed","code":"CtvSoIfLLpp"},{"i":12,"u":"simon.squared","url":"https://www.instagram.com/p/Ct9FXLDuGDc/","type":"post","reaction":"👍","date":"27 June 2023, 02:53 PM","iso":"2023-06-27T14:53:00","month":"2023-06","monthLabel":"June 2023","embed":"https://www.instagram.com/p/Ct9FXLDuGDc/embed","code":"Ct9FXLDuGDc"},{"i":13,"u":"kingbach","url":"https://www.instagram.com/reel/Cdrow5JPmpU/","type":"reel","reaction":"👍","date":"21 May 2022, 03:17 PM","iso":"2022-05-21T15:17:00","month":"2022-05","monthLabel":"May 2022","embed":"https://www.instagram.com/reel/Cdrow5JPmpU/embed","code":"Cdrow5JPmpU"},{"i":14,"u":"premdailycr7","url":"https://www.instagram.com/reel/CdEQzhijT_T/","type":"reel","reaction":"👍","date":"21 May 2022, 02:49 PM","iso":"2022-05-21T14:49:00","month":"2022-05","monthLabel":"May 2022","embed":"https://www.instagram.com/reel/CdEQzhijT_T/embed","code":"CdEQzhijT_T"},{"i":15,"u":"amberheard","url":"https://www.instagram.com/p/Ca9k3zsL2HJ/","type":"post","reaction":"👍","date":"07 May 2022, 09:43 AM","iso":"2022-05-07T09:43:00","month":"2022-05","monthLabel":"May 2022","embed":"https://www.instagram.com/p/Ca9k3zsL2HJ/embed","code":"Ca9k3zsL2HJ"},{"i":16,"u":"amberheard","url":"https://www.instagram.com/p/Cbh7aIwLNrc/","type":"post","reaction":"👍","date":"07 May 2022, 09:42 AM","iso":"2022-05-07T09:42:00","month":"2022-05","monthLabel":"May 2022","embed":"https://www.instagram.com/p/Cbh7aIwLNrc/embed","code":"Cbh7aIwLNrc"},{"i":17,"u":"amberheard","url":"https://www.instagram.com/p/CbnTfOwlOQX/","type":"post","reaction":"👍","date":"07 May 2022, 09:42 AM","iso":"2022-05-07T09:42:00","month":"2022-05","monthLabel":"May 2022","embed":"https://www.instagram.com/p/CbnTfOwlOQX/embed","code":"CbnTfOwlOQX"},{"i":18,"u":"amberheard","url":"https://www.instagram.com/p/CcG-0ZYvUUx/","type":"post","reaction":"👍","date":"07 May 2022, 09:42 AM","iso":"2022-05-07T09:42:00","month":"2022-05","monthLabel":"May 2022","embed":"https://www.instagram.com/p/CcG-0ZYvUUx/embed","code":"CcG-0ZYvUUx"},{"i":19,"u":"icepeely_","url":"https://www.instagram.com/reel/CcyJ4wbDKl0/","type":"reel","reaction":"👍","date":"30 April 2022, 12:43 AM","iso":"2022-04-30T00:43:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/reel/CcyJ4wbDKl0/embed","code":"CcyJ4wbDKl0"},{"i":20,"u":"spooky.miller","url":"https://www.instagram.com/tv/CcToEM7JeH0/","type":"tv","reaction":"👍","date":"25 April 2022, 01:33 AM","iso":"2022-04-25T01:33:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/CcToEM7JeH0/embed","code":"CcToEM7JeH0"},{"i":21,"u":"badtzkav","url":"https://www.instagram.com/tv/Cct_pC4Dd1s/","type":"tv","reaction":"👍","date":"24 April 2022, 06:17 AM","iso":"2022-04-24T06:17:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/Cct_pC4Dd1s/embed","code":"Cct_pC4Dd1s"},{"i":22,"u":"bepiz.man","url":"https://www.instagram.com/tv/Cci3hQ0A0NI/","type":"tv","reaction":"👍","date":"24 April 2022, 05:50 AM","iso":"2022-04-24T05:50:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/Cci3hQ0A0NI/embed","code":"Cci3hQ0A0NI"},{"i":23,"u":"cheezburber","url":"https://www.instagram.com/tv/CcblnNXpwlm/","type":"tv","reaction":"👍","date":"23 April 2022, 04:10 PM","iso":"2022-04-23T16:10:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/CcblnNXpwlm/embed","code":"CcblnNXpwlm"},{"i":24,"u":"onlyballs_","url":"https://www.instagram.com/tv/CctBe6rpG20/","type":"tv","reaction":"👍","date":"23 April 2022, 04:08 PM","iso":"2022-04-23T16:08:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/CctBe6rpG20/embed","code":"CctBe6rpG20"},{"i":25,"u":"that.2_mexican","url":"https://www.instagram.com/tv/CcYEdCQlJAU/","type":"tv","reaction":"👍","date":"16 April 2022, 12:41 PM","iso":"2022-04-16T12:41:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/CcYEdCQlJAU/embed","code":"CcYEdCQlJAU"},{"i":26,"u":"sh0tpost","url":"https://www.instagram.com/tv/CcOpLg7pWlX/","type":"tv","reaction":"👍","date":"14 April 2022, 12:29 PM","iso":"2022-04-14T12:29:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/CcOpLg7pWlX/embed","code":"CcOpLg7pWlX"},{"i":27,"u":"peanotchio","url":"https://www.instagram.com/tv/Cb124C7gWFt/","type":"tv","reaction":"👍","date":"14 April 2022, 11:28 AM","iso":"2022-04-14T11:28:00","month":"2022-04","monthLabel":"April 2022","embed":"https://www.instagram.com/tv/Cb124C7gWFt/embed","code":"Cb124C7gWFt"},{"i":28,"u":"the.wok.daily","url":"https://www.instagram.com/reel/CXDzTiigKVQ/","type":"reel","reaction":"👍","date":"18 December 2021, 05:59 AM","iso":"2021-12-18T05:59:00","month":"2021-12","monthLabel":"December 2021","embed":"https://www.instagram.com/reel/CXDzTiigKVQ/embed","code":"CXDzTiigKVQ"},{"i":29,"u":"xlrcy","url":"https://www.instagram.com/reel/CXWjA8fgrD1/","type":"reel","reaction":"👍","date":"18 December 2021, 05:57 AM","iso":"2021-12-18T05:57:00","month":"2021-12","monthLabel":"December 2021","embed":"https://www.instagram.com/reel/CXWjA8fgrD1/embed","code":"CXWjA8fgrD1"},{"i":30,"u":"outerwaifu","url":"https://www.instagram.com/tv/CW6wrCkp-bi/","type":"tv","reaction":"👍","date":"03 December 2021, 06:12 AM","iso":"2021-12-03T06:12:00","month":"2021-12","monthLabel":"December 2021","embed":"https://www.instagram.com/tv/CW6wrCkp-bi/embed","code":"CW6wrCkp-bi"},{"i":31,"u":"thermal.blitz","url":"https://www.instagram.com/reel/CWyx_5mgTAT/","type":"reel","reaction":"👍","date":"03 December 2021, 05:43 AM","iso":"2021-12-03T05:43:00","month":"2021-12","monthLabel":"December 2021","embed":"https://www.instagram.com/reel/CWyx_5mgTAT/embed","code":"CWyx_5mgTAT"},{"i":32,"u":"bbc.memes_","url":"https://www.instagram.com/reel/CVc5eSUl9r1/","type":"reel","reaction":"👍","date":"17 November 2021, 01:00 PM","iso":"2021-11-17T13:00:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/reel/CVc5eSUl9r1/embed","code":"CVc5eSUl9r1"},{"i":33,"u":"meme.meeseeks","url":"https://www.instagram.com/reel/CWOYypMFNfi/","type":"reel","reaction":"👍","date":"17 November 2021, 10:42 AM","iso":"2021-11-17T10:42:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/reel/CWOYypMFNfi/embed","code":"CWOYypMFNfi"},{"i":34,"u":"todoki.mp3","url":"https://www.instagram.com/p/CWCkFQxh07K/","type":"post","reaction":"👍","date":"17 November 2021, 10:38 AM","iso":"2021-11-17T10:38:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/p/CWCkFQxh07K/embed","code":"CWCkFQxh07K"},{"i":35,"u":"instacum__","url":"https://www.instagram.com/tv/CWRQmpwpWVS/","type":"tv","reaction":"👍","date":"17 November 2021, 10:00 AM","iso":"2021-11-17T10:00:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/tv/CWRQmpwpWVS/embed","code":"CWRQmpwpWVS"},{"i":36,"u":"bepiz.man","url":"https://www.instagram.com/tv/CWW6dsLJZAe/","type":"tv","reaction":"👍","date":"17 November 2021, 09:58 AM","iso":"2021-11-17T09:58:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/tv/CWW6dsLJZAe/embed","code":"CWW6dsLJZAe"},{"i":37,"u":"elninostaindx","url":"https://www.instagram.com/reel/CVwcfqTLRmg/","type":"reel","reaction":"👍","date":"09 November 2021, 04:39 AM","iso":"2021-11-09T04:39:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/reel/CVwcfqTLRmg/embed","code":"CVwcfqTLRmg"},{"i":38,"u":"turtle.meme.god","url":"https://www.instagram.com/tv/CVqfymaAgOO/","type":"tv","reaction":"👍","date":"03 November 2021, 10:14 PM","iso":"2021-11-03T22:14:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/tv/CVqfymaAgOO/embed","code":"CVqfymaAgOO"},{"i":39,"u":"janaepostedthat","url":"https://www.instagram.com/p/CVuAvIqMGBO/","type":"post","reaction":"👍","date":"03 November 2021, 10:10 PM","iso":"2021-11-03T22:10:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/p/CVuAvIqMGBO/embed","code":"CVuAvIqMGBO"},{"i":40,"u":"theretardshed","url":"https://www.instagram.com/p/CVK4r7MpYDg/","type":"post","reaction":"👍","date":"03 November 2021, 03:29 AM","iso":"2021-11-03T03:29:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/p/CVK4r7MpYDg/embed","code":"CVK4r7MpYDg"},{"i":41,"u":"memes_xzw","url":"https://www.instagram.com/reel/CVJFu-klmEt/","type":"reel","reaction":"👍","date":"02 November 2021, 08:38 AM","iso":"2021-11-02T08:38:00","month":"2021-11","monthLabel":"November 2021","embed":"https://www.instagram.com/reel/CVJFu-klmEt/embed","code":"CVJFu-klmEt"},{"i":42,"u":"ayyyple","url":"https://www.instagram.com/p/CUGCSYSlxVG/","type":"post","reaction":"👍","date":"29 September 2021, 04:12 PM","iso":"2021-09-29T16:12:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CUGCSYSlxVG/embed","code":"CUGCSYSlxVG"},{"i":43,"u":"startup.mp4","url":"https://www.instagram.com/p/CUY9zt2DFoQ/","type":"post","reaction":"👍","date":"29 September 2021, 03:28 PM","iso":"2021-09-29T15:28:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CUY9zt2DFoQ/embed","code":"CUY9zt2DFoQ"},{"i":44,"u":"theofficalbleeps","url":"https://www.instagram.com/reel/CTai8H-pJ7T/","type":"reel","reaction":"👍","date":"28 September 2021, 09:23 AM","iso":"2021-09-28T09:23:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/reel/CTai8H-pJ7T/embed","code":"CTai8H-pJ7T"},{"i":45,"u":"itzkujoh","url":"https://www.instagram.com/reel/CT4dHlTDlYf/","type":"reel","reaction":"👍","date":"28 September 2021, 09:15 AM","iso":"2021-09-28T09:15:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/reel/CT4dHlTDlYf/embed","code":"CT4dHlTDlYf"},{"i":46,"u":"greatestreactions","url":"https://www.instagram.com/tv/CTpwFqlFGhX/","type":"tv","reaction":"👍","date":"24 September 2021, 12:07 PM","iso":"2021-09-24T12:07:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/tv/CTpwFqlFGhX/embed","code":"CTpwFqlFGhX"},{"i":47,"u":"s.p.e.e.d.w.a.g.o.n","url":"https://www.instagram.com/p/CT8I8xMoE9v/","type":"post","reaction":"👍","date":"24 September 2021, 06:26 AM","iso":"2021-09-24T06:26:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CT8I8xMoE9v/embed","code":"CT8I8xMoE9v"},{"i":48,"u":"skelenton.bones","url":"https://www.instagram.com/p/CT7MtF3FN9X/","type":"post","reaction":"👍","date":"17 September 2021, 06:03 AM","iso":"2021-09-17T06:03:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CT7MtF3FN9X/embed","code":"CT7MtF3FN9X"},{"i":49,"u":"anime_world_united","url":"https://www.instagram.com/p/CTpk576pvSo/","type":"post","reaction":"👍","date":"13 September 2021, 09:16 PM","iso":"2021-09-13T21:16:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CTpk576pvSo/embed","code":"CTpk576pvSo"},{"i":50,"u":"lilcasper.v3","url":"https://www.instagram.com/p/CRtW4M0nLiW/","type":"post","reaction":"👍","date":"12 September 2021, 11:22 PM","iso":"2021-09-12T23:22:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CRtW4M0nLiW/embed","code":"CRtW4M0nLiW"},{"i":51,"u":"the.chef.named.jeff","url":"https://www.instagram.com/p/CTLakaulWzw/","type":"post","reaction":"👍","date":"11 September 2021, 10:00 AM","iso":"2021-09-11T10:00:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CTLakaulWzw/embed","code":"CTLakaulWzw"},{"i":52,"u":"need.if","url":"https://www.instagram.com/p/CTPhz3qnwxX/","type":"post","reaction":"👍","date":"10 September 2021, 03:54 AM","iso":"2021-09-10T03:54:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CTPhz3qnwxX/embed","code":"CTPhz3qnwxX"},{"i":53,"u":"reelappofficial","url":"https://www.instagram.com/reel/CSYIZMfDn14/","type":"reel","reaction":"👍","date":"06 September 2021, 05:40 PM","iso":"2021-09-06T17:40:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/reel/CSYIZMfDn14/embed","code":"CSYIZMfDn14"},{"i":54,"u":"natashon.ca","url":"https://www.instagram.com/reel/CTX40mfgv9q/","type":"reel","reaction":"👍","date":"04 September 2021, 04:46 AM","iso":"2021-09-04T04:46:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/reel/CTX40mfgv9q/embed","code":"CTX40mfgv9q"},{"i":55,"u":"sabshiiii","url":"https://www.instagram.com/p/CTUz7NNlsSd/","type":"post","reaction":"👍","date":"04 September 2021, 04:11 AM","iso":"2021-09-04T04:11:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CTUz7NNlsSd/embed","code":"CTUz7NNlsSd"},{"i":56,"u":"anime_memestash_whoa","url":"https://www.instagram.com/p/CTZGmAQHdF8/","type":"post","reaction":"👍","date":"04 September 2021, 04:09 AM","iso":"2021-09-04T04:09:00","month":"2021-09","monthLabel":"September 2021","embed":"https://www.instagram.com/p/CTZGmAQHdF8/embed","code":"CTZGmAQHdF8"},{"i":57,"u":"randyrepost","url":"https://www.instagram.com/p/CTBuBpgFHIZ/","type":"post","reaction":"👍","date":"29 August 2021, 08:28 PM","iso":"2021-08-29T20:28:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/p/CTBuBpgFHIZ/embed","code":"CTBuBpgFHIZ"},{"i":58,"u":"extrasaltyy","url":"https://www.instagram.com/p/CS8AgZvlltv/","type":"post","reaction":"👍","date":"28 August 2021, 08:16 AM","iso":"2021-08-28T08:16:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/p/CS8AgZvlltv/embed","code":"CS8AgZvlltv"},{"i":59,"u":"fbi.cap","url":"https://www.instagram.com/p/CS95JzdHBeI/","type":"post","reaction":"👍","date":"27 August 2021, 03:11 PM","iso":"2021-08-27T15:11:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/p/CS95JzdHBeI/embed","code":"CS95JzdHBeI"},{"i":60,"u":"carolinebaniewicz","url":"https://www.instagram.com/reel/CR-FF6iDUGA/","type":"reel","reaction":"👍","date":"27 August 2021, 07:31 AM","iso":"2021-08-27T07:31:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/reel/CR-FF6iDUGA/embed","code":"CR-FF6iDUGA"},{"i":61,"u":"frogsphobic","url":"https://www.instagram.com/reel/CS8HnM0B5P-/","type":"reel","reaction":"👍","date":"26 August 2021, 10:32 AM","iso":"2021-08-26T10:32:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/reel/CS8HnM0B5P-/embed","code":"CS8HnM0B5P-"},{"i":62,"u":"lilkvsh","url":"https://www.instagram.com/p/CSqPKUkHXLs/","type":"post","reaction":"👍","date":"19 August 2021, 04:35 PM","iso":"2021-08-19T16:35:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/p/CSqPKUkHXLs/embed","code":"CSqPKUkHXLs"},{"i":63,"u":"giygas","url":"https://www.instagram.com/p/CSXOWlvpiKn/","type":"post","reaction":"👍","date":"16 August 2021, 05:15 AM","iso":"2021-08-16T05:15:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/p/CSXOWlvpiKn/embed","code":"CSXOWlvpiKn"},{"i":64,"u":"failure.achiever","url":"https://www.instagram.com/reel/CSUlYQjIvmq/","type":"reel","reaction":"👍","date":"15 August 2021, 02:42 PM","iso":"2021-08-15T14:42:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/reel/CSUlYQjIvmq/embed","code":"CSUlYQjIvmq"},{"i":65,"u":"cyrakek_","url":"https://www.instagram.com/p/CSa9WNFN6Ht/","type":"post","reaction":"👍","date":"15 August 2021, 08:34 AM","iso":"2021-08-15T08:34:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/p/CSa9WNFN6Ht/embed","code":"CSa9WNFN6Ht"},{"i":66,"u":"dankest_memestt","url":"https://www.instagram.com/reel/CSL8pupHxrV/","type":"reel","reaction":"👍","date":"15 August 2021, 07:36 AM","iso":"2021-08-15T07:36:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/reel/CSL8pupHxrV/embed","code":"CSL8pupHxrV"},{"i":67,"u":"toky0hub","url":"https://www.instagram.com/reel/CSKgfYUBAXX/","type":"reel","reaction":"👍","date":"04 August 2021, 11:53 AM","iso":"2021-08-04T11:53:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/reel/CSKgfYUBAXX/embed","code":"CSKgfYUBAXX"},{"i":68,"u":"iokaiju","url":"https://www.instagram.com/reel/CRzw55YqZAH/","type":"reel","reaction":"👍","date":"04 August 2021, 11:51 AM","iso":"2021-08-04T11:51:00","month":"2021-08","monthLabel":"August 2021","embed":"https://www.instagram.com/reel/CRzw55YqZAH/embed","code":"CRzw55YqZAH"},{"i":69,"u":"big_chungles","url":"https://www.instagram.com/p/CRAN_kllbcY/","type":"post","reaction":"👍","date":"07 July 2021, 04:45 AM","iso":"2021-07-07T04:45:00","month":"2021-07","monthLabel":"July 2021","embed":"https://www.instagram.com/p/CRAN_kllbcY/embed","code":"CRAN_kllbcY"},{"i":70,"u":"lilmotherfigure","url":"https://www.instagram.com/p/CQoBaklDep-/","type":"post","reaction":"👍","date":"30 June 2021, 09:15 AM","iso":"2021-06-30T09:15:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQoBaklDep-/embed","code":"CQoBaklDep-"},{"i":71,"u":"lilmotherfigure","url":"https://www.instagram.com/p/CQtXoL-jK0_/","type":"post","reaction":"👍","date":"30 June 2021, 09:01 AM","iso":"2021-06-30T09:01:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQtXoL-jK0_/embed","code":"CQtXoL-jK0_"},{"i":72,"u":"lilmotherfigure","url":"https://www.instagram.com/p/CQv-ME0DGV0/","type":"post","reaction":"👍","date":"30 June 2021, 08:59 AM","iso":"2021-06-30T08:59:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQv-ME0DGV0/embed","code":"CQv-ME0DGV0"},{"i":73,"u":"gaalielo","url":"https://www.instagram.com/reel/CPnMrj3nYFh/","type":"reel","reaction":"👍","date":"25 June 2021, 02:59 AM","iso":"2021-06-25T02:59:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/reel/CPnMrj3nYFh/embed","code":"CPnMrj3nYFh"},{"i":74,"u":"new.incognito.tab","url":"https://www.instagram.com/p/CQfB1logIIF/","type":"post","reaction":"👍","date":"23 June 2021, 09:27 PM","iso":"2021-06-23T21:27:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQfB1logIIF/embed","code":"CQfB1logIIF"},{"i":75,"u":"creativememes36","url":"https://www.instagram.com/p/CQZdjrBAoRD/","type":"post","reaction":"👍","date":"22 June 2021, 07:51 AM","iso":"2021-06-22T07:51:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQZdjrBAoRD/embed","code":"CQZdjrBAoRD"},{"i":76,"u":"who_tf_is_joe","url":"https://www.instagram.com/p/CQRRYYQq2ga/","type":"post","reaction":"👍","date":"18 June 2021, 04:45 PM","iso":"2021-06-18T16:45:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQRRYYQq2ga/embed","code":"CQRRYYQq2ga"},{"i":77,"u":"bush_did_7eleven","url":"https://www.instagram.com/p/CQG7CV0i3uV/","type":"post","reaction":"👍","date":"14 June 2021, 10:39 AM","iso":"2021-06-14T10:39:00","month":"2021-06","monthLabel":"June 2021","embed":"https://www.instagram.com/p/CQG7CV0i3uV/embed","code":"CQG7CV0i3uV"},{"i":78,"u":"allaboutmelisa","url":"https://www.instagram.com/reel/CPTbF1HnPqi/","type":"reel","reaction":"👍","date":"30 May 2021, 11:13 PM","iso":"2021-05-30T23:13:00","month":"2021-05","monthLabel":"May 2021","embed":"https://www.instagram.com/reel/CPTbF1HnPqi/embed","code":"CPTbF1HnPqi"},{"i":79,"u":"meme_bhagvan","url":"https://www.instagram.com/reel/CMbU8Mon4c6/","type":"reel","reaction":"👍","date":"22 May 2021, 08:46 AM","iso":"2021-05-22T08:46:00","month":"2021-05","monthLabel":"May 2021","embed":"https://www.instagram.com/reel/CMbU8Mon4c6/embed","code":"CMbU8Mon4c6"},{"i":80,"u":"raitaposting","url":"https://www.instagram.com/p/COuLVt4gkqZ/","type":"post","reaction":"👍","date":"21 May 2021, 09:57 AM","iso":"2021-05-21T09:57:00","month":"2021-05","monthLabel":"May 2021","embed":"https://www.instagram.com/p/COuLVt4gkqZ/embed","code":"COuLVt4gkqZ"},{"i":81,"u":"hisaimansays","url":"https://www.instagram.com/reel/COiUabxAN--/","type":"reel","reaction":"👍","date":"07 May 2021, 12:04 PM","iso":"2021-05-07T12:04:00","month":"2021-05","monthLabel":"May 2021","embed":"https://www.instagram.com/reel/COiUabxAN--/embed","code":"COiUabxAN--"},{"i":82,"u":"mememandir","url":"https://www.instagram.com/p/CNE3CcyAkSt/","type":"post","reaction":"👍","date":"20 April 2021, 11:57 AM","iso":"2021-04-20T11:57:00","month":"2021-04","monthLabel":"April 2021","embed":"https://www.instagram.com/p/CNE3CcyAkSt/embed","code":"CNE3CcyAkSt"},{"i":83,"u":"memeing.mafia","url":"https://www.instagram.com/p/CKvnj8cllFC/","type":"post","reaction":"👍","date":"01 February 2021, 11:49 PM","iso":"2021-02-01T23:49:00","month":"2021-02","monthLabel":"February 2021","embed":"https://www.instagram.com/p/CKvnj8cllFC/embed","code":"CKvnj8cllFC"}];
+const MONTHS = [{"key":"2025-02","label":"February 2025","count":1},{"key":"2023-06","label":"June 2023","count":11},{"key":"2022-05","label":"May 2022","count":6},{"key":"2022-04","label":"April 2022","count":9},{"key":"2021-12","label":"December 2021","count":4},{"key":"2021-11","label":"November 2021","count":10},{"key":"2021-09","label":"September 2021","count":15},{"key":"2021-08","label":"August 2021","count":12},{"key":"2021-07","label":"July 2021","count":1},{"key":"2021-06","label":"June 2021","count":8},{"key":"2021-05","label":"May 2021","count":4},{"key":"2021-04","label":"April 2021","count":1},{"key":"2021-02","label":"February 2021","count":1}];
+const STATS = {"total":83,"months":13,"posts":38,"reels":32,"tv":13,"rangeStart":"01 February 2021, 11:49 PM","rangeEnd":"26 February 2025, 02:48 AM"};
+
+const state = {
+  monthIndex: 0,
+  type: 'all',
+  query: '',
+  rendered: 0,
+  list: [],
+  batch: (navigator.deviceMemory && navigator.deviceMemory <= 2) ? 18 : 30,
+  autoEmbedBudget: 0
+};
+
+const $ = (id) => document.getElementById(id);
+const listEl = $('list');
+const monthSelect = $('monthSelect');
+const monthRange = $('monthRange');
+const mobileMonthSelect = $('mobileMonthSelect');
+const typeSelect = $('typeSelect');
+const searchBox = $('searchBox');
+const loadMoreBtn = $('loadMoreBtn');
+const viewTitle = $('viewTitle');
+const viewSub = $('viewSub');
+const toast = $('toast');
+
+function esc(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  clearTimeout(showToast.t);
+  showToast.t = setTimeout(() => toast.classList.remove('show'), 1900);
+}
+
+function initStats() {
+  $('stats').innerHTML = `
+    <div class="stat"><b>${STATS.total}</b><span>likes</span></div>
+    <div class="stat"><b>${STATS.months}</b><span>months</span></div>
+    <div class="stat"><b>${STATS.posts}</b><span>posts</span></div>
+    <div class="stat"><b>${STATS.reels + STATS.tv}</b><span>reels/tv</span></div>
+  `;
+}
+
+function initMonths() {
+  monthRange.max = Math.max(0, MONTHS.length - 1);
+  const monthOptions = MONTHS.map((m,i)=>`<option value="${i}">${esc(m.label)} (${m.count})</option>`).join('');
+  monthSelect.innerHTML = monthOptions;
+  mobileMonthSelect.innerHTML = monthOptions;
+}
+
+function setMonth(i) {
+  state.monthIndex = Math.max(0, Math.min(MONTHS.length - 1, i));
+  monthSelect.value = state.monthIndex;
+  mobileMonthSelect.value = state.monthIndex;
+  monthRange.value = state.monthIndex;
+  const m = MONTHS[state.monthIndex];
+  $('sliderMonthLabel').textContent = m.label;
+  $('sliderMonthCount').textContent = `${m.count} item(s) · ${state.monthIndex + 1} / ${MONTHS.length}`;
+  renderReset();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function getFiltered() {
+  let arr = DATA;
+  const q = state.query.trim().toLowerCase();
+  if (q) {
+    arr = arr.filter(e => (e.u + ' ' + e.url + ' ' + e.code).toLowerCase().includes(q));
+  } else {
+    const m = MONTHS[state.monthIndex];
+    arr = arr.filter(e => e.month === m.key);
+  }
+  if (state.type !== 'all') arr = arr.filter(e => e.type === state.type);
+  return arr;
+}
+
+function mediaEmoji(type) {
+  if (type === 'reel') return '▶';
+  if (type === 'tv') return '▣';
+  return '◎';
+}
+
+function thumbUrl(e) {
+  // Instagram's lightweight media endpoint often returns the public preview image.
+  // If a post is private/deleted/blocked, the card falls back to the gradient icon.
+  return String(e.url || '').replace(/\/$/, '') + '/media/?size=m';
+}
+
+function makeCard(e, autoEmbed) {
+  const article = document.createElement('article');
+  article.className = 'card';
+  const first = (e.u || '?').replace(/^_+/, '').slice(0,1) || '?';
+  article.innerHTML = `
+    <div class="card-head">
+      <div class="avatar">${esc(first)}</div>
+      <div class="info">
+        <div class="user">${esc(e.u)}</div>
+        <div class="meta">
+          <span class="date-text">${esc(e.date)}</span>
+          <span class="pill">${mediaEmoji(e.type)} ${esc(e.type)}</span>
+          <span class="pill">#${e.i}</span>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="btn small primary" href="${esc(e.url)}" target="_blank" rel="noopener">Open</a>
+      <button class="small good embed-one" type="button">Reload embed</button>
+      <button class="small ghost copy-link" type="button">Copy</button>
+    </div>
+    <div class="embed-slot" data-embed="${esc(e.embed)}"></div>
+  `;
+  article.querySelector('.embed-one').addEventListener('click', () => loadEmbed(article.querySelector('.embed-slot')));
+  article.querySelector('.copy-link').addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(e.url);
+      showToast('Copied Instagram link');
+    } catch(err) {
+      showToast('Copy failed — open link instead');
+    }
+  });
+  if (autoEmbed) {
+    setTimeout(() => loadEmbed(article.querySelector('.embed-slot')), 120);
+  }
+  return article;
+}
+
+function loadEmbed(slot) {
+  if (!slot || slot.dataset.loaded === '1') return;
+  const src = slot.dataset.embed;
+  if (!src) {
+    showToast('No embed URL found');
+    return;
+  }
+  slot.dataset.loaded = '1';
+  slot.classList.add('loaded');
+  slot.innerHTML = `<iframe class="ig-frame" src="${esc(src)}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen scrolling="no"></iframe>`;
+}
+
+function loadVisibleEmbeds() {
+  const slots = [...document.querySelectorAll('.embed-slot:not(.loaded)')];
+  const visible = slots.filter(s => {
+    const r = s.getBoundingClientRect();
+    return r.top < innerHeight + 1200 && r.bottom > -400;
+  });
+  const target = visible.length ? visible : slots.slice(0, state.batch);
+  target.slice(0, 12).forEach((slot, i) => setTimeout(() => loadEmbed(slot), i * 140));
+  showToast(`Loading ${Math.min(target.length,12)} embed(s)`);
+}
+
+const embedIO = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    embedIO.unobserve(entry.target);
+    setTimeout(() => loadEmbed(entry.target), 80);
+  });
+}, {rootMargin:'1100px 0px 900px 0px', threshold:0.01}) : null;
+
+function armAutoEmbeds(root = document) {
+  const slots = [...root.querySelectorAll('.embed-slot:not(.loaded):not([data-auto-armed])')];
+  slots.forEach((slot, i) => {
+    slot.dataset.autoArmed = '1';
+    if (embedIO) {
+      embedIO.observe(slot);
+    } else {
+      // Older Android fallback: auto-load a few at a time instead of waiting for taps.
+      setTimeout(() => loadEmbed(slot), Math.min(i, 10) * 180);
+    }
+  });
+}
+
+function renderReset() {
+  state.list = getFiltered();
+  state.rendered = 0;
+  listEl.textContent = '';
+  const month = MONTHS[state.monthIndex];
+  if (state.query.trim()) {
+    viewTitle.textContent = `Search results`;
+    viewSub.textContent = `${state.list.length} match(es) across all months`;
+  } else {
+    viewTitle.textContent = `${month.label}`;
+    viewSub.textContent = `${state.list.length} item(s) in this view`;
+  }
+  if (!state.list.length) {
+    listEl.innerHTML = '<div class="empty">No matching Instagram likes found.</div>';
+    loadMoreBtn.style.display = 'none';
+    return;
+  }
+  loadMoreBtn.style.display = '';
+  renderMore();
+}
+
+function renderMore() {
+  const frag = document.createDocumentFragment();
+  const end = Math.min(state.rendered + state.batch, state.list.length);
+  let autoLeft = state.autoEmbedBudget;
+  for (let i = state.rendered; i < end; i++) {
+    const auto = autoLeft > 0;
+    if (auto) autoLeft--;
+    frag.appendChild(makeCard(state.list[i], auto));
+  }
+  state.rendered = end;
+  listEl.appendChild(frag);
+  armAutoEmbeds(listEl);
+  setTimeout(loadVisibleEmbeds, 260);
+  loadMoreBtn.disabled = state.rendered >= state.list.length;
+  loadMoreBtn.textContent = state.rendered >= state.list.length ? `All loaded (${state.rendered})` : `Load more (${state.rendered} / ${state.list.length})`;
+}
+
+function debounce(fn, wait=180) {
+  let t;
+  return (...args) => {
+    clearTimeout(t);
+    t = setTimeout(() => fn(...args), wait);
+  };
+}
+
+function jumpToMonthValue(v) {
+  searchBox.value = '';
+  state.query = '';
+  setMonth(Number(v));
+}
+monthSelect.addEventListener('change', e => jumpToMonthValue(e.target.value));
+mobileMonthSelect.addEventListener('change', e => jumpToMonthValue(e.target.value));
+monthRange.addEventListener('input', e => jumpToMonthValue(e.target.value));
+typeSelect.addEventListener('change', e => {
+  state.type = e.target.value;
+  renderReset();
+});
+searchBox.addEventListener('input', debounce(e => {
+  state.query = e.target.value;
+  renderReset();
+}, 220));
+$('prevBtn').addEventListener('click', () => {
+  searchBox.value = '';
+  state.query = '';
+  setMonth(state.monthIndex - 1);
+});
+$('nextBtn').addEventListener('click', () => {
+  searchBox.value = '';
+  state.query = '';
+  setMonth(state.monthIndex + 1);
+});
+$('topBtn').addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+$('dockTopBtn').addEventListener('click', () => window.scrollTo({top:0, behavior:'smooth'}));
+$('dockPrevBtn').addEventListener('click', () => jumpToMonthValue(state.monthIndex - 1));
+$('dockNextBtn').addEventListener('click', () => jumpToMonthValue(state.monthIndex + 1));
+$('dockEmbedBtn').addEventListener('click', loadVisibleEmbeds);
+$('embedVisibleBtn').addEventListener('click', loadVisibleEmbeds);
+loadMoreBtn.addEventListener('click', renderMore);
+
+const io = 'IntersectionObserver' in window ? new IntersectionObserver(entries => {
+  if (entries.some(e => e.isIntersecting) && !loadMoreBtn.disabled) renderMore();
+}, {rootMargin:'800px'}) : null;
+if (io) io.observe($('sentinel'));
+else addEventListener('scroll', () => {
+  if (innerHeight + scrollY > document.body.offsetHeight - 900 && !loadMoreBtn.disabled) renderMore();
+}, {passive:true});
+
+
+function initQuickScroller() {
+  const track = $('scrollTrack');
+  const thumb = $('scrollThumb');
+  const up = $('scrollUpBtn');
+  const down = $('scrollDownBtn');
+  if (!track || !thumb || !up || !down) return;
+
+  let dragging = false;
+
+  function maxScroll() {
+    return Math.max(1, document.documentElement.scrollHeight - innerHeight);
+  }
+
+  function syncThumb() {
+    const max = maxScroll();
+    const trackH = track.clientHeight;
+    const ratio = Math.min(1, innerHeight / Math.max(document.documentElement.scrollHeight, innerHeight));
+    const thumbH = Math.max(38, Math.round(trackH * ratio));
+    const free = Math.max(1, trackH - thumbH);
+    const y = Math.round((scrollY / max) * free);
+    thumb.style.height = thumbH + 'px';
+    thumb.style.transform = `translateY(${y}px)`;
+    track.setAttribute('aria-valuenow', String(Math.round((scrollY / max) * 100)));
+  }
+
+  function scrollByPage(dir) {
+    window.scrollBy({top: dir * Math.max(260, innerHeight * 0.72), behavior:'smooth'});
+  }
+
+  function goFromClientY(clientY) {
+    const rect = track.getBoundingClientRect();
+    const thumbH = thumb.offsetHeight || 44;
+    const free = Math.max(1, rect.height - thumbH);
+    const y = Math.max(0, Math.min(free, clientY - rect.top - thumbH / 2));
+    window.scrollTo({top: (y / free) * maxScroll(), behavior: dragging ? 'auto' : 'smooth'});
+  }
+
+  up.addEventListener('click', () => scrollByPage(-1));
+  down.addEventListener('click', () => scrollByPage(1));
+  track.addEventListener('pointerdown', e => {
+    dragging = true;
+    track.setPointerCapture?.(e.pointerId);
+    goFromClientY(e.clientY);
+    e.preventDefault();
+  });
+  track.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    goFromClientY(e.clientY);
+    e.preventDefault();
+  });
+  track.addEventListener('pointerup', e => {
+    dragging = false;
+    track.releasePointerCapture?.(e.pointerId);
+  });
+  track.addEventListener('pointercancel', () => dragging = false);
+  addEventListener('scroll', syncThumb, {passive:true});
+  addEventListener('resize', syncThumb, {passive:true});
+  new MutationObserver(syncThumb).observe(document.body, {childList:true, subtree:true});
+  syncThumb();
+}
+
+initStats();
+initMonths();
+setMonth(0);
+initQuickScroller();
+</script>
+</body>
+</html>
