@@ -1,0 +1,683 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0b10">
+<title>Liked Posts — Working Embed Reader</title>
+<style>
+:root {
+  --bg:#08080d;
+  --panel:#12131b;
+  --panel2:#171823;
+  --text:#f6f6fb;
+  --muted:#b8b8c8;
+  --soft:#83869a;
+  --line:#2a2c3a;
+  --accent:#ff3d87;
+  --accent2:#f7b733;
+  --violet:#8b5cff;
+  --good:#44d889;
+  --radius:18px;
+  --safe-bottom:env(safe-area-inset-bottom,0px);
+}
+* { box-sizing:border-box; }
+html, body {
+  margin:0;
+  padding:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:15px;
+  line-height:1.42;
+  -webkit-text-size-adjust:100%;
+  touch-action:manipulation;
+}
+html { scroll-behavior:smooth; }
+body {
+  overflow-y:auto;
+  overscroll-behavior-y:contain;
+  padding-bottom:calc(88px + var(--safe-bottom));
+}
+a { color:#a9d0ff; text-decoration:none; overflow-wrap:anywhere; }
+button, select, input { font:inherit; }
+button, .btn {
+  border:1px solid var(--line);
+  background:#202231;
+  color:var(--text);
+  border-radius:999px;
+  padding:10px 13px;
+  min-height:44px;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  -webkit-tap-highlight-color:transparent;
+  user-select:none;
+  font-weight:750;
+}
+button:active, .btn:active { transform:translateY(1px) scale(.99); }
+button.primary, .btn.primary { border-color:rgba(255,61,135,.65); background:linear-gradient(135deg,#ff3d87,#8b5cff); color:white; }
+button.good, .btn.good { border-color:rgba(68,216,137,.5); background:#143522; color:#dcffe9; }
+button.ghost, .btn.ghost { background:#10111a; }
+button.small, .btn.small { min-height:38px; padding:8px 11px; font-size:13px; }
+input, select {
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:#0c0d14;
+  color:var(--text);
+  padding:12px 13px;
+  min-height:46px;
+  outline:none;
+}
+input:focus, select:focus { border-color:rgba(255,61,135,.75); box-shadow:0 0 0 3px rgba(255,61,135,.14); }
+.app { max-width:980px; margin:0 auto; padding:12px; }
+.topbar {
+  position:relative;
+  z-index:5;
+  background:linear-gradient(180deg,rgba(8,8,13,.98),rgba(8,8,13,.93));
+  border-bottom:1px solid var(--line);
+  padding:10px 0 12px;
+}
+.hero {
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:radial-gradient(circle at top left,rgba(255,61,135,.24),transparent 31%),linear-gradient(135deg,#151622,#0f1018);
+  padding:14px;
+  box-shadow:0 16px 42px rgba(0,0,0,.22);
+}
+.hero-head { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.brand { display:flex; align-items:center; gap:10px; }
+.logo {
+  width:42px; height:42px; border-radius:15px;
+  display:grid; place-items:center; font-size:22px; font-weight:950;
+  background:linear-gradient(135deg,#f7b733,#ff3d87,#8b5cff);
+  box-shadow:0 10px 28px rgba(255,61,135,.18);
+}
+h1 { margin:0 0 6px; font-size:27px; line-height:1.12; letter-spacing:-.03em; }
+.sub { color:var(--muted); font-size:13px; margin:0; }
+.stats { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; margin-top:12px; }
+.stat { border:1px solid var(--line); border-radius:14px; padding:9px 10px; background:rgba(255,255,255,.035); min-width:0; }
+.stat b { display:block; font-size:16px; line-height:1.05; }
+.stat span { color:var(--muted); font-size:11px; }
+.controls { display:grid; gap:9px; margin-top:10px; }
+label { display:block; color:var(--muted); font-size:12px; font-weight:700; letter-spacing:.01em; }
+label > select, label > input { margin-top:5px; }
+.month-slider-panel {
+  margin-top:9px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.02));
+  border-radius:18px;
+  padding:10px;
+}
+.month-slider-top {
+  display:grid;
+  grid-template-columns:auto 1fr auto;
+  gap:9px;
+  align-items:center;
+}
+.slider-month-label { text-align:center; min-width:0; }
+.slider-month-label b { display:block; font-size:14px; line-height:1.1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.slider-month-label small { display:block; color:var(--muted); font-size:11px; margin-top:2px; }
+.range-wrap { display:grid; grid-template-columns:auto 1fr auto; gap:8px; align-items:center; color:var(--muted); font-size:12px; margin-top:8px; }
+.range-wrap span { font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--soft); }
+input[type="range"] { padding:0; min-height:32px; accent-color:var(--accent); }
+.main-title {
+  margin:15px 2px 9px;
+  display:flex;
+  justify-content:space-between;
+  gap:8px;
+  align-items:end;
+}
+.main-title h2 { margin:0; font-size:19px; line-height:1.1; }
+.main-title p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+.grid { display:grid; grid-template-columns:1fr; gap:10px; }
+.card {
+  contain:content;
+  content-visibility:auto;
+  contain-intrinsic-size:250px;
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:linear-gradient(180deg,var(--panel),var(--panel2));
+  padding:12px;
+  overflow:hidden;
+  box-shadow:0 10px 26px rgba(0,0,0,.18);
+}
+.card-head { display:flex; gap:10px; align-items:center; min-width:0; }
+.avatar {
+  flex:0 0 42px; width:42px; height:42px; border-radius:15px;
+  background:linear-gradient(135deg,#f7b733,#ff3d87,#8b5cff);
+  color:white; display:grid; place-items:center; font-weight:950; text-transform:uppercase;
+}
+.info { min-width:0; flex:1; }
+.user { font-weight:850; font-size:16px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.meta { color:var(--muted); font-size:12px; display:flex; gap:7px; flex-wrap:wrap; margin-top:3px; }
+.pill {
+  display:inline-flex; align-items:center; gap:4px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:2px 7px;
+  background:#0d0e15;
+  color:#e6e6ee;
+  text-transform:uppercase;
+  font-size:10px;
+  letter-spacing:.04em;
+}
+.preview {
+  margin-top:11px;
+  border:1px solid #303244;
+  background:linear-gradient(135deg,rgba(255,61,135,.12),rgba(139,92,255,.08)),#0d0e15;
+  border-radius:16px;
+  overflow:hidden;
+  min-height:92px;
+}
+.preview-placeholder {
+  min-height:92px;
+  display:grid;
+  grid-template-columns:76px 1fr;
+  gap:10px;
+  align-items:center;
+  padding:9px;
+}
+.thumb-fake {
+  width:76px; height:76px; border-radius:15px;
+  display:grid; place-items:center;
+  background:linear-gradient(135deg,#405de6,#833ab4,#fd1d1d,#fcb045);
+  color:white; font-size:28px; font-weight:950;
+}
+.preview-title b { display:block; font-size:14px; }
+.preview-title small { display:block; color:var(--soft); overflow-wrap:anywhere; font-size:11px; margin-top:2px; }
+.preview-title .hint { color:var(--muted); font-size:10px; margin-top:4px; }
+.actions { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:10px; }
+.embed-slot { display:block; min-height:0; }
+.embed-slot.loaded { padding:0; }
+.ig-frame {
+  width:100%;
+  min-height:560px;
+  border:0;
+  background:#fff;
+  display:block;
+}
+.load-more { width:100%; margin:14px 0 34px; }
+.empty { border:1px dashed var(--line); border-radius:var(--radius); padding:22px; color:var(--muted); text-align:center; background:#101018; }
+.footer-note { color:var(--soft); font-size:12px; margin:18px 0 28px; }
+.quick-scroll {
+  position:fixed; right:8px; top:88px; bottom:calc(96px + var(--safe-bottom));
+  z-index:70; width:42px; display:flex; flex-direction:column; align-items:center; gap:7px; pointer-events:none;
+}
+.quick-scroll button {
+  pointer-events:auto; width:38px; height:38px; min-height:38px; padding:0; border-radius:999px;
+  background:rgba(18,19,28,.92); border-color:rgba(255,255,255,.14); box-shadow:0 8px 24px rgba(0,0,0,.35);
+}
+.scroll-track {
+  pointer-events:auto; position:relative; flex:1; width:18px; min-height:150px; border-radius:999px;
+  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12);
+  box-shadow:inset 0 0 12px rgba(0,0,0,.35), 0 8px 30px rgba(0,0,0,.28);
+  touch-action:none;
+}
+.scroll-thumb {
+  position:absolute; left:2px; right:2px; top:0; min-height:44px; border-radius:999px;
+  background:linear-gradient(180deg,var(--accent),var(--violet)); box-shadow:0 0 18px rgba(255,61,135,.42); cursor:grab;
+}
+.toast {
+  position:fixed; left:50%; bottom:calc(92px + var(--safe-bottom)); transform:translateX(-50%);
+  background:#1f2130; border:1px solid var(--line); color:#fff; border-radius:999px;
+  padding:10px 14px; z-index:60; display:none; max-width:92vw; text-align:center; box-shadow:0 12px 40px rgba(0,0,0,.35);
+}
+.toast.show { display:block; }
+.bottom-dock {
+  position:fixed; left:0; right:0; bottom:0; z-index:55; display:none;
+  padding:8px 10px calc(8px + var(--safe-bottom));
+  background:linear-gradient(180deg,rgba(8,8,13,0),rgba(8,8,13,.98) 18%,rgba(8,8,13,1));
+}
+.dock-inner {
+  max-width:520px; margin:0 auto; display:grid; grid-template-columns:1fr 1.15fr 1fr .78fr;
+  gap:7px; border:1px solid rgba(255,255,255,.08); background:rgba(18,19,28,.95);
+  border-radius:24px; padding:7px; box-shadow:0 -10px 35px rgba(0,0,0,.35);
+}
+.bottom-dock button { min-height:46px; padding:8px 7px; font-size:12px; font-weight:750; }
+@media (min-width:720px) {
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .controls { grid-template-columns:1.1fr .7fr .7fr; align-items:end; }
+  .hero { padding:16px; }
+  h1 { font-size:28px; }
+}
+@media (max-width:560px) {
+  body { padding-bottom:calc(92px + var(--safe-bottom)); }
+  .app { padding:0 9px 10px; }
+  .topbar { margin:0 -9px; padding:0 9px 8px; border-bottom:0; background:linear-gradient(180deg,#10111a,#08080d); }
+  .hero { border-radius:0 0 24px 24px; border-left:0; border-right:0; border-top:0; padding:12px 10px 10px; box-shadow:none; }
+  .logo { width:34px; height:34px; border-radius:13px; font-size:18px; }
+  h1 { font-size:18px; margin:0; }
+  .sub { display:none; }
+  .stats { display:flex; overflow-x:auto; gap:7px; margin-top:9px; padding-bottom:1px; -webkit-overflow-scrolling:touch; }
+  .stat { flex:0 0 auto; min-width:84px; padding:7px 9px; border-radius:999px; }
+  .stat b { display:inline; font-size:13px; margin-right:4px; }
+  .stat span { font-size:11px; }
+  .controls { grid-template-columns:1fr 1fr; gap:7px; margin-top:8px; }
+  .controls label:nth-child(3) { grid-column:1 / -1; }
+  label { font-size:11px; }
+  input, select { min-height:43px; border-radius:13px; padding:10px 11px; font-size:14px; }
+  .month-slider-panel { margin-top:7px; border-radius:16px; padding:8px; }
+  .main-title { position:sticky; top:0; z-index:12; margin:0 -9px 8px; padding:9px 10px; background:rgba(8,8,13,.96); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); align-items:center; }
+  .main-title h2 { font-size:17px; }
+  .main-title p { font-size:11px; }
+  .main-title #topBtn { display:none; }
+  .grid { gap:8px; }
+  .card { border-radius:17px; padding:10px; contain-intrinsic-size:215px; }
+  .avatar { flex-basis:38px; width:38px; height:38px; border-radius:13px; }
+  .user { font-size:15px; }
+  .meta { font-size:11px; gap:5px; }
+  .pill { font-size:9px; padding:2px 6px; }
+  .preview-placeholder { grid-template-columns:64px 1fr; min-height:78px; padding:7px; }
+  .thumb-fake { width:64px; height:64px; border-radius:13px; font-size:22px; }
+  .actions { grid-template-columns:1fr 1fr; gap:7px; }
+  .actions .copy-link { grid-column:1 / -1; }
+  .btn.small, button.small { min-height:40px; font-size:12px; padding:8px 10px; }
+  .ig-frame { min-height:500px; }
+  .quick-scroll { right:4px; top:74px; bottom:calc(104px + var(--safe-bottom)); width:34px; }
+  .quick-scroll button { width:32px; height:32px; min-height:32px; font-size:14px; }
+  .scroll-track { width:14px; min-height:120px; }
+  .scroll-thumb { left:2px; right:2px; min-height:38px; }
+  .bottom-dock { display:block; }
+  .toast { bottom:calc(96px + var(--safe-bottom)); }
+}
+@media (max-width:360px) {
+  .controls { grid-template-columns:1fr; }
+  .actions { grid-template-columns:1fr; }
+  .actions .copy-link { grid-column:auto; }
+  .dock-inner { grid-template-columns:1fr 1fr 1fr 1fr; gap:5px; padding:6px; }
+  .bottom-dock button { font-size:11px; padding-left:4px; padding-right:4px; }
+}
+@media (prefers-reduced-motion:reduce) { * { scroll-behavior:auto!important; transition:none!important; animation:none!important; } }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <section class="hero">
+      <div class="hero-head">
+        <div class="brand">
+          <div class="logo">♥</div>
+          <div>
+            <h1>Liked Posts</h1>
+            <p class="sub">Working Instagram embed reader with month slider, search, filters, and direct links.</p>
+          </div>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+      <div class="controls">
+        <label>Month
+          <select id="monthSelect"></select>
+        </label>
+        <label>Type
+          <select id="typeSelect">
+            <option value="all">All types</option>
+            <option value="post">Posts only</option>
+            <option value="reel">Reels only</option>
+            <option value="tv">TV only</option>
+          </select>
+        </label>
+        <label>Search username / link
+          <input id="searchBox" type="search" placeholder="Search...">
+        </label>
+      </div>
+      <div class="month-slider-panel" aria-label="Month slider navigation">
+        <div class="month-slider-top">
+          <button id="prevBtn" class="small ghost" type="button">←</button>
+          <div class="slider-month-label">
+            <b id="sliderMonthLabel">Month</b>
+            <small id="sliderMonthCount">Slide to jump months</small>
+          </div>
+          <button id="nextBtn" class="small ghost" type="button">→</button>
+        </div>
+        <div class="range-wrap">
+          <span>new</span>
+          <input id="monthRange" type="range" min="0" value="0" aria-label="Month slider">
+          <span>old</span>
+        </div>
+        <button id="embedVisibleBtn" class="small good" type="button" style="width:100%;margin-top:8px">Load visible embeds</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="main-title">
+    <div>
+      <h2 id="viewTitle">Loading...</h2>
+      <p id="viewSub"></p>
+    </div>
+    <button id="topBtn" class="small">Top</button>
+  </div>
+
+  <main id="list" class="grid"></main>
+  <button id="loadMoreBtn" class="load-more primary">Load more</button>
+  <div id="sentinel" style="height:1px"></div>
+  <p class="footer-note">Instagram embeds need internet access. Some removed/private/login-required posts may not load, but the direct “Open post” link stays available.</p>
+</div>
+
+<div class="quick-scroll" aria-label="Fast vertical page scroller">
+  <button id="scrollUpBtn" class="ghost" type="button" aria-label="Scroll up">↑</button>
+  <div id="scrollTrack" class="scroll-track" aria-label="Drag to scroll page" role="scrollbar" aria-orientation="vertical" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+    <div id="scrollThumb" class="scroll-thumb"></div>
+  </div>
+  <button id="scrollDownBtn" class="ghost" type="button" aria-label="Scroll down">↓</button>
+</div>
+
+<div class="bottom-dock" aria-label="Mobile quick navigation">
+  <div class="dock-inner">
+    <button id="dockPrevBtn" class="ghost" type="button">← Month</button>
+    <button id="dockEmbedBtn" class="good" type="button">Load</button>
+    <button id="dockNextBtn" class="ghost" type="button">Month →</button>
+    <button id="dockTopBtn" class="primary" type="button">Top</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const DATA = [{"i": 1, "u": "my.lovebug.photography", "url": "https://www.instagram.com/p/CuAZJ0fOPzu/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:42 PM", "rawDate": "Jun 27, 2023 2:42 pm", "iso": "2023-06-27T14:42:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/CuAZJ0fOPzu/embed", "code": "CuAZJ0fOPzu"}, {"i": 2, "u": "tymciowelove", "url": "https://www.instagram.com/p/CuAT3eNMxK_/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:42 PM", "rawDate": "Jun 27, 2023 2:42 pm", "iso": "2023-06-27T14:42:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/CuAT3eNMxK_/embed", "code": "CuAT3eNMxK_"}, {"i": 3, "u": "inbloomfotografie", "url": "https://www.instagram.com/p/CuAF7mXoNCR/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:42 PM", "rawDate": "Jun 27, 2023 2:42 pm", "iso": "2023-06-27T14:42:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/CuAF7mXoNCR/embed", "code": "CuAF7mXoNCR"}, {"i": 4, "u": "tarasessence", "url": "https://www.instagram.com/p/CuAYxcotvhl/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:41 PM", "rawDate": "Jun 27, 2023 2:41 pm", "iso": "2023-06-27T14:41:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/CuAYxcotvhl/embed", "code": "CuAYxcotvhl"}, {"i": 5, "u": "thomaskast1", "url": "https://www.instagram.com/p/CtxBSy4Mu1e/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:40 PM", "rawDate": "Jun 27, 2023 2:40 pm", "iso": "2023-06-27T14:40:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/CtxBSy4Mu1e/embed", "code": "CtxBSy4Mu1e"}, {"i": 6, "u": "thattinymansion", "url": "https://www.instagram.com/p/Ct3s62-MPHI/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:39 PM", "rawDate": "Jun 27, 2023 2:39 pm", "iso": "2023-06-27T14:39:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/Ct3s62-MPHI/embed", "code": "Ct3s62-MPHI"}, {"i": 7, "u": "our_durham_home", "url": "https://www.instagram.com/p/Ct3L6UvLGkT/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:39 PM", "rawDate": "Jun 27, 2023 2:39 pm", "iso": "2023-06-27T14:39:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/Ct3L6UvLGkT/embed", "code": "Ct3L6UvLGkT"}, {"i": 8, "u": "swalina", "url": "https://www.instagram.com/p/CtzWj5UsbkX/", "type": "post", "reaction": "👍", "date": "27 June 2023, 2:32 PM", "rawDate": "Jun 27, 2023 2:32 pm", "iso": "2023-06-27T14:32:00", "month": "2023-06", "monthLabel": "June 2023", "embed": "https://www.instagram.com/p/CtzWj5UsbkX/embed", "code": "CtzWj5UsbkX"}, {"i": 9, "u": "turnretro", "url": "https://www.instagram.com/p/CPtSCNfHwqG/", "type": "post", "reaction": "👍", "date": "10 June 2021, 9:28 PM", "rawDate": "Jun 10, 2021 9:28 pm", "iso": "2021-06-10T21:28:00", "month": "2021-06", "monthLabel": "June 2021", "embed": "https://www.instagram.com/p/CPtSCNfHwqG/embed", "code": "CPtSCNfHwqG"}, {"i": 10, "u": "_buttercup.cool_", "url": "https://www.instagram.com/p/CP0Hq1rB2X9/", "type": "post", "reaction": "👍", "date": "08 June 2021, 11:55 AM", "rawDate": "Jun 08, 2021 11:55 am", "iso": "2021-06-08T11:55:00", "month": "2021-06", "monthLabel": "June 2021", "embed": "https://www.instagram.com/p/CP0Hq1rB2X9/embed", "code": "CP0Hq1rB2X9"}, {"i": 11, "u": "singlebute", "url": "https://www.instagram.com/reel/CGqYzWnjybL/", "type": "reel", "reaction": "👍", "date": "30 October 2020, 5:50 PM", "rawDate": "Oct 30, 2020 5:50 pm", "iso": "2020-10-30T17:50:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/reel/CGqYzWnjybL/embed", "code": "CGqYzWnjybL"}, {"i": 12, "u": "dearstranqer", "url": "https://www.instagram.com/p/CG-1m9WBsM6/", "type": "post", "reaction": "👍", "date": "30 October 2020, 5:12 PM", "rawDate": "Oct 30, 2020 5:12 pm", "iso": "2020-10-30T17:12:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CG-1m9WBsM6/embed", "code": "CG-1m9WBsM6"}, {"i": 13, "u": "baddiebute", "url": "https://www.instagram.com/p/CG8iPyQDFtv/", "type": "post", "reaction": "👍", "date": "30 October 2020, 5:11 PM", "rawDate": "Oct 30, 2020 5:11 pm", "iso": "2020-10-30T17:11:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CG8iPyQDFtv/embed", "code": "CG8iPyQDFtv"}, {"i": 14, "u": "limitlesstiktok", "url": "https://www.instagram.com/p/CGyGk06FU1m/", "type": "post", "reaction": "👍", "date": "30 October 2020, 5:10 PM", "rawDate": "Oct 30, 2020 5:10 pm", "iso": "2020-10-30T17:10:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CGyGk06FU1m/embed", "code": "CGyGk06FU1m"}, {"i": 15, "u": "glowingbutie", "url": "https://www.instagram.com/reel/CGgJC5uj4F0/", "type": "reel", "reaction": "👍", "date": "25 October 2020, 1:26 PM", "rawDate": "Oct 25, 2020 1:26 pm", "iso": "2020-10-25T13:26:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/reel/CGgJC5uj4F0/embed", "code": "CGgJC5uj4F0"}, {"i": 16, "u": "cartoon_addict.635", "url": "https://www.instagram.com/p/CGsqFFgDLeu/", "type": "post", "reaction": "👍", "date": "25 October 2020, 12:23 PM", "rawDate": "Oct 25, 2020 12:23 pm", "iso": "2020-10-25T12:23:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CGsqFFgDLeu/embed", "code": "CGsqFFgDLeu"}, {"i": 17, "u": "baddiebute", "url": "https://www.instagram.com/reel/CGqaFmBjNhB/", "type": "reel", "reaction": "👍", "date": "25 October 2020, 9:44 AM", "rawDate": "Oct 25, 2020 9:44 am", "iso": "2020-10-25T09:44:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/reel/CGqaFmBjNhB/embed", "code": "CGqaFmBjNhB"}, {"i": 18, "u": "kathiischr", "url": "https://www.instagram.com/p/CGvmh-qIn0G/", "type": "post", "reaction": "👍", "date": "25 October 2020, 6:47 AM", "rawDate": "Oct 25, 2020 6:47 am", "iso": "2020-10-25T06:47:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CGvmh-qIn0G/embed", "code": "CGvmh-qIn0G"}, {"i": 19, "u": "butievibes", "url": "https://www.instagram.com/p/CGqCtZQH-FJ/", "type": "post", "reaction": "👍", "date": "23 October 2020, 4:46 PM", "rawDate": "Oct 23, 2020 4:46 pm", "iso": "2020-10-23T16:46:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CGqCtZQH-FJ/embed", "code": "CGqCtZQH-FJ"}, {"i": 20, "u": "risingartists.agency", "url": "https://www.instagram.com/p/CF7VI-bFtcn/", "type": "post", "reaction": "👍", "date": "04 October 2020, 11:49 AM", "rawDate": "Oct 04, 2020 11:49 am", "iso": "2020-10-04T11:49:00", "month": "2020-10", "monthLabel": "October 2020", "embed": "https://www.instagram.com/p/CF7VI-bFtcn/embed", "code": "CF7VI-bFtcn"}, {"i": 21, "u": "deepgals", "url": "https://www.instagram.com/p/CFpZbWkntCb/", "type": "post", "reaction": "👍", "date": "28 September 2020, 10:22 AM", "rawDate": "Sep 28, 2020 10:22 am", "iso": "2020-09-28T10:22:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFpZbWkntCb/embed", "code": "CFpZbWkntCb"}, {"i": 22, "u": "fyagals", "url": "https://www.instagram.com/p/CFXZ0hKMMlh/", "type": "post", "reaction": "👍", "date": "22 September 2020, 10:46 PM", "rawDate": "Sep 22, 2020 10:46 pm", "iso": "2020-09-22T22:46:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFXZ0hKMMlh/embed", "code": "CFXZ0hKMMlh"}, {"i": 23, "u": "buttercup.bud", "url": "https://www.instagram.com/p/CFSSOYLB_lJ/", "type": "post", "reaction": "👍", "date": "22 September 2020, 10:37 PM", "rawDate": "Sep 22, 2020 10:37 pm", "iso": "2020-09-22T22:37:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFSSOYLB_lJ/embed", "code": "CFSSOYLB_lJ"}, {"i": 24, "u": "celvixline", "url": "https://www.instagram.com/p/CFZ6a8sAeb1/", "type": "post", "reaction": "👍", "date": "22 September 2020, 10:37 PM", "rawDate": "Sep 22, 2020 10:37 pm", "iso": "2020-09-22T22:37:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFZ6a8sAeb1/embed", "code": "CFZ6a8sAeb1"}, {"i": 25, "u": "baddiebute", "url": "https://www.instagram.com/p/CFLZPUrje1_/", "type": "post", "reaction": "👍", "date": "21 September 2020, 4:22 AM", "rawDate": "Sep 21, 2020 4:22 am", "iso": "2020-09-21T04:22:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFLZPUrje1_/embed", "code": "CFLZPUrje1_"}, {"i": 26, "u": "butievibes", "url": "https://www.instagram.com/reel/CFXon2MjjVz/", "type": "reel", "reaction": "👍", "date": "21 September 2020, 4:21 AM", "rawDate": "Sep 21, 2020 4:21 am", "iso": "2020-09-21T04:21:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/reel/CFXon2MjjVz/embed", "code": "CFXon2MjjVz"}, {"i": 27, "u": "9gag", "url": "https://www.instagram.com/reel/CFIQCKqASiI/", "type": "reel", "reaction": "👍", "date": "21 September 2020, 4:00 AM", "rawDate": "Sep 21, 2020 4:00 am", "iso": "2020-09-21T04:00:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/reel/CFIQCKqASiI/embed", "code": "CFIQCKqASiI"}, {"i": 28, "u": "fyasvibes", "url": "https://www.instagram.com/reel/CFIOLVFA0Ze/", "type": "reel", "reaction": "👍", "date": "21 September 2020, 3:15 AM", "rawDate": "Sep 21, 2020 3:15 am", "iso": "2020-09-21T03:15:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/reel/CFIOLVFA0Ze/embed", "code": "CFIOLVFA0Ze"}, {"i": 29, "u": "kathiischr", "url": "https://www.instagram.com/p/CFSizy6I3OI/", "type": "post", "reaction": "👍", "date": "21 September 2020, 1:28 AM", "rawDate": "Sep 21, 2020 1:28 am", "iso": "2020-09-21T01:28:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFSizy6I3OI/embed", "code": "CFSizy6I3OI"}, {"i": 30, "u": "moodyyvibzz", "url": "https://www.instagram.com/p/CFC-phoh_vg/", "type": "post", "reaction": "👍", "date": "14 September 2020, 9:55 PM", "rawDate": "Sep 14, 2020 9:55 pm", "iso": "2020-09-14T21:55:00", "month": "2020-09", "monthLabel": "September 2020", "embed": "https://www.instagram.com/p/CFC-phoh_vg/embed", "code": "CFC-phoh_vg"}, {"i": 31, "u": "butietoks", "url": "https://www.instagram.com/reel/CD9z8UQjACo/", "type": "reel", "reaction": "👍", "date": "19 August 2020, 4:43 PM", "rawDate": "Aug 19, 2020 4:43 pm", "iso": "2020-08-19T16:43:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/reel/CD9z8UQjACo/embed", "code": "CD9z8UQjACo"}, {"i": 32, "u": "selectcouples", "url": "https://www.instagram.com/reel/CD-Y4UDjlHX/", "type": "reel", "reaction": "👍", "date": "19 August 2020, 4:36 PM", "rawDate": "Aug 19, 2020 4:36 pm", "iso": "2020-08-19T16:36:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/reel/CD-Y4UDjlHX/embed", "code": "CD-Y4UDjlHX"}, {"i": 33, "u": "stillcuffed", "url": "https://www.instagram.com/p/CD98i44jchZ/", "type": "post", "reaction": "👍", "date": "16 August 2020, 4:48 PM", "rawDate": "Aug 16, 2020 4:48 pm", "iso": "2020-08-16T16:48:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CD98i44jchZ/embed", "code": "CD98i44jchZ"}, {"i": 34, "u": "mushroommagazine", "url": "https://www.instagram.com/p/CDjjJArng2V/", "type": "post", "reaction": "👍", "date": "15 August 2020, 3:19 PM", "rawDate": "Aug 15, 2020 3:19 pm", "iso": "2020-08-15T15:19:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDjjJArng2V/embed", "code": "CDjjJArng2V"}, {"i": 35, "u": "blopteen", "url": "https://www.instagram.com/reel/CD4RenQDTQY/", "type": "reel", "reaction": "👍", "date": "15 August 2020, 2:54 PM", "rawDate": "Aug 15, 2020 2:54 pm", "iso": "2020-08-15T14:54:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/reel/CD4RenQDTQY/embed", "code": "CD4RenQDTQY"}, {"i": 36, "u": "powerpuffgirlturkey", "url": "https://www.instagram.com/p/CD0xu8NBRWe/", "type": "post", "reaction": "👍", "date": "14 August 2020, 6:35 PM", "rawDate": "Aug 14, 2020 6:35 pm", "iso": "2020-08-14T18:35:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CD0xu8NBRWe/embed", "code": "CD0xu8NBRWe"}, {"i": 37, "u": "psy___bliss", "url": "https://www.instagram.com/p/CDng45-p32S/", "type": "post", "reaction": "👍", "date": "14 August 2020, 6:35 PM", "rawDate": "Aug 14, 2020 6:35 pm", "iso": "2020-08-14T18:35:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDng45-p32S/embed", "code": "CDng45-p32S"}, {"i": 38, "u": "psychedelicpicture", "url": "https://www.instagram.com/p/CDpFiDhFk6C/", "type": "post", "reaction": "👍", "date": "13 August 2020, 5:48 PM", "rawDate": "Aug 13, 2020 5:48 pm", "iso": "2020-08-13T17:48:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDpFiDhFk6C/embed", "code": "CDpFiDhFk6C"}, {"i": 39, "u": "grungemoodss", "url": "https://www.instagram.com/p/CD01KQFgJYR/", "type": "post", "reaction": "👍", "date": "13 August 2020, 5:31 PM", "rawDate": "Aug 13, 2020 5:31 pm", "iso": "2020-08-13T17:31:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CD01KQFgJYR/embed", "code": "CD01KQFgJYR"}, {"i": 40, "u": "stillcuffed", "url": "https://www.instagram.com/p/CDXwHaYjW35/", "type": "post", "reaction": "👍", "date": "09 August 2020, 6:10 AM", "rawDate": "Aug 09, 2020 6:10 am", "iso": "2020-08-09T06:10:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDXwHaYjW35/embed", "code": "CDXwHaYjW35"}, {"i": 41, "u": "baddytube", "url": "https://www.instagram.com/p/CDcs6HqF37N/", "type": "post", "reaction": "👍", "date": "08 August 2020, 5:26 PM", "rawDate": "Aug 08, 2020 5:26 pm", "iso": "2020-08-08T17:26:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDcs6HqF37N/embed", "code": "CDcs6HqF37N"}, {"i": 42, "u": "grungemoodss", "url": "https://www.instagram.com/p/CDVjMDNgutT/", "type": "post", "reaction": "👍", "date": "06 August 2020, 6:49 AM", "rawDate": "Aug 06, 2020 6:49 am", "iso": "2020-08-06T06:49:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDVjMDNgutT/embed", "code": "CDVjMDNgutT"}, {"i": 43, "u": "blondebute", "url": "https://www.instagram.com/p/CDZdfA7DhRq/", "type": "post", "reaction": "👍", "date": "06 August 2020, 3:41 AM", "rawDate": "Aug 06, 2020 3:41 am", "iso": "2020-08-06T03:41:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CDZdfA7DhRq/embed", "code": "CDZdfA7DhRq"}, {"i": 44, "u": "hellokittysbabe", "url": "https://www.instagram.com/p/CB302XbHmdl/", "type": "post", "reaction": "👍", "date": "01 August 2020, 5:15 PM", "rawDate": "Aug 01, 2020 5:15 pm", "iso": "2020-08-01T17:15:00", "month": "2020-08", "monthLabel": "August 2020", "embed": "https://www.instagram.com/p/CB302XbHmdl/embed", "code": "CB302XbHmdl"}, {"i": 45, "u": "elekboo", "url": "https://www.instagram.com/p/CC1wovbhjur/", "type": "post", "reaction": "👍", "date": "26 July 2020, 11:11 AM", "rawDate": "Jul 26, 2020 11:11 am", "iso": "2020-07-26T11:11:00", "month": "2020-07", "monthLabel": "July 2020", "embed": "https://www.instagram.com/p/CC1wovbhjur/embed", "code": "CC1wovbhjur"}];
+
+const PAGE_SIZE = 16;
+let selectedMonth = "all";
+let selectedType = "all";
+let searchTerm = "";
+let shown = PAGE_SIZE;
+let filtered = [];
+let months = [];
+let embedObserver;
+
+const $ = (id) => document.getElementById(id);
+const list = $("list");
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, ch => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#039;" }[ch]));
+}
+
+function monthSortValue(month) {
+  if (month === "all") return "9999-99";
+  return month;
+}
+
+function setupStats() {
+  const total = DATA.length;
+  const posts = DATA.filter(x => x.type === "post").length;
+  const reels = DATA.filter(x => x.type === "reel").length;
+  const tv = DATA.filter(x => x.type === "tv").length;
+  $("stats").innerHTML = `
+    <div class="stat"><b>${total}</b><span>Total</span></div>
+    <div class="stat"><b>${posts}</b><span>Posts</span></div>
+    <div class="stat"><b>${reels}</b><span>Reels</span></div>
+    <div class="stat"><b>${tv}</b><span>TV</span></div>
+  `;
+}
+
+function setupMonths() {
+  const map = new Map();
+  DATA.forEach(item => {
+    if (!map.has(item.month)) map.set(item.month, { month:item.month, label:item.monthLabel, count:0 });
+    map.get(item.month).count++;
+  });
+  months = Array.from(map.values()).sort((a,b) => b.month.localeCompare(a.month));
+  const options = [`<option value="all">All months</option>`].concat(
+    months.map(m => `<option value="${m.month}">${escapeHtml(m.label)} — ${m.count}</option>`)
+  );
+  $("monthSelect").innerHTML = options.join("");
+  $("monthRange").max = Math.max(0, months.length);
+  $("monthRange").value = 0;
+  updateSliderLabel();
+}
+
+function updateSliderLabel() {
+  if (selectedMonth === "all") {
+    $("sliderMonthLabel").textContent = "All months";
+    $("sliderMonthCount").textContent = `${DATA.length} posts total`;
+    $("monthRange").value = 0;
+    return;
+  }
+  const idx = months.findIndex(m => m.month === selectedMonth);
+  const month = months[idx];
+  if (month) {
+    $("sliderMonthLabel").textContent = month.label;
+    $("sliderMonthCount").textContent = `${month.count} posts`;
+    $("monthRange").value = idx + 1;
+  }
+}
+
+function applyFilters(resetShown=true) {
+  if (resetShown) shown = PAGE_SIZE;
+  const q = searchTerm.trim().toLowerCase();
+  filtered = DATA.filter(item => {
+    const monthOk = selectedMonth === "all" || item.month === selectedMonth;
+    const typeOk = selectedType === "all" || item.type === selectedType;
+    const qOk = !q || [item.u,item.url,item.code,item.date,item.monthLabel,item.type].join(" ").toLowerCase().includes(q);
+    return monthOk && typeOk && qOk;
+  });
+  render();
+}
+
+function cardHtml(item) {
+  const initial = (item.u || "?").replace(/^@/,"").charAt(0).toUpperCase() || "?";
+  const typeIcon = item.type === "reel" ? "▣" : item.type === "tv" ? "▤" : "□";
+  return `<article class="card" data-id="${item.i}">
+    <div class="card-head">
+      <div class="avatar">${escapeHtml(initial)}</div>
+      <div class="info">
+        <div class="user">@${escapeHtml(item.u)}</div>
+        <div class="meta">
+          <span class="pill">#${item.i}</span>
+          <span class="pill">${typeIcon} ${escapeHtml(item.type)}</span>
+          <span>${escapeHtml(item.date)}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview">
+      <div class="preview-placeholder">
+        <div class="thumb-fake">${escapeHtml(initial)}</div>
+        <div class="preview-title">
+          <b>Instagram embed preview</b>
+          <small>${escapeHtml(item.url)}</small>
+          <div class="hint">Auto-loads when visible. Use “Load preview” if it does not.</div>
+        </div>
+      </div>
+      <div class="embed-slot" data-src="${escapeHtml(item.embed)}" data-loaded="0"></div>
+    </div>
+
+    <div class="actions">
+      <button class="small good load-embed" data-id="${item.i}" type="button">Load preview</button>
+      <a class="btn small primary" target="_blank" rel="noopener" href="${escapeHtml(item.url)}">Open post</a>
+      <button class="small ghost copy-link" data-link="${escapeHtml(item.url)}" type="button">Copy link</button>
+    </div>
+  </article>`;
+}
+
+function render() {
+  const visible = filtered.slice(0, shown);
+  $("viewTitle").textContent = selectedMonth === "all" ? "All liked posts" : (months.find(m => m.month === selectedMonth)?.label || "Liked posts");
+  $("viewSub").textContent = `${filtered.length} result${filtered.length === 1 ? "" : "s"} • showing ${Math.min(shown, filtered.length)}`;
+  if (!visible.length) {
+    list.innerHTML = `<div class="empty">No posts match this filter.</div>`;
+  } else {
+    list.innerHTML = visible.map(cardHtml).join("");
+  }
+  $("loadMoreBtn").style.display = shown < filtered.length ? "inline-flex" : "none";
+  wireCardButtons();
+  setupEmbedObserver();
+  updateSliderLabel();
+}
+
+function loadEmbed(slot) {
+  if (!slot || slot.dataset.loaded === "1") return;
+  const src = slot.dataset.src;
+  if (!src) return;
+  slot.dataset.loaded = "1";
+  slot.classList.add("loaded");
+  const placeholder = slot.parentElement.querySelector(".preview-placeholder");
+  if (placeholder) placeholder.style.display = "none";
+  const iframe = document.createElement("iframe");
+  iframe.className = "ig-frame";
+  iframe.loading = "lazy";
+  iframe.allowTransparency = "true";
+  iframe.allow = "encrypted-media; picture-in-picture; web-share";
+  iframe.referrerPolicy = "strict-origin-when-cross-origin";
+  iframe.src = src;
+  slot.appendChild(iframe);
+}
+
+function setupEmbedObserver() {
+  if (embedObserver) embedObserver.disconnect();
+  embedObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        loadEmbed(entry.target);
+        embedObserver.unobserve(entry.target);
+      }
+    });
+  }, { rootMargin: "320px 0px 420px 0px", threshold: 0.01 });
+  document.querySelectorAll(".embed-slot").forEach(slot => embedObserver.observe(slot));
+}
+
+function loadVisibleEmbeds() {
+  const slots = Array.from(document.querySelectorAll(".embed-slot"));
+  const vh = window.innerHeight || document.documentElement.clientHeight;
+  let count = 0;
+  slots.forEach(slot => {
+    const r = slot.getBoundingClientRect();
+    if (r.bottom > -300 && r.top < vh + 600) {
+      loadEmbed(slot);
+      count++;
+    }
+  });
+  toast(count ? "Loading visible embeds" : "No visible embeds");
+}
+
+function wireCardButtons() {
+  document.querySelectorAll(".load-embed").forEach(btn => {
+    btn.onclick = () => {
+      const card = btn.closest(".card");
+      loadEmbed(card.querySelector(".embed-slot"));
+    };
+  });
+  document.querySelectorAll(".copy-link").forEach(btn => {
+    btn.onclick = async () => {
+      const link = btn.dataset.link;
+      try {
+        await navigator.clipboard.writeText(link);
+        toast("Copied link");
+      } catch(e) {
+        prompt("Copy this link:", link);
+      }
+    };
+  });
+}
+
+function toast(text) {
+  const t = $("toast");
+  t.textContent = text;
+  t.classList.add("show");
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => t.classList.remove("show"), 1600);
+}
+
+function setMonthByIndex(idx) {
+  if (idx <= 0) selectedMonth = "all";
+  else selectedMonth = months[Math.min(months.length - 1, idx - 1)]?.month || "all";
+  $("monthSelect").value = selectedMonth;
+  applyFilters(true);
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+
+function prevMonth() {
+  const idx = selectedMonth === "all" ? 0 : months.findIndex(m => m.month === selectedMonth) + 1;
+  setMonthByIndex(Math.max(0, idx - 1));
+}
+
+function nextMonth() {
+  const idx = selectedMonth === "all" ? 0 : months.findIndex(m => m.month === selectedMonth) + 1;
+  setMonthByIndex(Math.min(months.length, idx + 1));
+}
+
+$("monthSelect").addEventListener("change", e => {
+  selectedMonth = e.target.value;
+  applyFilters(true);
+});
+$("typeSelect").addEventListener("change", e => {
+  selectedType = e.target.value;
+  applyFilters(true);
+});
+$("searchBox").addEventListener("input", e => {
+  searchTerm = e.target.value;
+  applyFilters(true);
+});
+$("loadMoreBtn").addEventListener("click", () => {
+  shown += PAGE_SIZE;
+  render();
+});
+$("topBtn").addEventListener("click", () => window.scrollTo({ top:0, behavior:"smooth" }));
+$("embedVisibleBtn").addEventListener("click", loadVisibleEmbeds);
+$("monthRange").addEventListener("input", e => setMonthByIndex(Number(e.target.value)));
+$("prevBtn").addEventListener("click", prevMonth);
+$("nextBtn").addEventListener("click", nextMonth);
+$("dockPrevBtn").addEventListener("click", prevMonth);
+$("dockNextBtn").addEventListener("click", nextMonth);
+$("dockEmbedBtn").addEventListener("click", loadVisibleEmbeds);
+$("dockTopBtn").addEventListener("click", () => window.scrollTo({ top:0, behavior:"smooth" }));
+
+function updateScrollThumb() {
+  const track = $("scrollTrack");
+  const thumb = $("scrollThumb");
+  const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+  const trackHeight = track.clientHeight;
+  if (maxScroll <= 0) {
+    thumb.style.height = trackHeight + "px";
+    thumb.style.top = "0px";
+    return;
+  }
+  const ratio = window.innerHeight / document.documentElement.scrollHeight;
+  const thumbHeight = Math.max(44, trackHeight * ratio);
+  const top = (window.scrollY / maxScroll) * (trackHeight - thumbHeight);
+  thumb.style.height = thumbHeight + "px";
+  thumb.style.top = top + "px";
+  track.setAttribute("aria-valuenow", Math.round((window.scrollY / maxScroll) * 100));
+}
+
+function setupScrollBar() {
+  const track = $("scrollTrack");
+  const thumb = $("scrollThumb");
+  let dragging = false;
+  function scrollFromClientY(y) {
+    const rect = track.getBoundingClientRect();
+    const thumbHeight = thumb.offsetHeight;
+    const yIn = Math.min(Math.max(y - rect.top - thumbHeight / 2, 0), rect.height - thumbHeight);
+    const percent = yIn / Math.max(1, rect.height - thumbHeight);
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    window.scrollTo({ top: percent * maxScroll });
+  }
+  track.addEventListener("pointerdown", e => {
+    dragging = true;
+    track.setPointerCapture(e.pointerId);
+    scrollFromClientY(e.clientY);
+  });
+  track.addEventListener("pointermove", e => {
+    if (dragging) scrollFromClientY(e.clientY);
+  });
+  track.addEventListener("pointerup", e => {
+    dragging = false;
+    try { track.releasePointerCapture(e.pointerId); } catch(err) {}
+  });
+  $("scrollUpBtn").addEventListener("click", () => window.scrollBy({ top:-window.innerHeight * 0.85, behavior:"smooth" }));
+  $("scrollDownBtn").addEventListener("click", () => window.scrollBy({ top:window.innerHeight * 0.85, behavior:"smooth" }));
+  window.addEventListener("scroll", updateScrollThumb, { passive:true });
+  window.addEventListener("resize", updateScrollThumb);
+  updateScrollThumb();
+}
+
+setupStats();
+setupMonths();
+applyFilters(true);
+setupScrollBar();
+</script>
+</body>
+</html>
