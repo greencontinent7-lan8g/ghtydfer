@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Advanced HTML Cyber-Art</title>
+<style>
+  /* Color Palette */
+  :root {
+    --core-color: #ff3366;
+    --head-color: #00ffcc;
+    --body-color: #bf00ff;
+    --bg-dark: #070714;
+  }
+  
+  body {
+    margin: 0;
+    height: 100vh;
+    background-color: var(--bg-dark);
+    /* Creates a deep space gradient with a retro-futuristic grid */
+    background-image: 
+      radial-gradient(circle at center, #1a1a3a 0%, var(--bg-dark) 100%),
+      linear-gradient(rgba(0, 255, 204, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 204, 0.05) 1px, transparent 1px);
+    background-size: 100% 100%, 50px 50px, 50px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', Courier, monospace;
+    overflow: hidden;
+    perspective: 1200px;
+  }
+
+  /* The 3D Universe Container */
+  .universe {
+    position: relative;
+    transform-style: preserve-3d;
+    animation: galaxyRotate 40s infinite linear;
+  }
+
+  /* The Core HTML Sun */
+  .html-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 140px;
+    height: 140px;
+    background: radial-gradient(circle, #ffffff, var(--core-color));
+    border-radius: 50%;
+    /* Layered shadows for a blinding neon glow */
+    box-shadow: 
+      0 0 50px var(--core-color),
+      0 0 120px var(--core-color),
+      inset 0 0 30px #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+    animation: pulseCore 2.5s infinite alternate ease-in-out;
+  }
+
+  /* Orbital Rings */
+  .orbit {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    border: 2px solid transparent;
+  }
+
+  /* Inner Orbit */
+  .orbit-head {
+    width: 380px; height: 380px;
+    margin: -190px 0 0 -190px;
+    border-top: 2px dashed rgba(0, 255, 204, 0.6);
+    border-bottom: 2px dashed rgba(0, 255, 204, 0.6);
+    transform: rotateX(65deg) rotateY(20deg);
+    animation: spinOrbit 15s linear infinite;
+  }
+
+  /* Middle Orbit */
+  .orbit-body {
+    width: 600px; height: 600px;
+    margin: -300px 0 0 -300px;
+    border-left: 2px dashed rgba(191, 0, 255, 0.6);
+    border-right: 2px dashed rgba(191, 0, 255, 0.6);
+    transform: rotateX(75deg) rotateY(-30deg);
+    animation: spinOrbit 25s linear infinite reverse;
+  }
+
+  /* Outer Debris Orbit */
+  .orbit-deep {
+    width: 850px; height: 850px;
+    margin: -425px 0 0 -425px;
+    border: 1px dotted rgba(255, 255, 255, 0.15);
+    transform: rotateX(80deg) rotateY(10deg);
+    animation: spinOrbit 40s linear infinite;
+  }
+
+  /* Glassmorphism HTML Tags */
+  .node {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    background: rgba(15, 15, 30, 0.6);
+    backdrop-filter: blur(8px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(8px);
+    border-radius: 12px;
+    padding: 12px 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 1.2rem;
+    /* Creating the neon border and glow */
+    box-shadow: 0 0 25px currentColor, inset 0 0 10px currentColor;
+    border: 1px solid currentColor;
+  }
+
+  /* Tag Positioning & Color Assignment */
+  .orbit-head .node { color: var(--head-color); }
+  .orbit-body .node { color: var(--body-color); }
+  .orbit-deep .node { color: #44aaff; }
+
+  /* Plotting them along the circles */
+  .tag-title { top: 0%; left: 50%; }
+  .tag-meta { top: 100%; left: 50%; }
+  .tag-main { top: 50%; left: 100%; }
+  .tag-footer { top: 50%; left: 0%; }
+  .tag-div { top: 15%; left: 85%; }
+  .tag-script { top: 85%; left: 15%; }
+
+  /* Continuous Animations */
+  @keyframes galaxyRotate {
+    0% { transform: rotateY(0deg) rotateX(15deg); }
+    100% { transform: rotateY(360deg) rotateX(15deg); }
+  }
+
+  @keyframes spinOrbit {
+    0% { transform: rotateZ(0deg); }
+    100% { transform: rotateZ(360deg); }
+  }
+
+  /* Makes the core "breathe" */
+  @keyframes pulseCore {
+    0% { 
+      box-shadow: 0 0 50px var(--core-color), 0 0 100px var(--core-color), inset 0 0 20px #ffffff; 
+      transform: translate(-50%, -50%) scale(0.95); 
+    }
+    100% { 
+      box-shadow: 0 0 80px var(--core-color), 0 0 180px var(--core-color), inset 0 0 40px #ffffff; 
+      transform: translate(-50%, -50%) scale(1.05); 
+    }
+  }
+
+  /* Complex counter-rotation to keep floating tags readable */
+  .orbit-head .node { animation: counterRotateHead 15s linear infinite reverse; }
+  .orbit-body .node { animation: counterRotateBody 25s linear infinite; }
+  .orbit-deep .node { animation: counterRotateDeep 40s linear infinite reverse; }
+
+  @keyframes counterRotateHead {
+    0% { transform: translate(-50%, -50%) rotateZ(0deg) rotateX(-90deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateZ(-360deg) rotateX(-90deg) rotateY(0deg); }
+  }
+  @keyframes counterRotateBody {
+    0% { transform: translate(-50%, -50%) rotateZ(0deg) rotateX(-90deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateZ(360deg) rotateX(-90deg) rotateY(0deg); }
+  }
+  @keyframes counterRotateDeep {
+    0% { transform: translate(-50%, -50%) rotateZ(0deg) rotateX(-90deg) rotateY(0deg); }
+    100% { transform: translate(-50%, -50%) rotateZ(-360deg) rotateX(-90deg) rotateY(0deg); }
+  }
+</style>
+</head>
+<body>
+
+  <div class="universe">
+    <div class="html-core">&lt;html&gt;</div>
+    
+    <div class="orbit orbit-head">
+      <div class="node tag-title">&lt;title&gt;</div>
+      <div class="node tag-meta">&lt;meta&gt;</div>
+    </div>
+    
+    <div class="orbit orbit-body">
+      <div class="node tag-main">&lt;main&gt;</div>
+      <div class="node tag-footer">&lt;footer&gt;</div>
+    </div>
+    
+    <div class="orbit orbit-deep">
+      <div class="node tag-div">&lt;div&gt;</div>
+      <div class="node tag-script">&lt;script&gt;</div>
+    </div>
+  </div>
+
+</body>
+</html>
